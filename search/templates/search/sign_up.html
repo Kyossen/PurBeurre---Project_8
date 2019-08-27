@@ -1,0 +1,52 @@
+{% extends 'search/base.html' %}
+
+{% block content %}
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 ">
+            <p class="text-white-75 font-weight-light mb-5">
+                S'inscrire:<br />
+            </p>
+            <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'sign_up' %}" method="POST">
+               {% csrf_token %}
+                <div class="form-inline pull-right center">
+                <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %}">
+                    <label for="{{ form.userEmail.id_for_label }}">
+                    {{ form.email }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.userWP.id_for_label }}">
+                    {{ form.wordpass }}
+                </div>
+
+                 <div class="form-group">
+                    <label for="{{ form.userName.id_for_label }}">
+                    {{ form.surname }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.userSurname.id_for_label }}">
+                    {{ form.name }}
+                </div>
+                    <button class="btn btn-primary btn-xs js-scroll-trigger" style="padding-top:10px">S'inscrire !</button>
+                </div>
+            </form>
+
+            {% if errors %}
+            <div>
+              {% for key, error in errors %}
+              {% autoescape off %}
+                {{ error }}
+              {% endautoescape %}
+              {% endfor %}
+            </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+  </header>
+
+{% endblock %}

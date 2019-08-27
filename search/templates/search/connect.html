@@ -1,0 +1,45 @@
+{% extends 'search/base.html' %}
+
+{% block content %}
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+            <p class="text-white-75 font-weight-light mb-5">
+                Se connecter:<br />
+            </p>
+            <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'connect' %}" method="POST">
+               {% csrf_token %}
+            <div class="form-inline pull-right center">
+                <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %}">
+                    <label for="{{ form.userEmail.id_for_label }}">
+                    {{ form.email }}
+                </div>
+
+                <div class="form-group {% if form.userWP.errors %}has-warning has-feedback{% endif %}">
+                    <label for="{{ form.userWP.id_for_label }}">
+                    {{ form.wordpass }}
+                </div>
+                <button class="btn btn-primary btn-xs js-scroll-trigger">Se connecter !</button>
+            </div>
+            </form>
+            {% if errors %}
+            <div>
+              {% for key, error in errors %}
+              {% autoescape off %}
+                {{ error }}
+              {% endautoescape %}
+              {% endfor %}
+            </div>
+            {% endif %}
+          <hr class="divider my-4">
+        </div>
+        <div class="col-lg-8 align-self-baseline">
+          <p class="text-white-75 font-weight-light mb-5">Pas encore inscrit ? N'attendez plus !</p>
+          <a class="nav-link js-scroll-trigger" href="{% url 'sign_up' %}">Inscription</a>
+      </div>
+    </div>
+  </header>
+
+
+{% endblock %}

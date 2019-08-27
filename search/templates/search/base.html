@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>PurBeurre - Accueil</title>
+
+  {% load static %}
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" type="text/css" href="{% static 'search/vendor/fontawesome-free/css/all.min.css' %}">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'search/vendor/magnific-popup/magnific-popup.css' %}">
+
+  <!-- Theme CSS - Includes Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static 'search/css/creative.min.css' %}">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container">
+      <img src="static/search/img/logo_pur_beurre.png" style="width:50px">
+      <a class="navbar-brand js-scroll-trigger" href="/">PurBeurre</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto my-2 my-lg-0" id="nav">
+          <li class="nav-item">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" style="width:150px" type="search" placeholder="Recherche" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()">Recherche</button>
+            </form>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% if connected is True %} {%url 'dashboard' %} {% endif %}
+            {% url 'connect' %}"><img src="static/search/img/account.png" style=float="right" width="50 px; position=absolute;"></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'favorites' %}"><img src="static/search/img/lo.png" style=float="right" width="50 px; position=absolute;"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio"><img src="static/search/img/deconnect.png" style=float="right" width="50 px; position=absolute;"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="box">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+<!-- Footer -->
+  <footer class="bg-light py-5">
+    <div class="container">
+          <div class="row">
+            <div class="col-lg-11 col-md-1">
+              <div class="mt-5">
+                  <p class="text-muted mb-0 small">Copyright &copy; 2019 - PurBeurre</p>
+                </div>
+            </div>
+          <div class="col-lg-1 col-md-6">
+            <div class="mt-5">
+                 <a class="d-block small mb-0 text-muted" href="#contact">Contact</a>
+            </div>
+          </div>
+        </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'search/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'search/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="{% static 'search/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'search/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="{% static 'search/js/creative.min.js' %}"></script>
+
+  <!-- Main.js -->
+  <script src="{% static 'search/js/main.js' %}"></script>
+
+</body>
+
+</html>
