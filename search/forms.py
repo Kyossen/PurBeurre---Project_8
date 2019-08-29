@@ -49,3 +49,10 @@ class ConnectForm(forms.Form):
         max_length=25,
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
         required=True)
+   
+
+class IngredientForm(forms.Form):
+    ingredient = forms.CharField(
+        label='userIngredient',
+        max_length=25,
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
