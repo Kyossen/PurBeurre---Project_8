@@ -11,12 +11,20 @@
         </div>
         <div class="col-lg-8 align-self-baseline">
           <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours !</p>
-           <div class="form-inline pull-right center">
-              <input name="userInput" type="text" id="query" style="width:400px" class="input-sm form-control"
-                     placeholder="Recherche">
-              <button class="btn btn-primary btn-xs js-scroll-trigger" onclick="search()">Recherche</button>
-         </div>
+          <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}" method="POST">
+               {% csrf_token %}
+            <div class="form-inline pull-right center">
+                <div class="form-group {% if form.userIngredient.errors %}has-warning has-feedback{% endif %}">
+                    <label for="{{ form.userIngredient.id_for_label }}">
+                    {{ form.ingredient }}
+                </div>
+              <!--<input name="userInput" type="text" style="width:400px" class="input-sm form-control"
+                       placeholder="Recherche">-->
+                <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
+            </div>
+          </form>
       </div>
+    </div>
     </div>
   </header>
 
