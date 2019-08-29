@@ -42,13 +42,18 @@
           <li class="nav-item">
             <form class="form-inline my-2 my-lg-0">
               <input class="form-control mr-sm-2" style="width:150px" type="search" placeholder="Recherche" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()">Recherche</button>
+              <button class="btn btn-outline-success my-2 my-sm-0">Recherche</button>
             </form>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% if connected is True %} {%url 'dashboard' %} {% endif %}
-            {% url 'connect' %}"><img src="static/search/img/account.png" style=float="right" width="50 px; position=absolute;"></a>
-          </li>
+            <a class="nav-link js-scroll-trigger" href="{% url 'connect' %}"><img src="static/search/img/account.png" style=float="right" width="50 px; position=absolute;"></a>
+
+              {% if connected == True %}
+
+                <li> <a class="nav-link js-scroll-trigger" href="{% url 'dashboard' %}"><img src="static/search/img/account.png" style=float="right" width="50 px; position=absolute;"></a>
+</li>
+              {% endif %}
+
 
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{% url 'favorites' %}"><img src="static/search/img/lo.png" style=float="right" width="50 px; position=absolute;"></a>
