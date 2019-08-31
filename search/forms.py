@@ -17,6 +17,12 @@ class ContactForm(forms.Form):
         max_length=12,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=True)
+    
+    wordpass_2 = forms.CharField(
+        label='userWP_2v',
+        max_length=12,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True)
 
     email = forms.EmailField(
         label='userEmail',
