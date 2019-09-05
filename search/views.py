@@ -3,29 +3,27 @@ import string
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
-from django.template import loader
-from django.http import HttpResponse
 
-from .forms import ContactForm, ConnectForm, ParagraphErrorList, IngredientForm
+from .forms import SignupForm, ConnectForm, IngredientForm, ParagraphErrorList
 from .models import *
 
 
 def index(request):
     print(request)
     context = {
-        # 'connected' : user_connected
     }
-    if request.method == 'POST':
-        form = IngredientForm(request.POST, error_class=ParagraphErrorList)
-        ingredient = form.cleaned_data['ingredient']
-        result(ingredient)
-        print(ingredient)
-        return render(request, 'search/result.html', context)
-    else:
-        # GET method. Create a new form to be used in the template.
-        form = IngredientForm()
-    context['form'] = form
-    return render(request, 'search/index.html', context)
+    if not request.user.is_authenticated or request.user.is_authenticated:
+        if request.method == 'POST':
+            form = IngredientForm(request.POST, error_class=ParagraphErrorList)
+            ingredient = form.cleaned_data['ingredient']
+            result(ingredient)
+            print(ingredient)
+            return render(request, 'search/result.html', context)
+        else:
+            # GET method. Create a new form to be used in the template.
+            form = IngredientForm()
+        context['form'] = form
+        return render(request, 'search/index.html', context)
 
 
 def sign_up(request):
@@ -33,7 +31,7 @@ def sign_up(request):
     context = {
     }
     if request.method == 'POST':
-        form = ContactForm(request.POST, error_class=ParagraphErrorList)
+        form = SignupForm(request.POST, error_class=ParagraphErrorList)
         if form.is_valid():
             email = form.cleaned_data['email']
             create_email = All_accounts.filter(email=email)
@@ -77,7 +75,7 @@ def sign_up(request):
             print('False')
     else:
         # GET method. Create a new form to be used in the template.
-        form = ContactForm()
+        form = SignupForm()
     context['form'] = form
     return render(request, 'search/sign_up.html', context)
 
@@ -95,7 +93,7 @@ def connect(request):
                 if user_connected is not None:
                     login(request, user=user_connected)
                     request.session['member_id'] = user_connected.id
-                    favorites(request)
+                    print(request.session['member_id'])
                     return render(request, 'search/dashboard.html', context)
                 else:
                     message_id_error = "Adresse email et/ou mot de passe incorrect"
@@ -108,27 +106,56 @@ def connect(request):
             form = ConnectForm()
         context['form'] = form
         return render(request, 'search/connect.html', context)
-    else:
-        return render(request, 'search/dashboard.html', context)
+    if request.user.is_authenticated:
+        # return render(request, 'search/dashboard.html', context)
+        if request:
+            return render(request, 'search/dashboard.html', context)
+
+        if request == 'search/favorites.html':
+            return render(request, 'search/favorites.html', context)
 
 
 def dashboard(request):
     context = {
     }
-    return render(request, 'search/dashboard.html', context)
+    if not request.user.is_authenticated:
+        return render(request, 'search/connect.html', context)
+    else:
+        return render(request, 'search/dashboard.html', context)
 
 
 def favorites(request):
     context = {
     }
     if not request.user.is_authenticated:
-        return render(request, 'search/dashboard.html', context)
+        return render(request, 'search/connect.html', context)
     else:
         return render(request, 'search/favorites.html', context)
 
 
 def result(request):
-    print(request)
     context = {
     }
-    return render(request, 'search/result.html', context)
+    if not request.user.is_authenticated:
+        return render(request, 'search/connect.html', context)
+    else:
+        return render(request, 'search/result.html', context)
+
+
+def disconnect(request):
+    context = {
+    }
+    if not request.user.is_authenticated:
+        return render(request, 'search/connect.html', context)
+    else:
+        users = User.objects.all()
+        for users_connected in users:
+            print(users_connected)
+            print(users_connected.id)
+            user = request.session['member_id']
+            if users_connected.id == user:
+                print('True')
+                del request.session['member_id']
+                print('disconnect')
+                connect(request)
+                return render(request, 'search/favorites.html', context)
