@@ -1,29 +1,27 @@
 import string
-
+import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout as auth_logout
 from django.shortcuts import render
+from django.template.response import TemplateResponse
 
-from .forms import SignupForm, ConnectForm, IngredientForm, ParagraphErrorList
+from .forms import SignupForm, ConnectForm, FoodForm, ParagraphErrorList
 from .models import *
 
 
 def index(request):
-    print(request)
     context = {
     }
-    if not request.user.is_authenticated or request.user.is_authenticated:
-        if request.method == 'POST':
-            form = IngredientForm(request.POST, error_class=ParagraphErrorList)
-            ingredient = form.cleaned_data['ingredient']
-            result(ingredient)
-            print(ingredient)
-            return render(request, 'search/result.html', context)
-        else:
-            # GET method. Create a new form to be used in the template.
-            form = IngredientForm()
-        context['form'] = form
-        return render(request, 'search/index.html', context)
+    if request.method == 'POST':
+        form = FoodForm(request.POST, error_class=ParagraphErrorList)
+        food = form.cleaned_data['food']
+        result(food)
+    else:
+        # GET method. Create a new form to be used in the template.
+        form = FoodForm()
+    context['form'] = form
+    return render(request, 'search/index.html', context)
 
 
 def sign_up(request):
@@ -136,26 +134,26 @@ def favorites(request):
 def result(request):
     context = {
     }
-    if not request.user.is_authenticated:
-        return render(request, 'search/connect.html', context)
-    else:
+    if request.method == 'POST':
+        food = request.POST['food']
+        print(food)
+        result = requests.get("https://fr.openfoodfacts.org/categories.json")
+        response = result.json()
+        print("Catégorie choisie: ",
+              response["tags"][5]["name"])
         return render(request, 'search/result.html', context)
+    print(context)
+    return render(request, 'search/result.html', context)
+
+"""
+for search_food in response:
+    if food == response["tags"][food]["name"]
+        print(search_food)products
+"""
 
 
-def disconnect(request):
+def disconnect(request, template_name='search/connect.html'):
     context = {
     }
-    if not request.user.is_authenticated:
-        return render(request, 'search/connect.html', context)
-    else:
-        users = User.objects.all()
-        for users_connected in users:
-            print(users_connected)
-            print(users_connected.id)
-            user = request.session['member_id']
-            if users_connected.id == user:
-                print('True')
-                del request.session['member_id']
-                print('disconnect')
-                connect(request)
-                return render(request, 'search/favorites.html', context)
+    auth_logout(request)
+    return TemplateResponse(request, template_name, context)
