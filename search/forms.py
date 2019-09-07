@@ -57,8 +57,10 @@ class ConnectForm(forms.Form):
         required=True)
    
 
-class IngredientForm(forms.Form):
-    ingredient = forms.CharField(
-        label='userIngredient',
+class FoodForm(forms.Form):
+    food = forms.CharField(
+        label='userFood',
         max_length=25,
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False)
+
