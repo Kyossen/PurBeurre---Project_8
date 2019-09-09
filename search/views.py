@@ -1,8 +1,11 @@
 import string
+import time
+
 import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 
@@ -13,6 +16,7 @@ from .models import *
 def index(request):
     context = {
     }
+
     if request.method == 'POST':
         form = FoodForm(request.POST, error_class=ParagraphErrorList)
         food = form.cleaned_data['food']
@@ -28,6 +32,7 @@ def sign_up(request):
     All_accounts = Account.objects.all()
     context = {
     }
+
     if request.method == 'POST':
         form = SignupForm(request.POST, error_class=ParagraphErrorList)
         if form.is_valid():
@@ -45,20 +50,24 @@ def sign_up(request):
                     for ch in wordpass:
                         if ch in exclude:
                             if 12 >= len(wordpass) >= 6:
-                                print('Valid')
-                                user = User.objects.create_user(first_name=name,
-                                                                last_name=surname,
-                                                                username=email,
-                                                                password=wordpass)
-                                new_account_db = Account(email=email,
-                                                         wordpass=wordpass,
-                                                         name=name,
-                                                         surname=surname)
-                                user.save()
-                                new_account_db.save()
-                                print('Save in table')
-                                return render(request, 'search/connect.html')
-
+                                nb_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+                                for nb in wordpass:
+                                    if nb in nb_list:
+                                        print('Valid')
+                                        user = User.objects.create_user(first_name=name,
+                                                                        last_name=surname,
+                                                                        username=email,
+                                                                        password=wordpass)
+                                        new_account_db = Account(email=email,
+                                                                 wordpass=wordpass,
+                                                                 name=name,
+                                                                 surname=surname)
+                                        user.save()
+                                        new_account_db.save()
+                                        print('Save in table')
+                                        return render(request, 'search/connect.html')
+                                    else:
+                                        print('Il manque un chiffre')
                             else:
                                 print('Wordpass not lenght')
                         else:
@@ -81,6 +90,7 @@ def sign_up(request):
 def connect(request):
     context = {
     }
+
     if not request.user.is_authenticated:
         if request.method == 'POST':
             form = ConnectForm(request.POST, error_class=ParagraphErrorList)
@@ -93,6 +103,7 @@ def connect(request):
                     request.session['member_id'] = user_connected.id
                     print(request.session['member_id'])
                     return render(request, 'search/dashboard.html', context)
+
                 else:
                     message_id_error = "Adresse email et/ou mot de passe incorrect"
                     print(message_id_error)
@@ -104,8 +115,8 @@ def connect(request):
             form = ConnectForm()
         context['form'] = form
         return render(request, 'search/connect.html', context)
+
     if request.user.is_authenticated:
-        # return render(request, 'search/dashboard.html', context)
         if request:
             return render(request, 'search/dashboard.html', context)
 
@@ -116,6 +127,7 @@ def connect(request):
 def dashboard(request):
     context = {
     }
+
     if not request.user.is_authenticated:
         return render(request, 'search/connect.html', context)
     else:
@@ -125,6 +137,7 @@ def dashboard(request):
 def favorites(request):
     context = {
     }
+
     if not request.user.is_authenticated:
         return render(request, 'search/connect.html', context)
     else:
@@ -134,22 +147,62 @@ def favorites(request):
 def result(request):
     context = {
     }
+    
     if request.method == 'POST':
         food = request.POST['food']
-        print(food)
+        """
         result = requests.get("https://fr.openfoodfacts.org/categories.json")
         response = result.json()
-        print("Catégorie choisie: ",
-              response["tags"][5]["name"])
-        return render(request, 'search/result.html', context)
-    print(context)
-    return render(request, 'search/result.html', context)
+        i = 0
+        a = 0
+        
+        search = True
+        while search:
+            for search_food_categories in response:
+                response_products_all = response["tags"][i]["url"]
+                print(i)
+                result_products = requests.get(response_products_all + "/" + str(a) + ".json")
+                response_products = result_products.json()
+                for product in response_products['products']:
+                    if product['product_name'] == food:
+                        print(product['product_name'])
+                        print(food)
+                        nutrition_grades = ''
+                        if 'nutrition_grades' in product:
+                            nutrition_grades = product['nutrition_grades']
+                        if nutrition_grades != "a":
+                            pass
+                        else:
+                            print('Produit trouvé: ' + food)
+                            print(product['nutrition_grades'])
+                            print(product['product_name'])
+                            search = False
+                            return search
+                    else:
+                        break
+                i += 1
+                a += 1
+                print('Produit introuvable')
+        """
+        i = 0
+        code = "3"
+        while len(code) != 14:
+            result_code = requests.get("https://world.openfoodfacts.org/api/v0/product/" + code + str(i) + ".json")
+            response_code = result_code.json()
+            print(response_code)
+            if response_code['status'] != 0:
+                if 'product_name' not in response_code['product']:
+                    i += 1
+                else:
+                    if response_code['product']['product_name'] == food:
+                        print('True')
+                    else:
+                        i += 1
+            else:
+                i += 1
 
-"""
-for search_food in response:
-    if food == response["tags"][food]["name"]
-        print(search_food)products
-"""
+        return render(request, 'search/result.html', context)
+    return render(request, 'search/result.html', context)
 
 
 def disconnect(request, template_name='search/connect.html'):
@@ -157,3 +210,10 @@ def disconnect(request, template_name='search/connect.html'):
     }
     auth_logout(request)
     return TemplateResponse(request, template_name, context)
+
+
+"""
+https://world.openfoodfacts.org/cgi/search.pl?search_terms=nutella&search_simple=1&json=1 pour result
+Un spinner pour charger connexion
+Creer une FK dans Account qui pointe sur User
+"""
