@@ -11,7 +11,7 @@ class ParagraphErrorList(ErrorList):
         return '<div class="errorlist">%s</div>' % ''.join(['<p class="small error">%s</p>' % e for e in self])
 
 
-class ContactForm(forms.Form):
+class SignupForm(forms.Form):
     wordpass = forms.CharField(
         label='userWP',
         max_length=12,
