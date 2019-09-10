@@ -40,10 +40,16 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0" id="nav">
           <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" style="width:150px" type="search" placeholder="Recherche" aria-label="Search">
+          <form class="form-inline" action="{% url 'result' %}" method="POST">
+               {% csrf_token %}
+            <div class="form-inline pull-right center">
+                <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
+                    <label for="{{ form.userFood.id_for_label }}">
+                    {{ form.food }}
+                </div>
               <button class="btn btn-outline-success my-2 my-sm-0">Recherche</button>
-            </form>
+            </div>
+          </form>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{% url 'connect' %}"><img src="static/search/img/account.png" style=float="right" width="50 px; position=absolute;"></a>
