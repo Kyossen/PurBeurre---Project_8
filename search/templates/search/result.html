@@ -24,6 +24,14 @@
             </div>
           </form>
       </div>
+
+          <div id="print_result">
+              {% for test in product_result %}
+                {{ test }}
+              {% endfor %}
+              {{ nutrition_result }}
+          </div>
+
     </div>
     </div>
   </header>
