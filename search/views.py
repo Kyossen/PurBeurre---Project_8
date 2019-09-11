@@ -1,11 +1,9 @@
 import string
-import time
 
 import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 
@@ -29,7 +27,7 @@ def index(request):
 
 
 def sign_up(request):
-    All_accounts = Account.objects.all()
+    All_accounts = User.objects.all()
     context = {
     }
 
@@ -43,7 +41,10 @@ def sign_up(request):
             wordpass_2 = form.cleaned_data['wordpass_2']
             name = form.cleaned_data['name']
             surname = form.cleaned_data['surname']
-            print(email, wordpass, wordpass_2, name, surname)
+            phone = form.cleaned_data['phone']
+            date_of_birth = form.cleaned_data['date_of_birth']
+            postal_address = form.cleaned_data['postal_address']
+            print(email, wordpass, wordpass_2, name, surname, phone)
             if not create_email:
                 if wordpass == wordpass_2:
                     exclude = set(string.punctuation)
@@ -53,19 +54,21 @@ def sign_up(request):
                                 nb_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
                                 for nb in wordpass:
                                     if nb in nb_list:
-                                        print('Valid')
-                                        user = User.objects.create_user(first_name=name,
-                                                                        last_name=surname,
-                                                                        username=email,
-                                                                        password=wordpass)
-                                        new_account_db = Account(email=email,
-                                                                 wordpass=wordpass,
-                                                                 name=name,
-                                                                 surname=surname)
-                                        user.save()
-                                        new_account_db.save()
-                                        print('Save in table')
-                                        return render(request, 'search/connect.html')
+                                        if 15 >= len(phone) >= 10:
+                                            if 25 >= len(postal_address) >= 1:
+                                                print('Valid')
+                                                user = User.objects.create_user(first_name=name,
+                                                                                last_name=surname,
+                                                                                username=email,
+                                                                                password=wordpass)
+                                                new_account_db = Account(user=user,
+                                                                         phone=phone,
+                                                                         date_of_birth=date_of_birth,
+                                                                         postal_address=postal_address)
+                                                user.save()
+                                                new_account_db.save()
+                                                print('Save in table')
+                                                return render(request, 'search/connect.html')
                                     else:
                                         print('Il manque un chiffre')
                             else:
@@ -147,61 +150,45 @@ def favorites(request):
 def result(request):
     context = {
     }
-    
-    if request.method == 'POST':
-        food = request.POST['food']
-        """
-        result = requests.get("https://fr.openfoodfacts.org/categories.json")
-        response = result.json()
-        i = 0
-        a = 0
-        
-        search = True
-        while search:
-            for search_food_categories in response:
-                response_products_all = response["tags"][i]["url"]
-                print(i)
-                result_products = requests.get(response_products_all + "/" + str(a) + ".json")
-                response_products = result_products.json()
-                for product in response_products['products']:
-                    if product['product_name'] == food:
-                        print(product['product_name'])
-                        print(food)
-                        nutrition_grades = ''
-                        if 'nutrition_grades' in product:
-                            nutrition_grades = product['nutrition_grades']
-                        if nutrition_grades != "a":
-                            pass
-                        else:
-                            print('Produit trouvé: ' + food)
-                            print(product['nutrition_grades'])
-                            print(product['product_name'])
-                            search = False
-                            return search
-                    else:
-                        break
-                i += 1
-                a += 1
-                print('Produit introuvable')
-        """
-        i = 0
-        code = "3"
-        while len(code) != 14:
-            result_code = requests.get("https://world.openfoodfacts.org/api/v0/product/" + code + str(i) + ".json")
-            response_code = result_code.json()
-            print(response_code)
-            if response_code['status'] != 0:
-                if 'product_name' not in response_code['product']:
-                    i += 1
-                else:
-                    if response_code['product']['product_name'] == food:
-                        print('True')
-                    else:
-                        i += 1
-            else:
-                i += 1
 
-        return render(request, 'search/result.html', context)
+    if request.method == 'POST':
+        form = FoodForm()
+        food = request.POST['food']
+        result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" + food.lower() +
+                                   "&search_simple=1&json=1")
+        response = result_food.json()
+        for result_response in response['products']:
+            name_result = result_response['product_name']
+            img_result = result_response['image_front_url']
+
+            context['form'] = form
+            context['img_result'] = img_result
+            context['name_result'] = name_result
+
+            i = 0
+            while i != len(result_response['categories_tags']):
+                search_categories = "https://fr.openfoodfacts.org/categorie"
+                search_substitution = requests.get(search_categories + "/" + result_response['categories_tags'][i] +
+                                                   ".json")
+                result_substitution = search_substitution.json()
+                for products in result_substitution:
+                    if len(result_substitution['products']) != 0:
+                        for products_result in result_substitution['products']:
+                            if 'nutrition_grades' in products_result and \
+                                    products_result['nutrition_grades'] == "a":
+                                print(products_result['product_name'])
+                                print(products_result['nutrition_grades'])
+                            if 'nutrition_grades' in products_result and \
+                                    products_result['nutrition_grades'] == "b":
+                                print(products_result['product_name'])
+                                print(products_result['nutrition_grades'])
+                i += 1
+                # return render(request, 'search/result.html', context)
+
+    else:
+        # GET method. Create a new form to be used in the template.
+        form = FoodForm()
+    context['form'] = form
     return render(request, 'search/result.html', context)
 
 
@@ -214,6 +201,4 @@ def disconnect(request, template_name='search/connect.html'):
 
 """
 https://world.openfoodfacts.org/cgi/search.pl?search_terms=nutella&search_simple=1&json=1 pour result
-Un spinner pour charger connexion
-Creer une FK dans Account qui pointe sur User
 """
