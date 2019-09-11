@@ -158,14 +158,11 @@ def result(request):
                                    "&search_simple=1&json=1")
         response = result_food.json()
         for result_response in response['products']:
-            name_result = result_response['product_name']
-            img_result = result_response['image_front_url']
-
-            context['form'] = form
-            context['img_result'] = img_result
-            context['name_result'] = name_result
-
+            context['name_result'] = result_response['product_name']
+            context['img_result'] = result_response['image_front_url']
             i = 0
+            list_products = []
+            list_products_grades = []
             while i != len(result_response['categories_tags']):
                 search_categories = "https://fr.openfoodfacts.org/categorie"
                 search_substitution = requests.get(search_categories + "/" + result_response['categories_tags'][i] +
@@ -176,15 +173,22 @@ def result(request):
                         for products_result in result_substitution['products']:
                             if 'nutrition_grades' in products_result and \
                                     products_result['nutrition_grades'] == "a":
-                                print(products_result['product_name'])
-                                print(products_result['nutrition_grades'])
+                                if products_result['product_name'] not in list_products:
+                                    list_products.append(products_result['product_name'])
+                                    list_products_grades.append(products_result['nutrition_grades'])
                             if 'nutrition_grades' in products_result and \
                                     products_result['nutrition_grades'] == "b":
-                                print(products_result['product_name'])
-                                print(products_result['nutrition_grades'])
+                                if products_result['product_name'] not in list_products:
+                                    list_products.append(products_result['product_name'])
+                                    list_products_grades.append(products_result['nutrition_grades'])
+                                    context['product_result'] = list_products
+                                    context['nutrition_result'] = list_products_grades
+                                else:
+                                    context['message_result'] = "Désolé nous n'avons pas pus trouver de " \
+                                                                "produits adaptés à votre demande."
+                                    context['form'] = form
+                                    return render(request, 'search/result.html', context)
                 i += 1
-                # return render(request, 'search/result.html', context)
-
     else:
         # GET method. Create a new form to be used in the template.
         form = FoodForm()
@@ -197,8 +201,3 @@ def disconnect(request, template_name='search/connect.html'):
     }
     auth_logout(request)
     return TemplateResponse(request, template_name, context)
-
-
-"""
-https://world.openfoodfacts.org/cgi/search.pl?search_terms=nutella&search_simple=1&json=1 pour result
-"""
