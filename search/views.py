@@ -1,11 +1,14 @@
+import math
 import string
 
 import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.template.response import TemplateResponse
+from setuptools.command.test import test
 
 from .forms import SignupForm, ConnectForm, FoodForm, ParagraphErrorList
 from .models import *
@@ -78,9 +81,9 @@ def sign_up(request):
                 else:
                     print('Wordpass is not same')
             else:
-                message_error_userEmail = 'Email déjà utilisée'
+                message_error_useEmail = 'Email déjà utilisée'
                 context['errors'] = 'Email déjà utilisée'
-                print(message_error_userEmail)
+                print(message_error_useEmail)
         else:
             context['errors'] = form.errors.items()
             print('False')
@@ -148,55 +151,68 @@ def result(request):
         result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" + food.lower() +
                                    "&search_simple=1&json=1")
         response = result_food.json()
+        if len(response['products']) != 0:
+            for result_response in response['products']:
 
-        for result_response in response['products']:
+                context['name_result'] = result_response['product_name']
+                context['img_result'] = result_response['image_front_url']
+                i = 0
+                list_products = []
+                list_products_grades = []
+                list_products_img = []
 
-            context['name_result'] = result_response['product_name']
-            context['img_result'] = result_response['image_front_url']
-            i = 0
-            list_products = []
-            list_products_grades = []
-            list_products_img = []
+                while i != len(result_response['categories_tags']):
+                    search_categories = "https://fr.openfoodfacts.org/categorie"
+                    search_substitution = requests.get(search_categories + "/" + result_response['categories_tags'][i] +
+                                                       ".json")
+                    result_substitution = search_substitution.json()
+                    for products in result_substitution:
+                        if len(result_substitution['products']) != 0:
+                            for products_result in result_substitution['products']:
 
-            while i != len(result_response['categories_tags']):
-                search_categories = "https://fr.openfoodfacts.org/categorie"
-                search_substitution = requests.get(search_categories + "/" + result_response['categories_tags'][i] +
-                                                   ".json")
-                result_substitution = search_substitution.json()
-                for products in result_substitution:
-                    if len(result_substitution['products']) != 0:
-                        for products_result in result_substitution['products']:
+                                if 'nutrition_grades' in products_result and \
+                                        products_result['nutrition_grades'] == "a":
+                                    if products_result['product_name'] not in list_products:
+                                        list_products.append(products_result['product_name'])
+                                        list_products_grades.append(products_result['nutrition_grades'])
+                                        if 'image_url' in products_result:
+                                            list_products_img.append(products_result['image_url'])
+                                        else:
+                                            pass
+                                if 'nutrition_grades' in products_result and \
+                                        products_result['nutrition_grades'] == "b":
+                                    if products_result['product_name'] not in list_products:
+                                        list_products.append(products_result['product_name'])
+                                        list_products_grades.append(products_result['nutrition_grades'])
+                                        if 'image_url' in products_result:
+                                            list_products_img.append(products_result['image_url'])
+                                        else:
+                                            pass
 
-                            if 'nutrition_grades' in products_result and \
-                                    products_result['nutrition_grades'] == "a":
-                                if products_result['product_name'] not in list_products:
-                                    list_products.append(products_result['product_name'])
-                                    list_products_grades.append(products_result['nutrition_grades'])
-                                    if 'image_url' in products_result:
-                                        list_products_img.append(products_result['image_url'])
+                                        context['product_result'] = list_products
+                                        context['nutrition_result'] = list_products_grades
+                                        context['img'] = list_products_img
+
                                     else:
-                                        pass
-                            if 'nutrition_grades' in products_result and \
-                                    products_result['nutrition_grades'] == "b":
-                                if products_result['product_name'] not in list_products:
-                                    list_products.append(products_result['product_name'])
-                                    list_products_grades.append(products_result['nutrition_grades'])
-                                    if 'image_url' in products_result:
-                                        list_products_img.append(products_result['image_url'])
-                                    else:
-                                        pass
+                                        print(len(list_products))
+                                        paginator = Paginator(list_products, 6)
+                                        page = request.GET.get('page')
+                                        nb_page = paginator.get_page(page)
+                                        context['nb_page'] = nb_page
 
-                                    context['product_result'] = list_products
-                                    context['nutrition_result'] = list_products_grades
-                                    context['img'] = list_products_img
-
+                                        context['form'] = form
+                                        return render(request, 'search/result.html', context)
+                                """
                                 else:
+                                    context['form'] = form
                                     context['message_result'] = "Désolé nous n'avons pas pus trouver de " \
                                                                 "produits adaptés à votre demande."
-                                    context['form'] = form
                                     return render(request, 'search/result.html', context)
-
-                i += 1
+                                """
+                    i += 1
+        else:
+            context['error_find'] = "Nous avons eu un problème, pouvez vous recommencer ?"
+            print('False')
     else:
         # GET method. Create a new form to be used in the template.
         form = FoodForm()
@@ -207,8 +223,25 @@ def result(request):
 def description(request):
     context = {
     }
-    print(request)
-    return render(request, 'search/description.html', context)
+    print(request.GET)
+    if 'product' in request.GET:
+        product_name = request.GET
+        for product_result in product_name['product']:
+            result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
+                                       product_name['product'] +
+                                       "&search_simple=1&json=1")
+            response = result_food.json()
+            context['product_name'] = product_name['product']
+
+            for product_add_favorites in response['products']:
+                if 'nutrition_grades' in product_add_favorites and \
+                        product_add_favorites['nutrition_grades'] == "a":
+                    context['product_score'] = product_add_favorites['nutrition_grades']
+                if 'image_url' in product_add_favorites:
+                    context['product_img'] = product_add_favorites['image_url']
+                if 'url' in product_add_favorites:
+                    context['product_url'] = product_add_favorites['url']
+                return render(request, 'search/description.html', context)
 
 
 def favorites(request):
@@ -216,7 +249,7 @@ def favorites(request):
     }
     if 'product' in request.GET:
         product_name = request.GET
-        for test in product_name['product']:
+        for product_result in product_name['product']:
             result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
                                        product_name['product'] +
                                        "&search_simple=1&json=1")
@@ -237,7 +270,8 @@ def favorites(request):
                         if user_save.id == user:
                             new_substitution_db = Substitution(user_id=user_save.id,
                                                                product=product_name['product'],
-                                                               nutrition_grade=product_add_favorites['nutrition_grades'])
+                                                               nutrition_grade=product_add_favorites[
+                                                                   'nutrition_grades'])
                             new_substitution_db.save()
                             return render(request, 'search/favorites.html', context)
                 else:
@@ -246,23 +280,53 @@ def favorites(request):
                     context['Error'] = message_connect
                     return render(request, 'search/connect.html', context)
     else:
-        list_foods = []
+        list_favorites = []
         if request.user.is_authenticated:
             food_all = Substitution.objects.all()
             for food_display in food_all:
                 user = request.session['member_id']
                 if food_display.user_id == user:
-                    print(food_display.product[0])
-                    for test in food_display.product:
-                        list_foods.append(test)
-                    """
-                    result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-                                               product_name['product'] +
-                                               "&search_simple=1&json=1")
-                    response = result_food.json()
-                    """
+                    list_favorites.append(food_display.product)
 
-            return render(request, 'search/favorites.html', context)
+            i = 0
+            list_products = []
+            list_products_grades = []
+            list_products_img = []
+            while i != len(list_favorites):
+                print(list_favorites[i])
+                result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
+                                           list_favorites[i] +
+                                           "&search_simple=1&json=1")
+                response = result_food.json()
+                for display in response['products']:
+                    if display['product_name'] not in list_products:
+                        list_products.append(display['product_name'])
+
+                    # context['product_name'] = display['product_name']
+
+                    for product_display in response['products']:
+                        if 'nutrition_grades' in product_display:
+                            # context['product_score'] = product_display['nutrition_grades']
+                            if product_display['nutrition_grades'] not in list_products_grades:
+                                list_products_grades.append(product_display['nutrition_grades'])
+
+                        if 'image_url' in product_display:
+                            # context['product_img'] = product_display['image_url']
+                            list_products_img.append(product_display['image_url'])
+                        else:
+                            pass
+
+                        context['product_name'] = list_products
+                        context['product_score'] = list_products_grades
+                        context['product_img'] = list_products_img
+
+                        paginator = Paginator(list_products, 6)
+                        page = request.GET.get('page')
+                        nb_page = paginator.get_page(page)
+                        context['nb_page'] = nb_page
+
+                i += 1
+                return render(request, 'search/favorites.html', context)
 
 
 def disconnect(request, template_name='search/connect.html'):
@@ -273,7 +337,9 @@ def disconnect(request, template_name='search/connect.html'):
 
 
 """
-Afficher les favoris
-Mettre en place une page de description avec link offi
+Config Dashboard
+
+
 REtour erreur inscription = key, errors
+Placer le resultat correctement
 """
