@@ -21,13 +21,7 @@
               {% endfor %}
               {% endfor %}
               {% endfor %}
-          </div>
-
-          <div id="print_img_result">
-              <a href="/search/description.html?product={{ product_name }}"><img src="{{ product_img }}" style="height=50 px;"></a>
-          </div>
-
-            <div class="pagination">
+              <div class="pagination">
                 <span class="step-links">
                     {% if nb_page.has_previous %}
                         <a href="?page=1">&laquo; first</a>
@@ -43,10 +37,8 @@
                         <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
-            </div>
-
-
-          <hr class="divider my-4">
+              </div>
+          </div>
         </div>
     </div>
     </div>
