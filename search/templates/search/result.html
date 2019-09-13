@@ -14,6 +14,7 @@
           <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}" method="POST">
                {% csrf_token %}
             <div class="form-inline pull-right center">
+                {{ name_result }}
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
                     {{ form.food }}
@@ -24,14 +25,35 @@
             </div>
           </form>
       </div>
-
-          <div id="print_result">
-              {% for test in product_result %}
-                {{ test }}
+          <div id="print_img_result">
+              {% for products_name in product_result %}
+                {{ products_name }}
+              {% for nutrition_grades in nutrition_result %}
+                {{ nutrition_grades }}
+              {% for img_result in img %}
+                <a href="/search/favorites.html?product={{ products_name }}">Ajouter au favoris</a>
+                <a href="/search/description.html?product={{ products_name }}"><img src="{{ img_result }}" style="height=50 px;"></a>
               {% endfor %}
-              {{ nutrition_result }}
-          </div>
+              {% endfor %}
+              {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if nb_page.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ nb_page.previous_page_number }}">previous</a>
+                    {% endif %}
 
+                    <span class="current">
+                        Page {{ nb_page.number }} of {{ nb_page.paginator.num_pages }}.
+                    </span>
+
+                    {% if nb_page.has_next %}
+                        <a href="?page={{ nb_page.next_page_number }}">next</a>
+                        <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+          </div>
     </div>
     </div>
   </header>
