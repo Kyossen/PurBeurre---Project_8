@@ -1,21 +1,41 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
-
-
 class Account(models.Model):
-    wordpass = models.CharField(max_length=12, null=False)
-    email = models.CharField(max_length=25, null=False)
-    name = models.CharField(max_length=20, null=False)
-    surname = models.CharField(max_length=20, null=False)
-    """ For V2:
-    phone = models.CharField(max_length=15, null=False)
-    date_of_birth = models.DateField()
-    Postal_address = models.CharField(max_length=255, null=False)
-    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="User",
+                             default=None,
+                             null=False)
+    phone = models.CharField(max_length=17,
+                             default=None,
+                             null=False)
+    date_of_birth = models.DateField(default=None,
+                                     null=False)
+    postal_address = models.CharField(max_length=25,
+                                      default=None,
+                                      null=False)
 
     class Meta:
         managed = True
         db_table = "Account"
+        ordering = ['id']
+
+
+class Substitution(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="Account",
+                             default=None,
+                             null=False)
+    product = models.CharField(max_length=255,
+                               default=None,
+                               null=False)
+    nutrition_grade = models.CharField(max_length=2,
+                                       default=None,
+                                       null=False)
+
+    class Meta:
+        managed = True
+        db_table = "Substitution"
         ordering = ['id']
