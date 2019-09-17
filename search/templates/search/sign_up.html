@@ -6,50 +6,50 @@
       <div class="row h-100 align-items-center justify-content-center text-center">
         <div class="col-lg-10 ">
             <p class="text-white-75 font-weight-light mb-5">
-                S'inscrire:<br />
+               Inscription:<br />
             </p>
             <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'sign_up' %}" method="POST">
                {% csrf_token %}
                 <div class="form-inline pull-right center">
                 <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %}">
+                    <p>Adresse email:<br /></p>
                     <label for="{{ form.userEmail.id_for_label }}">
-                    {{ form.email }}
+                    <p>{{ form.email }}<br /></p>
                 </div>
-
                 <div class="form-group">
+                    <p>Mot de passe:<br /></p>
                     <label for="{{ form.userWP.id_for_label }}">
                     {{ form.wordpass }}
                 </div>
-
                 <div class="form-group">
+                    <p>Mot de passe vérification:<br /></p>
                     <label for="{{ form.userWP.id_for_label }}">
                     {{ form.wordpass_2 }}
                 </div>
-
-
                  <div class="form-group">
+                     <p>Nom de famille:<br /></p>
                     <label for="{{ form.userName.id_for_label }}">
                     {{ form.surname }}
                 </div>
-
                 <div class="form-group">
+                    <p>Prénom:<br /></p>
                     <label for="{{ form.userSurname.id_for_label }}">
                     {{ form.name }}
                 </div>
-
                 <div class="form-group">
+                    <p>Numéro de téléphone:<br /></p>
                     <label for="{{ form.userPhone.id_for_label }}">
                     {{ form.phone }}
                 </div>
-
                 <div class="form-group">
+                    <p>Date de naissance:<br /></p>
                     <label for="{{ form.userDate_of_birth.id_for_label }}">
                     {{ form.date_of_birth }}
                 </div>
-
                 <div class="form-group">
+                    <p>Adresse postal:<br /></p>
                     <label for="{{ form.userPostal_address.id_for_label }}">
-                    {{ form.postal_address }}
+                        <p>{{ form.postal_address }}<br /></p>
                 </div>
                     <button class="btn btn-primary btn-xs js-scroll-trigger" style="padding-top:10px">S'inscrire !</button>
                 </div>
@@ -65,7 +65,11 @@
             </div>
             {% endif %}
 
-
+            {% if error %}
+            <div>
+            <p>{{ error }}<br /></p>
+            {%endif %}
+            </div>
         </div>
     </div>
   </header>
