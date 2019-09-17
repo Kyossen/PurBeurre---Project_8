@@ -12,15 +12,24 @@
                {% csrf_token %}
             <div class="form-inline pull-right center">
                 <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %}">
+                    <p>Adresse email:<br /></p>
                     <label for="{{ form.userEmail.id_for_label }}">
-                    {{ form.email }}
+                    <p>{{ form.email }}<br /></p>
                 </div>
 
                 <div class="form-group {% if form.userWP.errors %}has-warning has-feedback{% endif %}">
+                    <p>Mot de passe:<br /></p>
                     <label for="{{ form.userWP.id_for_label }}">
-                    {{ form.wordpass }}
+                    <p>{{ form.wordpass }}<br /></p>
                 </div>
-                <button class="btn btn-primary btn-xs js-scroll-trigger">Se connecter !</button>
+
+                <button class="btn btn-primary btn-xs js-scroll-trigger" id="button_connect" onclick="connect()">
+                    Se connecter !</button>
+
+
+                <div class="spinner-border text-warning" id="spinner" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
             </div>
             </form>
             {% if errors %}
@@ -30,6 +39,11 @@
                 {{ error }}
               {% endautoescape %}
               {% endfor %}
+            </div>
+            {% endif %}
+            {% if error_login %}
+            <div>
+                {{ error_login }}
             </div>
             {% endif %}
           <hr class="divider my-4">
