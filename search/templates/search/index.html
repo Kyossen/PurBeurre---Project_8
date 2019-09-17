@@ -16,11 +16,11 @@
             <div class="form-inline pull-right center">
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
-                    {{ form.food }}
+                    {{ form_food.food }}
                 </div>
               <!--<input name="userInput" type="text" style="width:400px" class="input-sm form-control"
                        placeholder="Recherche">-->
-                <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
+                <button class="btn btn-primary btn-xs js-scroll-trigger" id="find_mid">Recherche</button>
             </div>
           </form>
       </div>
@@ -88,4 +88,3 @@
   </section>
 
 {% endblock %}
-
