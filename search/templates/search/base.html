@@ -25,6 +25,9 @@
   <!-- Theme CSS - Includes Bootstrap -->
   <link rel="stylesheet" type="text/css" href="{% static 'search/css/creative.min.css' %}">
 
+  <!-- Main.css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'search/css/main.css' %}">
+
 </head>
 
 <body id="page-top">
@@ -32,9 +35,11 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
-      <img src="static/search/img/logo_pur_beurre.png" style="width:50px">
+      <img src="{% static 'search/img/logo_pur_beurre.png' %}" style="width:50px">
       <a class="navbar-brand js-scroll-trigger" href="/">PurBeurre</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+              data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+              aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -45,21 +50,21 @@
             <div class="form-inline pull-right center">
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
-                    {{ form.food }}
+                    {{ form_food.food }}
                 </div>
-              <button class="btn btn-outline-success my-2 my-sm-0">Recherche</button>
+              <button class="btn btn-outline-success my-2 my-sm-0" id="find_top">Recherche</button>
             </div>
           </form>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'connect' %}"><img src="static/search/img/account.png" style=float="right" width="50 px; position=absolute;"></a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'connect' %}"><img src="{% static 'search/img/account.png' %}" alt="" style=float="right" width="50 px; position=absolute;"></a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'favorites' %}"><img src="static/search/img/lo.png" style=float="right" width="50 px; position=absolute;"></a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'favorites' %}"><img src="{% static 'search/img/lo.png' %}" style=float="right" width="50 px; position=absolute;"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'disconnect' %}"><img src="static/search/img/deconnect.png"
+            <a class="nav-link js-scroll-trigger" id="disconnect" href="{% url 'disconnect' %}"><img src="{% static 'search/img/deconnect.png' %}"
                                                   style=float="right" width="50 px; position=absolute;"></a>
           </li>
         </ul>
