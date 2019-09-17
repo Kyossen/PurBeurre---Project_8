@@ -17,7 +17,7 @@
                 {{ name_result }}
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
-                    {{ form.food }}
+                    {{ form_food.food }}
                 </div>
               <!--<input name="userInput" type="text" style="width:400px" class="input-sm form-control"
                        placeholder="Recherche">-->
@@ -26,16 +26,16 @@
           </form>
       </div>
           <div id="print_img_result">
-              {% for products_name in product_result %}
-                {{ products_name }}
-              {% for nutrition_grades in nutrition_result %}
-                {{ nutrition_grades }}
-              {% for img_result in img %}
-                <a href="/search/favorites.html?product={{ products_name }}">Ajouter au favoris</a>
-                <a href="/search/description.html?product={{ products_name }}"><img src="{{ img_result }}" style="height=50 px;"></a>
+              {% for product in product_result %}
+              <div style="display: flex; flex-direction:column; align-items:center;">
+                  <h1>{{ product.product_name }}</h1>
+                  <h2>{{ product.nutrition_grades }}</h2>
+                     <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
+                    <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ products.img_url }}" style="height:50 px;"></a>
+
+              </div>
               {% endfor %}
-              {% endfor %}
-              {% endfor %}
+          </div>
             <div class="pagination">
                 <span class="step-links">
                     {% if nb_page.has_previous %}
@@ -52,9 +52,15 @@
                         <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
+
+                    {% if error_result %}
+                        {{ error_result }}
+                    {% endif %}
+                {% if error_food %}
+                        {{ error_food }}
+                    {% endif %}
             </div>
           </div>
-    </div>
     </div>
   </header>
 
