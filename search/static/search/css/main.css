@@ -1,3 +1,19 @@
           #spinner {
           display: none;
           }
+
+          .container_result {
+          display: flex;
+          }
+
+          .result {
+          justify-content: flex-between
+          flex-direction: column
+          }
+
+          .result :first-child {
+             width: 150px;
+            }
+          .img_result {
+          width: 50px;
+          }
