@@ -24,14 +24,15 @@
                 <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
             </div>
           </form>
-      </div>
-          <div id="print_img_result">
+        </div>
+            <div class="container container_result" id="products_result">
               {% for product in product_result %}
-              <div style="display: flex; flex-direction:column; align-items:center;">
-                  <h1>{{ product.product_name }}</h1>
-                  <h2>{{ product.nutrition_grades }}</h2>
-                     <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
-                    <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ products.img_url }}" style="height:50 px;"></a>
+              <div class="result">
+                  <div class="product_result">{{ product.product_name }}</div>
+                  {{ product.nutrition_grades }}
+                  <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
+                  <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ product.image_url }}"
+                                                                                             class="img_result"></a>
 
               </div>
               {% endfor %}
