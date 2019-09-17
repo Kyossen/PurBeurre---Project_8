@@ -10,17 +10,15 @@
                 favorites:<br />
             </p>
 
-          <div id="print">
-              {% for products in product_name %}
-                {{ products }}
-              {% for nutrition_grades in product_score %}
-                {{ nutrition_grades }}
-              {% for img_result in product_img %}
-                <a href="/search/favorites.html?product={{ products_name }}">Ajouter au favoris</a>
-                <a href="/search/description.html?product={{ products_name }}"><img src="{{ img_result }}" style="height=50 px;"></a>
+          <div id="print_img_result">
+              {% for product in product_result %}
+              <div style="display: flex; flex-direction:column; align-items:center;">
+                  <h1>{{ product.product_name }}</h1>
+                  <h2>{{ product.nutrition_grades }}</h2>
+                    <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ products.img_url }}" style="height:50 px;"></a>
+              </div>
               {% endfor %}
-              {% endfor %}
-              {% endfor %}
+          </div>
               <div class="pagination">
                 <span class="step-links">
                     {% if nb_page.has_previous %}
@@ -37,10 +35,14 @@
                         <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
+                  <div>
+                      {% if error_food %}
+                      <p>{{ error_food }}</p>
+                      {% endif %}
+                  </div>
               </div>
           </div>
         </div>
-    </div>
     </div>
   </header>
 
