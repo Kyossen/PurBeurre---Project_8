@@ -10,32 +10,29 @@
           <hr class="divider my-4">
         </div>
         <div class="col-lg-8 align-self-baseline">
-            <img src="{{ img_result }}">
+
           <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}" method="POST">
                {% csrf_token %}
-            <div class="form-inline pull-right center">
+            <div class="form-inline pull-right mid_find">
                 {{ name_result }}
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
-                    {{ form_food.food }}
+                        <div style="background-image: url({{ img_result }});">{{ form_food.food }}</div>
                 </div>
-              <!--<input name="userInput" type="text" style="width:400px" class="input-sm form-control"
-                       placeholder="Recherche">-->
                 <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
             </div>
           </form>
         </div>
-            <div class="container container_result" id="products_result">
-              {% for product in product_result %}
-              <div class="result">
-                  <div class="product_result">{{ product.product_name }}</div>
-                  {{ product.nutrition_grades }}
-                  <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
-                  <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ product.image_url }}"
-                                                                                             class="img_result"></a>
-
-              </div>
-              {% endfor %}
+            <div class="container container_result wrap" id="products_result">
+                {% for product in product_result %}
+                  <div class="result">
+                      <div class="product_result">{{ product.product_name }}</div>
+                      <div class="nutrition_grades">{{ product.nutrition_grades }}</div>
+                      <div> <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ product.image_url }}"
+                                                                                                      class="img_result"></a></div>
+                      <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
+                  </div>
+                  {% endfor %}
           </div>
             <div class="pagination">
                 <span class="step-links">
