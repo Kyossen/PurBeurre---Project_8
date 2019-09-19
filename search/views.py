@@ -221,10 +221,26 @@ def result(request):
                                          or products_result['nutrition_grades'] == "b"
                                          or products_result['nutrition_grades'] == "c"
                                          or products_result['nutrition_grades'] == "d"):
-                                    list_products.append(products_result)
+                                    if products_result not in list_products:
+                                        list_products.append(products_result)
                                 if 'nutrition_grades' not in products_result:
                                     products_result['nutrition_grades'] = ""
                                 context['product_result'] = list_products
+
+                                list_for_page = []
+                                for page_nb in list_products:
+                                    if page_nb['product_name'] not in list_for_page:
+                                        list_for_page.append(page_nb['product_name'])
+                                """
+                                paginator = Paginator(list_for_page, 10)
+                                print(request.POST.get('page'))
+                                page = request.GET.get('page')
+                                print(page)
+                                nb_page = paginator.get_page(page)
+                                """
+                                nb_page = math.ceil(len(list_for_page) / 10)
+                                print(nb_page)
+                                context['nb_page'] = nb_page
 
                     if i + 1 == len(result_response['categories_tags']):
                         form = FoodForm()
@@ -255,19 +271,19 @@ def description(request):
             response = result_food.json()
             context['product_name'] = product_name['product']
 
-            for product_add_favorites in response['products']:
-                if 'nutrition_grades' in product_add_favorites and \
-                        (product_add_favorites['nutrition_grades'] == "a"
-                         or product_add_favorites['nutrition_grades'] == "b"
-                         or product_add_favorites['nutrition_grades'] == "c"
-                         or product_add_favorites['nutrition_grades'] == "d"):
-                    context['product_score'] = product_add_favorites['nutrition_grades']
-                if 'nutrition_grades' not in product_add_favorites:
-                    product_add_favorites['nutrition_grades'] = ""
-                if 'image_url' in product_add_favorites:
-                    context['product_img'] = product_add_favorites['image_url']
-                if 'url' in product_add_favorites:
-                    context['product_url'] = product_add_favorites['url']
+            for product_descritpion in response['products']:
+                if 'nutrition_grades' in product_descritpion and \
+                        (product_descritpion['nutrition_grades'] == "a"
+                         or product_descritpion['nutrition_grades'] == "b"
+                         or product_descritpion['nutrition_grades'] == "c"
+                         or product_descritpion['nutrition_grades'] == "d"):
+                    context['product_score'] = product_descritpion['nutrition_grades']
+                if 'nutrition_grades' not in product_descritpion:
+                    product_descritpion['nutrition_grades'] = ""
+                if 'image_url' in product_descritpion:
+                    context['product_img'] = product_descritpion['image_url']
+                if 'url' in product_descritpion:
+                    context['product_url'] = product_descritpion['url']
                 form = FoodForm()
                 context['form_food'] = form
                 return render(request, 'search/description.html', context)
@@ -362,28 +378,19 @@ def favorites(request):
                                            "&search_simple=1&json=1")
                 response = result_food.json()
                 for display in response['products']:
-                    if display['product_name'] not in list_products:
-                        list_products.append(display['product_name'])
-                        if 'nutrition_grades' in display and \
-                                (display['nutrition_grades'] == "a"
-                                 or display['nutrition_grades'] == "b"
-                                 or display['nutrition_grades'] == "c"
-                                 or display['nutrition_grades'] == "d"):
-                            if display['nutrition_grades'] not in list_products:
-                                list_products.append(display['nutrition_grades'])
+                    if 'nutrition_grades' in display and \
+                            (display['nutrition_grades'] == "a"
+                             or display['nutrition_grades'] == "b"
+                             or display['nutrition_grades'] == "c"
+                             or display['nutrition_grades'] == "d"):
+                        if display not in list_products:
+                            list_products.append(display)
                         if 'nutrition_grades' not in display:
                             display['nutrition_grades'] = ""
-                            if display['nutrition_grades'] not in list_products:
-                                list_products.append(display['nutrition_grades'])
-                        if 'image_url' in display:
-                            list_products.append(display['image_url'])
-                        else:
-                            pass
 
-                        list_products.append(display)
                         context['product_result'] = list_products
 
-                        paginator = Paginator(list_products, 6)
+                        paginator = Paginator(list_products, 10)
                         page = request.GET.get('page')
                         nb_page = paginator.get_page(page)
                         context['nb_page'] = nb_page
@@ -417,6 +424,8 @@ def disconnect(request, template_name='search/connect.html'):
 
 """
 Clique sur boutton connecter et recherche
-Pagination favoris et placement resultat correctement favoris et result
+Pagination favoris et result
+placement resultat correctement favoris et result
+
 Suivre les esquisse et demandes du cahier des charges
 """
