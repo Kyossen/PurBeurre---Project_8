@@ -8,13 +8,18 @@
         <div class="col-lg-10 align-self-end">
             <h2 class="text-uppercase text-white font-weight-bold">
                 Tableau de bord</h2>
+            <div class="block_dash">
+                <div class="name_dash">
+                <p style="color:orange">Nom de famille: <br /></p>
+                    <p style="color:white">{{ firstname }}<br /></p>
+                <p style="color:orange">Prénom: <br/></p>
+                    <p style="color:white">{{ lastname }}<br /></p>
+                </div>
+            </div>
+
             <div>
                 <p style="color:orange">Adresse email:<br /></p>
                     <p>{{ username }}<br /></p>
-                <p style="color:orange">Nom de famille: <br /></p>
-                    <p>{{ firstname }}<br /></p>
-                <p style="color:orange">Prénom: <br/></p>
-                    <p>{{ lastname }}<br /></p>
                 <p style="color:orange">Numéro de téléphone: <br /></p>
                     <p>{{ phone }}<br /></p>
                 <p style="color:orange">Date de naissance: <br/></p>
@@ -22,12 +27,7 @@
                 <p style="color:orange">Adresse postal: <br /></p>
                     <p>{{ postal_address }}<br /></p>
             </div>
-          <hr class="divider my-4">
         </div>
-        <div class="col-lg-8 align-self-baseline">
-          <p class="text-white-75 font-weight-light mb-5">Pas encore inscrit ? N'attendez plus !</p>
-          <a class="nav-link js-scroll-trigger" href="{% url 'sign_up' %}">Inscription</a>
-      </div>
     </div>
   </header>
 
