@@ -15,9 +15,10 @@
                {% csrf_token %}
             <div class="form-inline pull-right mid_find">
                 {{ name_result }}
+                {{ img_result }}
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
-                        <div style="background-image: url({{ img_result }});">{{ form_food.food }}</div>
+                        {{ form_food.food }}
                 </div>
                 <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
             </div>
