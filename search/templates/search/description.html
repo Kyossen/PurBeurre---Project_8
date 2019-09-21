@@ -6,25 +6,41 @@
     <div class="container h-100">
       <div class="row h-100 align-items-center justify-content-center text-center">
         <div class="col-lg-10 align-self-end center form-inline">
-            <h2 class="text-white-75 font-weight-light mb-5">
-            Description du produit:</h2>
-            <div class="product_result">{{ product_name }}</div>
-            <div class="nutrition_grades_description">{{ product_score }}</div>
-            <img src="{{ product_img }}" style="width: 300px;">
+            <h2 class="text-white-75 font-weight-light mb-5 mid_find">
+                Description du produit:</h2>
 
-          <hr class="divider my-4">
-            <div>
-                <p>Pour plus d'informtations : <br /></p>
-                <a href="{{ product_url }}">Clic ici !</a>
-            </div>
-            <div>
-                {% if error_description %}
-                <p>{{ error_description }}</p>
-                {% endif %}
-            </div>
+            <div class="container container_result_des wrap_des">
+                <div class="mid_find">
+                   <img src="{{ product_img }}" style="width: 200px;">
 
+                 <div class="name_des">
+                    <p style="color:orange">Nom du produit: <br /></p>
+                        <div class="product_result" style="color:white">{{ product_name }}</div>
+                    </div>
+
+                 <div class="score_des">
+                    <p>Nutrition score: <br /></p>
+                    <div class="nutrition_grades_description">{{ product_score }}</div>
+                 </div>
+
+                 <div>
+                    <p>Repère nutritionnels pour 100g: <br /></p>
+                    <div class="nutrition_grades_description">{{ product_nutrition_data_per }}</div>
+                 </div>
+
+              <hr class="divider my-4">
+                <div>
+                    <p>Pour plus d'informtations : <br /></p>
+                    <a href="{{ product_url }}">Clic ici !</a>
+                </div>
+                <div>
+                    {% if error_description %}
+                    <p>{{ error_description }}</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    </div>
+      </div>
     </div>
   </header>
 
