@@ -73,4 +73,21 @@
           item-align: left;
           }
 
+          .data_des {
+          item-align: right;
+          position: relative;
+          }
+
+          .nutrition_grades_description {
+          font-size: smaller;
+          }
+
+          .nutrition_data {
+          font-size: smaller;
+          }
+
+          .info_des {
+          margin: 0 auto;
+          }
+
 
