@@ -12,7 +12,7 @@
             <div class="container container_result_des wrap_des">
                 <div class="mid_find">
                    <img src="{{ product_img }}" style="width: 200px;">
-
+                </div>
                  <div class="name_des">
                     <p style="color:orange">Nom du produit: <br /></p>
                         <div class="product_result" style="color:white">{{ product_name }}</div>
@@ -20,24 +20,22 @@
 
                  <div class="score_des">
                     <p>Nutrition score: <br /></p>
-                    <div class="nutrition_grades_description">{{ product_score }}</div>
+                    <p class="nutrition_grades_description">{{ product_score }}<br /></p>
                  </div>
 
-                 <div>
+                 <div class="data_des">
                     <p>Repère nutritionnels pour 100g: <br /></p>
-                    <div class="nutrition_grades_description">{{ product_nutrition_data_per }}</div>
+                    <p class="nutrition_data">{{ product_nutrition_data_per }}<br /></p>
                  </div>
-
-              <hr class="divider my-4">
-                <div>
-                    <p>Pour plus d'informtations : <br /></p>
-                    <a href="{{ product_url }}">Clic ici !</a>
-                </div>
-                <div>
-                    {% if error_description %}
-                    <p>{{ error_description }}</p>
-                    {% endif %}
-                </div>
+            </div>
+            <div class="info_des">
+                <p class="info_des">Pour plus d'informtations : <br /></p>
+                <a href="{{ product_url }}">Clic ici !</a>
+            </div>
+            <div class="info_des">
+                {% if error_description %}
+                <p>{{ error_description }}</p>
+                {% endif %}
             </div>
         </div>
       </div>
