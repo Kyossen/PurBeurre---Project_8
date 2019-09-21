@@ -222,7 +222,8 @@ def result(request):
                                          or products_result['nutrition_grades'] == "c"
                                          or products_result['nutrition_grades'] == "d"):
                                     if products_result not in list_products:
-                                        list_products.append(products_result)
+                                        if products_result['product_name'] not in list_products:
+                                            list_products.append(products_result)
                                 if 'nutrition_grades' not in products_result:
                                     products_result['nutrition_grades'] = ""
                                 context['product_result'] = list_products
