@@ -17,3 +17,14 @@
           .img_result {
           width: 50px;
           }
+
+          .block_dash {
+          background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+          width: 100%;
+          border:1px dotted #CCCCCC;
+          padding:0.5em;
+          }
+
+          .name_dash {
+
+          }
