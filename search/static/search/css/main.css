@@ -2,18 +2,31 @@
           display: none;
           }
 
+          .mid_find {
+          margin: auto;
+          }
+
           .container_result {
           display: flex;
+          justify-content: space-between;
+          overflow: hidden;
+          item-align: center;
+          }
+
+          .wrap {
+          flex-wrap:wrap;
           }
 
           .result {
-          justify-content: flex-between
-          flex-direction: column
+          padding-top: 15px;
           }
 
-          .result :first-child {
-             width: 150px;
-            }
+          .nutrition_grades {
+          position: relative;
+          top: 70px;
+          bottom: 24px;
+          }
+
           .img_result {
           width: 50px;
           }
@@ -25,6 +38,39 @@
           padding:0.5em;
           }
 
-          .name_dash {
-
+          .container_result_des {
+          display: flex;
+          justify-content: space-between;
+          overflow: hidden;
+          item-align: center;
           }
+
+          .wrap_des {
+          flex-wrap:wrap;
+          }
+
+          .block_product {
+          item-align: center;
+          }
+
+          .block_des {
+          background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+          width: 100%;
+          border:1px dotted #CCCCCC;
+          padding:0.5em;
+          }
+
+          .name_des {
+          background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+          width: 100%;
+          border:1px dotted #CCCCCC;
+          padding:0.5em;
+          position: relative;
+          bottom: 200px;
+          }
+
+          .score_des {
+          item-align: left;
+          }
+
+
