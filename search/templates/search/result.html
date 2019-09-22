@@ -14,16 +14,22 @@
           <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}" method="POST">
                {% csrf_token %}
             <div class="form-inline pull-right mid_find">
-                {{ name_result }}
-                {{ img_result }}
+
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
                         {{ form_food.food }}
+                <!--{{ name_result }}
+                {{ img_result }}-->
                 </div>
                 <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
             </div>
           </form>
         </div>
+          <div>
+              {% if error_result %}
+              <p>{{ error_result }}</p>
+              {% endif %}
+          </div>
             <div class="container container_result wrap" id="products_result">
                 {% for product in product_result %}
                   <div class="result">
@@ -51,13 +57,6 @@
                         <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
-
-                    {% if error_result %}
-                        {{ error_result }}
-                    {% endif %}
-                {% if error_food %}
-                        {{ error_food }}
-                    {% endif %}
             </div>
           </div>
     </div>
