@@ -9,6 +9,12 @@
             <h2 class="text-white-75 font-weight-light mb-5 mid_find">
                 Description du produit:</h2>
 
+            <div class="info_des">
+                {% if error_description %}
+                    <p>{{ error_description }}</p>
+                {% endif %}
+            </div>
+
             <div class="container container_result_des wrap_des">
                 <div class="mid_find">
                    <img src="{{ product_img }}" style="width: 200px;">
@@ -31,11 +37,6 @@
             <div class="info_des">
                 <p class="info_des">Pour plus d'informtations : <br /></p>
                 <a href="{{ product_url }}">Clic ici !</a>
-            </div>
-            <div class="info_des">
-                {% if error_description %}
-                <p>{{ error_description }}</p>
-                {% endif %}
             </div>
         </div>
       </div>
