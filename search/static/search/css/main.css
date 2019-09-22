@@ -1,4 +1,4 @@
-          #spinner {
+                   #spinner {
           display: none;
           }
 
@@ -71,6 +71,7 @@
 
           .score_des {
           item-align: left;
+          position: relative;
           }
 
           .data_des {
@@ -90,4 +91,15 @@
           margin: 0 auto;
           }
 
+          .password {
+          margin-right: 20px;
+          }
 
+          .email {
+          margin-right: 10px;
+          }
+
+          .button-connect {
+          margin: 0 auto;
+          position: relative;
+          }
