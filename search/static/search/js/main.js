@@ -1,10 +1,14 @@
 $( document ).ready(function() {
         console.log( "document loaded" );
-        $( "#target" ).click(function() {
-            console.log( "Handler for .click() called." );
+    if (document.getElementById('find_mid')) {
+        $('#find_mid').click(function() {
+            console.log('True')
+            $("#").attr("disabled", true);
             /* Le bouton du haut -> id : find_top
             Celui du millieux -> id : find_mid*/
         });
+    }
+    $("#").attr("disabled", false);
 });
 
 function connect() {
