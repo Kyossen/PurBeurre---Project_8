@@ -13,7 +13,7 @@
           <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours !</p>
           <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}" method="POST">
                {% csrf_token %}
-            <div class="form-inline pull-right center">
+            <div class="form-inline pull-right mid_find">
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
                     {{ form_food.food }}
