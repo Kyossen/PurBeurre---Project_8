@@ -8,6 +8,11 @@
         <div class="col-lg-10 align-self-end">
              <h2 class="text-uppercase text-white font-weight-bold">
                  Vos aliments sauvegardés:</h2>
+              <div>
+                  {% if error_food %}
+                  <p>{{ error_food }}</p>
+                  {% endif %}
+              </div>
             <div class="container container_result wrap" id="products_result">
                 {% for product in product_result %}
                   <div class="result">
@@ -35,11 +40,6 @@
                         <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
-                  <div>
-                      {% if error_food %}
-                      <p>{{ error_food }}</p>
-                      {% endif %}
-                  </div>
               </div>
           </div>
         </div>
