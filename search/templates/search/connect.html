@@ -10,27 +10,25 @@
             </p>
             <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'connect' %}" method="POST">
                {% csrf_token %}
-            <div class="form-inline pull-right center">
-                <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %}">
-                    <p>Adresse email:<br /></p>
-                    <label for="{{ form.userEmail.id_for_label }}">
-                    <p>{{ form.email }}<br /></p>
+                <div class=" pull-right center">
+                    <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %} mid_find">
+                        <p class="email">Adresse email:<br /></p>
+                        <label for="{{ form.userEmail.id_for_label }}">
+                        <p>{{ form.email }}<br /></p>
+                    </div>
+
+                    <div class="form-group {% if form.userWP.errors %}has-warning has-feedback{% endif %} mid_find">
+                        <p class="password">Mot de passe:<br /></p>
+                        <label for="{{ form.userWP.id_for_label }}">
+                        <p>{{ form.wordpass }}<br /></p>
+                    </div>
+                        <button class="btn btn-primary btn-xs js-scroll-trigger button-connect" id="button_connect" onclick="connect()">
+                        Se connecter !</button>
+
+                    <div class="spinner-border text-warning button-connect" id="spinner" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
-
-                <div class="form-group {% if form.userWP.errors %}has-warning has-feedback{% endif %}">
-                    <p>Mot de passe:<br /></p>
-                    <label for="{{ form.userWP.id_for_label }}">
-                    <p>{{ form.wordpass }}<br /></p>
-                </div>
-
-                <button class="btn btn-primary btn-xs js-scroll-trigger" id="button_connect" onclick="connect()">
-                    Se connecter !</button>
-
-
-                <div class="spinner-border text-warning" id="spinner" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-            </div>
             </form>
             {% if errors %}
             <div>
