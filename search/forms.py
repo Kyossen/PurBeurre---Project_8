@@ -42,6 +42,23 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True)
 
+    phone = forms.CharField(
+        label='userPhone',
+        max_length=17,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True)
+
+    date_of_birth = forms.DateField(
+        label='userDate_of_birth',
+        widget=forms.DateInput(attrs={'class': 'form-control'}),
+        required=True)
+
+    postal_address = forms.CharField(
+        label='userPostal_address',
+        max_length=25,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True)
+
 
 class ConnectForm(forms.Form):
     wordpass = forms.CharField(
@@ -63,4 +80,3 @@ class FoodForm(forms.Form):
         max_length=25,
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False)
-
