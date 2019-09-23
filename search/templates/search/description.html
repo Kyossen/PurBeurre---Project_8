@@ -5,9 +5,10 @@
   <header class="masthead">
     <div class="container h-100">
       <div class="row h-100 align-items-center justify-content-center text-center">
+           <h2 class="text-uppercase text-white font-weight-bold">
+               Descritption du produit:
+           </h2>
         <div class="col-lg-10 align-self-end center form-inline">
-            <h2 class="text-white-75 font-weight-light mb-5 mid_find">
-                Description du produit:</h2>
 
             <div class="info_des">
                 {% if error_description %}
@@ -15,27 +16,27 @@
                 {% endif %}
             </div>
 
+
             <div class="container container_result_des wrap_des">
-                <div class="mid_find">
-                   <img src="{{ product_img }}" style="width: 200px;">
+                <div class="mid_find_des">
+                   <img class="img_des" src="{{ product_img }}">
+                    <p class="product_result_description text_blue_des">{{ product_name }}</p>
                 </div>
-                 <div class="name_des">
-                    <p style="color:orange">Nom du produit: <br /></p>
-                        <div class="product_result" style="color:white">{{ product_name }}</div>
-                    </div>
 
-                 <div class="score_des">
-                    <p>Nutrition score: <br /></p>
-                    <p class="nutrition_grades_description">{{ product_score }}<br /></p>
-                 </div>
+                <div class="row_des">
+                     <div class="score_des">
+                        <div class="text_orange">Nutrition score:</div>
+                        <p class="nutrition_grades_description text_white">{{ product_score }}</p>
+                     </div>
 
-                 <div class="data_des">
-                    <p>Repère nutritionnels pour 100g: <br /></p>
-                    <p class="nutrition_data">{{ product_nutrition_data_per }}<br /></p>
-                 </div>
+                     <div class="data_des">
+                         <div class="text_orange">Repère nutritionnels pour 100g:</div>
+                        <p class="nutrition_data_description text_white">{{ product_nutrition_data_per }}<br /></p>
+                     </div>
+                </div>
             </div>
             <div class="info_des">
-                <p class="info_des">Pour plus d'informtations : <br /></p>
+                <p class="info_des text_orange">Pour plus d'informtations : <br /></p>
                 <a href="{{ product_url }}">Clic ici !</a>
             </div>
         </div>
