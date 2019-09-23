@@ -1,136 +1,199 @@
+   .text_blue_des {
+            color:blue;
+            font-size: x-large;
+          }
+
+          .text_orange {
+            color: orange;
+          }
+
+          .text_white {
+            color: white;
+          }
+
+          .img_custom {
+            width: 50px;
+          }
+
+          .custom_nav {
+            width: 50 px;
+            position: absolute;
+          }
+
+          .img_index {
+            width: auto;
+            height: 150px;
+            position: relative;
+          }
+
+          .img_remy {
+            width: 61.6%;
+          }
+
+          .name_img_index {
+            position: relative;
+            text-align: center;
+          }
+
+          .container_result_idx {
+            display: flex;
+            justify-content: space-around;
+            flex-shrink: 0;
+            overflow: hidden;
+            item-align: center;
+          }
+
           #spinner {
-          display: none;
+            display: none;
           }
 
           .mid_find {
-          margin: auto;
+            margin: auto;
           }
 
           .container_result {
-          display: flex;
-          justify-content: space-between;
-          flex-shrink: 0;
-          overflow: hidden;
-          item-align: center;
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
+            overflow: hidden;
+            item-align: center;
           }
 
           .product_result {
-          position: relative;
-          padding-top: 10px;
-          top: 15px;
-          font-weight : bold;
+            text-align: center;
+            font-weight : bold;
           }
 
           .wrap {
-          -webkit-flex-wrap: wrap;
-          flex-wrap: wrap;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
           }
 
           .img_result {
-          width: 150px;
-          height: 150px;
+            width: 150px;
+            height: 150px;
           }
 
           .result {
-          padding-top: 15px;
-          }
-
-          .nutrition_grades {
-          position: relative;
-          top: 70px;
-          bottom: 24px;
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
           }
 
           .block_dash {
-          background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-          width: 100%;
-          border:1px dotted #CCCCCC;
-          padding:0.5em;
+            background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+            width: 100%;
+            border:1px dotted #CCCCCC;
+            padding:0.5em;
           }
 
           .container_result_des {
-          display: flex;
-          justify-content: space-between;
-          overflow: hidden;
-          item-align: center;
+            display: flex;
+            justify-content: space-between;
+            overflow: hidden;
+            items-align: center;
+            flex-direction: column;
           }
 
           .wrap_des {
-          flex-wrap:wrap;
+            flex-wrap:wrap;
           }
 
           .block_product {
-          item-align: center;
+            item-align: center;
           }
 
           .block_des {
-          background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-          width: 100%;
-          border:1px dotted #CCCCCC;
-          padding:0.5em;
+            background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+            width: 100%;
+            border:1px dotted #CCCCCC;
+            padding:0.5em;
           }
 
           .name_des {
-          background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-          width: 100%;
-          border:1px dotted #CCCCCC;
-          padding:0.5em;
-          position: relative;
-          bottom: 200px;
+            background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+            width: 100%;
+            border:1px dotted #CCCCCC;
+            padding:0.5em;
+            position: relative;
+            bottom: 200px;
           }
 
           .score_des {
-          item-align: left;
-          position: relative;
+            item-align: left;
+            position: relative;
           }
 
           .data_des {
-          item-align: right;
-          position: relative;
+            item-align: right;
+            position: relative;
+            top: 7px;
+          }
+
+          .img_des {
+            width: 200px;
           }
 
           .nutrition_grades_description {
-          font-size: smaller;
+            font-size: smaller;
           }
 
-          .nutrition_data {
-          font-size: smaller;
+          .product_result_description {
+            font-size: smaller;
+            position: absolute;
+            top: 50%;
+            width: 100%;
+          }
+
+          .nutrition_data_description {
+            font-size: smaller;
           }
 
           .info_des {
-          margin: 0 auto;
+            margin: 0 auto;
           }
 
           .password {
-          margin-right: 20px;
+            margin-right: 20px;
           }
 
           .email {
-          margin-right: 10px;
+            margin-right: 10px;
           }
 
           .button-connect {
-          margin: 0 auto;
-          position: relative;
+            margin: 0 auto;
+            position: relative;
           }
 
           .nutrition_grades {
-          display: table;
-          position: relative;
-          left: 70px;
-          top: 24px;
-          margin: auto;
-          text-align: right;
-          background-color: orange;
+            position: absolute;
+            top: 0;
+            background-color: orange;
+            right: 0;
           }
 
-          .nutrition_grades_description {
-          display: table;
-          position: relative;
-          left: 70px;
-          top: 24px;
-          margin: auto;
-          text-align: right;
-          background-color: orange;
+          .img_container {
+            position: relative;
           }
 
+          .container {
+            min-width: 100%;
+            max-width: 100%;
+          }
+
+          .box {
+            width: 100%;
+          }
+
+          .row_des {
+            display: flex;
+            justify-content: space-between;
+          }
+
+          .mid_find_des {
+            margin: auto;
+            position: relative;
+          }
