@@ -1,4 +1,4 @@
-                   #spinner {
+          #spinner {
           display: none;
           }
 
@@ -9,12 +9,26 @@
           .container_result {
           display: flex;
           justify-content: space-between;
+          flex-shrink: 0;
           overflow: hidden;
           item-align: center;
           }
 
+          .product_result {
+          position: relative;
+          padding-top: 10px;
+          top: 15px;
+          font-weight : bold;
+          }
+
           .wrap {
-          flex-wrap:wrap;
+          -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+          }
+
+          .img_result {
+          width: 150px;
+          height: 150px;
           }
 
           .result {
@@ -25,10 +39,6 @@
           position: relative;
           top: 70px;
           bottom: 24px;
-          }
-
-          .img_result {
-          width: 50px;
           }
 
           .block_dash {
@@ -103,3 +113,24 @@
           margin: 0 auto;
           position: relative;
           }
+
+          .nutrition_grades {
+          display: table;
+          position: relative;
+          left: 70px;
+          top: 24px;
+          margin: auto;
+          text-align: right;
+          background-color: orange;
+          }
+
+          .nutrition_grades_description {
+          display: table;
+          position: relative;
+          left: 70px;
+          top: 24px;
+          margin: auto;
+          text-align: right;
+          background-color: orange;
+          }
+
