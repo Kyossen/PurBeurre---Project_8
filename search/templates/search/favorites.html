@@ -5,24 +5,29 @@
   <header class="masthead">
     <div class="container h-100">
       <div class="row h-100 align-items-center justify-content-center text-center">
+       <h2 class="text-uppercase text-white font-weight-bold">
+         Vos aliments sauvegardés:
+       </h2>
         <div class="col-lg-10 align-self-end">
-             <h2 class="text-uppercase text-white font-weight-bold">
-                 Vos aliments sauvegardés:</h2>
               <div>
                   {% if error_food %}
                   <p>{{ error_food }}</p>
                   {% endif %}
               </div>
-            <div class="container container_result wrap" id="products_result">
+            <div class="container row container_result wrap" id="products_result">
                 {% for product in product_result %}
-                  <div class="result">
-                      <div class="product_result">{{ product.product_name }}</div>
-                      <div class="nutrition_grades">{{ product.nutrition_grades }}</div>
-                      <div> <a href="/search/description.html?product={{ product.product_name }}"><img src="{{ product.image_url }}"
-                                                                                                      class="img_result"></a></div>
-                      <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
-                  </div>
-                  {% endfor %}
+                 <div class="result col-md-3">
+                    <div class="product_result">{{ product.product_name }}</div>
+
+                    <div class="img_container">
+                        <div class="nutrition_grades">{{ product.nutrition_grades }}</div>
+                        <a href="/search/description.html?product={{ product.product_name }}"><img
+                            src="{{ product.image_url }}"
+                            class="img_result"></a>
+                    </div>
+                    <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
+                </div>
+                {% endfor %}
           </div>
               <div class="pagination">
                 <span class="step-links">
@@ -45,6 +50,3 @@
         </div>
     </div>
   </header>
-
-
-{% endblock %}
