@@ -34,6 +34,9 @@ class Substitution(models.Model):
     nutrition_grade = models.CharField(max_length=2,
                                        default=None,
                                        null=False)
+    img_url = models.CharField(max_length=255,
+                               default=None,
+                               null=False)
 
     class Meta:
         managed = True
