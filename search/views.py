@@ -396,6 +396,7 @@ def favorites(request):
                     return render(request, 'search/result.html', context)
     else:
         list_favorites = []
+        list_stop = []
         i = 0
         if request.user.is_authenticated:
             food_all = Substitution.objects.all()
@@ -403,29 +404,28 @@ def favorites(request):
                 for food_display in food_all:
                     user = request.session['member_id']
                     if food_display.user_id == user:
-                        list_favorites.append(food_display.product)
-                        if len(list_favorites) != 0:
-                            if food_display.product in list_favorites:
-                                while i < len(list_favorites):
-                                    list_favorites.append(food_display.nutrition_grade)
-                                    list_favorites.append(food_display.img_url)
-                                    i += 1
+                        if food_display.product not in list_favorites:
+                            list_stop.append(food_display.product)
+                            list_favorites.append(food_display.product)
+                            list_favorites.append(food_display.nutrition_grade)
+                            list_favorites.append(food_display.img_url)
+                            i += 1
+                            continue
+                    else:
+                        form_food = FoodForm()
+                        context['form_food'] = form_food
+                        context['not_food'] = "Vous n'avez pas encore enregistré d'aliment."
+                        return render(request, 'search/favorites.html', context)
 
-                                context['product_result'] = list_favorites
-
-                                paginator = Paginator(list_favorites, 10)
-                                page = request.GET.get('page')
-                                nb_page = paginator.get_page(page)
-                                context['nb_page'] = nb_page
-
-                                form = FoodForm()
-                                context['form_food'] = form
-                                return render(request, 'search/favorites.html', context)
-                        else:
-                            form_food = FoodForm()
-                            context['form_food'] = form_food
-                            context['not_food'] = "Vous n'avez pas encore enregistré d'aliment."
-                            return render(request, 'search/favorites.html', context)
+                if i == len(list_stop):
+                    context['product_result'] = list_favorites
+                    paginator = Paginator(list_favorites, 10)
+                    page = request.GET.get('page')
+                    nb_page = paginator.get_page(page)
+                    context['nb_page'] = nb_page
+                    form = FoodForm()
+                    context['form_food'] = form
+                    return render(request, 'search/favorites.html', context)
             else:
                 form_food = FoodForm()
                 context['form_food'] = form_food
