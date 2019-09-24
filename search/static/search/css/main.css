@@ -1,6 +1,14 @@
-   .text_blue_des {
-            color:blue;
-            font-size: x-large;
+          .container {
+            min-width: 100%;
+            max-width: 100%;
+          }
+
+          .box {
+            width: 100%;
+          }
+
+           .text_turquoise {
+            color: turquoise;
           }
 
           .text_orange {
@@ -9,6 +17,27 @@
 
           .text_white {
             color: white;
+          }
+
+          .larger_size {
+            font-size: larger;
+          }
+
+          .bold {
+            font-weight: bold;
+          }
+
+          .password {
+            margin-right: 20px;
+          }
+
+          .email {
+            margin-right: 10px;
+          }
+
+          .button-connect {
+            margin: 0 auto;
+            position: relative;
           }
 
           .img_custom {
@@ -82,13 +111,6 @@
             align-items: center;
           }
 
-          .block_dash {
-            background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-            width: 100%;
-            border:1px dotted #CCCCCC;
-            padding:0.5em;
-          }
-
           .container_result_des {
             display: flex;
             justify-content: space-between;
@@ -99,10 +121,6 @@
 
           .wrap_des {
             flex-wrap:wrap;
-          }
-
-          .block_product {
-            item-align: center;
           }
 
           .block_des {
@@ -134,6 +152,7 @@
 
           .img_des {
             width: 200px;
+            height: 400px;
           }
 
           .nutrition_grades_description {
@@ -141,7 +160,8 @@
           }
 
           .product_result_description {
-            font-size: smaller;
+            font-size: larger;
+            font-weight: bold;
             position: absolute;
             top: 50%;
             width: 100%;
@@ -149,22 +169,25 @@
 
           .nutrition_data_description {
             font-size: smaller;
+            position: absolute;
+          }
+
+          .text_blue_des {
+            color:blue;
+            font-size: x-large;
           }
 
           .info_des {
             margin: 0 auto;
           }
 
-          .password {
-            margin-right: 20px;
+          .row_des {
+            display: flex;
+            justify-content: space-between;
           }
 
-          .email {
-            margin-right: 10px;
-          }
-
-          .button-connect {
-            margin: 0 auto;
+          .mid_find_des {
+            margin: auto;
             position: relative;
           }
 
@@ -179,21 +202,44 @@
             position: relative;
           }
 
-          .container {
-            min-width: 100%;
-            max-width: 100%;
+
+
+          .img_dash {
+            width: 70%;
+            height: 200px;
           }
 
-          .box {
-            width: 100%;
-          }
-
-          .row_des {
-            display: flex;
-            justify-content: space-between;
-          }
-
-          .mid_find_des {
-            margin: auto;
+          .name_dash {
             position: relative;
+            bottom: 180px;
+          }
+
+          .another_info_dash {
+            position: relative;
+            bottom: 150px;
+          }
+
+          .img_res {
+            width: 70%;
+            height: 200px;
+            margin: auto;
+          }
+
+          .place_find_style {
+            position: relative;
+            margin: auto;
+            bottom: 110px;
+          }
+
+          .product_result_res {
+            font-size: larger;
+            color: black;
+            position: absolute;
+            width: 100%;
+            font-weight: bold;
+            bottom: 85%;
+          }
+
+          .error_or_not_food {
+            position: absolute;
           }
