@@ -16,21 +16,23 @@
                     {% csrf_token %}
                     <div class="form-inline pull-right mid_find">
 
-                        <div id="query_search"
-                             class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
-                            <label for="{{ form.userFood.id_for_label }}">
-                                {{ form_food.food }}
-                                <!--{{ name_result }}
-                                {{ img_result }}-->
+
+                        <div class="container form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
+                            <img class="img_res" src="{{ img_result }}">
+                            <div class="place_find_style">
+                                <label for="{{ form.userFood.id_for_label }}">
+                                    {{ form_food.food }}
+                                    <p class="product_result_res">{{ name_result }}</p>
+
+                                    <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
+                            </div>
                         </div>
-                        <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
-                    </div>
                 </form>
             </div>
 
             <div>
                 {% if error_result %}
-                    <p>{{ error_result }}</p>
+                <p>{{ error_result }}</p>
                 {% endif %}
             </div>
 
@@ -63,8 +65,8 @@
         <div class="img_container">
             <div class="nutrition_grades">{{ product.nutrition_grades }}</div>
             <a href="/search/description.html?product={{ product.product_name }}"><img
-                src="{{ product.image_url }}"
-                class="img_result"></a>
+                    src="{{ product.image_url }}"
+                    class="img_result"></a>
         </div>
         <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
     </div>
