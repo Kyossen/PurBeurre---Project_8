@@ -395,8 +395,8 @@ def favorites(request):
                     context['error_food'] = 'Vous devez être connecté pour effectuer cette requête. Merci'
                     return render(request, 'search/result.html', context)
     else:
-        list_favorites = []
-        list_stop = []
+        list_products = []
+        dict_data = {}
         i = 0
         if request.user.is_authenticated:
             food_all = Substitution.objects.all()
@@ -404,25 +404,28 @@ def favorites(request):
                 for food_display in food_all:
                     user = request.session['member_id']
                     if food_display.user_id == user:
-                        if food_display.product not in list_favorites:
-                            list_stop.append(food_display.product)
-                            list_favorites.append(food_display.product)
-                            list_favorites.append(food_display.nutrition_grade)
-                            list_favorites.append(food_display.img_url)
-                            i += 1
-                            continue
+                        list_products.append(food_display.product)
+                        dict_data['products_' + str(i)] = food_display.product, food_display.nutrition_grade, \
+                                                      food_display.img_url
+                        # print(dict_data)
+
+                        i += 1
+                        continue
                     else:
                         form_food = FoodForm()
                         context['form_food'] = form_food
                         context['not_food'] = "Vous n'avez pas encore enregistré d'aliment."
                         return render(request, 'search/favorites.html', context)
 
-                if i == len(list_stop):
-                    context['product_result'] = list_favorites
-                    paginator = Paginator(list_favorites, 10)
-                    page = request.GET.get('page')
-                    nb_page = paginator.get_page(page)
-                    context['nb_page'] = nb_page
+                if i == len(list_products):
+                    context['product_result'] = dict_data
+                    for test in dict_data:
+                        print(test)
+                        paginator = Paginator(test[0], 5)
+                        page = request.GET.get('page')
+                        nb_page = paginator.get_page(page)
+                        context['nb_page'] = nb_page
+
                     form = FoodForm()
                     context['form_food'] = form
                     return render(request, 'search/favorites.html', context)
@@ -458,8 +461,6 @@ def disconnect(request, template_name='search/index.html'):
 
 """
 # A faire
-Corriger la duplication favoris
-Pagination favoris avec 6 éléments par page
 
 # Correction
 Corriger photo fond Dashboard (P2) -> Attendre retour prof
@@ -476,9 +477,9 @@ Finition page index image -> Colette et remy
 Finition page base -> Retirer style des link
 Finition page result -> Centrer champs de recherche, retirer image vide après recherche 
 Finition page description -> Repère nutritionnel
-Finition page favoris -> Titre si favoris non sauvegardé pour mobile
 Finition all page mobile -> Footer
 
+Finition page favoris -> Titre si favoris non sauvegardé pour mobile, product=, Pagination
 Pagination result avec 6 resultat par page
 Responsive en fonction des esquisses
 """
