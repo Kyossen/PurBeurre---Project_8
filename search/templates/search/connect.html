@@ -8,7 +8,7 @@
             <h2 class="text-white-75 font-weight-light mb-5">
                 Se connecter:
             </h2>
-            <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'connect' %}" method="POST">
+            <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find" action="{% url 'connect' %}" method="POST">
                {% csrf_token %}
                 <div class="container pull-right center">
                     <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %} mid_find
@@ -24,7 +24,7 @@
                         <label for="{{ form.userWP.id_for_label }}">
                         <p>{{ form.wordpass }}<br /></p>
                     </div>
-                        <button class="btn btn-primary btn-xs js-scroll-trigger button-connect" id="button_connect" onclick="connect()">
+                        <button class="btn btn-primary btn-xs js-scroll-trigger" onclick="connect()">
                         Se connecter !</button>
 
                     <div class="spinner-border text-warning button-connect" id="spinner" role="status">
@@ -38,7 +38,7 @@
                     {% autoescape off %}
                     {{ error }}
                     {% endautoescape %}
-                {% endfor %} 
+                {% endfor %}
             {% endif %}
             </div>
             <div>
@@ -47,7 +47,7 @@
 
             {% endif %}
             </div>
-            
+
           <hr class="divider my-4">
         </div>
         <div class="col-lg-8 align-self-baseline">
