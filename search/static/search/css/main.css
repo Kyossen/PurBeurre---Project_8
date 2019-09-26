@@ -27,6 +27,14 @@
             font-weight: bold;
           }
 
+          .signUP_style {
+            flex-direction: column;
+          }
+
+          .champs_signUP {
+            mix-blend-mode: overlay;
+          }
+
           .password {
             margin-right: 20px;
           }
@@ -35,18 +43,8 @@
             margin-right: 10px;
           }
 
-          .button-connect {
-            margin: 0 auto;
-            position: relative;
-          }
-
-          .img_custom {
+          .custom_nav_img {
             width: 50px;
-          }
-
-          .custom_nav {
-            width: 50 px;
-            position: absolute;
           }
 
           .img_index {
@@ -72,6 +70,10 @@
             item-align: center;
           }
 
+          .error_result {
+            padding-top: 100px;
+          }
+
           #spinner {
             display: none;
           }
@@ -91,6 +93,11 @@
           .product_result {
             text-align: center;
             font-weight : bold;
+          }
+
+          #style_floppy {
+            font-size: 24px;
+            color: orange;
           }
 
           .wrap {
@@ -117,6 +124,34 @@
             overflow: hidden;
             items-align: center;
             flex-direction: column;
+          }
+
+          .button_save {
+            font-size: 10px;
+          }
+
+          .button_save_style {
+            border-width: 2px;
+            border-style: solid;
+            border-color: black;
+          }
+
+          .style_save_c {
+            font-size: 15px;
+            position: relative;
+            bottom: 20px;
+            left: 20px;
+          }
+
+          #res_h3 {
+            padding-top: 20px;
+            margin-bottom: 15px;
+            position: relative;
+          }
+
+          .error_description {
+            padding-bottom: 100px;
+            font-size: larger;
           }
 
           .wrap_des {
@@ -217,6 +252,13 @@
           .another_info_dash {
             position: relative;
             bottom: 150px;
+            display: flex;
+            position: relative;
+            display: inline-flex;
+          }
+
+          .text_sup {
+            position: relative;
           }
 
           .img_res {
