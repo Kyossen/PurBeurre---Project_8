@@ -78,13 +78,13 @@
             <div class="button_save">
                 <button class="favorite styled button_save_style"
                         type="button" id="check_saveFood" value="{{ product.product_name }}"><br/>
-                </button><div class="style_save_c">Enregistrer</div>
+                </button>
+                <div class="style_save_c">Enregistrer</div>
             </div>
             {% endif %}
             {% if save_food == product.product_name %}
             <div>
-                <p><i class="fa fa-floppy-o style_floppy" aria-hidden="true"
-                      style="font-size:24px;color:orange"></i>Enregistré</p>
+                <p><i class="fa fa-floppy-o" id="style_floppy" aria-hidden="true"></i>Enregistré</p>
             </div>
             {% endif %}
         </div>
