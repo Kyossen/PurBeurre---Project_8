@@ -10,16 +10,14 @@
           <hr class="divider my-4">
         </div>
         <div class="col-lg-8 align-self-baseline">
-          <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours !</p>
-          <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}" method="POST">
+          <h2 class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours !</h2>
+          <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find" action="{% url 'result' %}" method="POST">
                {% csrf_token %}
             <div class="form-inline pull-right mid_find">
                 <div id="query_search" class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                     <label for="{{ form.userFood.id_for_label }}">
                     {{ form_food.food }}
                 </div>
-              <!--<input name="userInput" type="text" style="width:400px" class="input-sm form-control"
-                       placeholder="Recherche">-->
                 <button class="btn btn-primary btn-xs js-scroll-trigger" id="find_mid">Recherche</button>
             </div>
           </form>
@@ -35,10 +33,11 @@
         <div class="col-lg-8 text-center">
           <h2 class="text-white mt-0">Colette et Remy</h2>
           <hr class="divider light my-4">
-          <p class="text-white-50 mb-4">Nous sommes une jeune startup fondée par Remy et Colette Tatou,
-              deux restaurateurs de renom. Notre restaurant, situé à Montmartre (Paris),
-                compte une cinquantaine de couverts et ne désemplit pas. Notre spécialité, la ratatouille,
-                  nous attire une clientèle internationale charmée par les délices de ce plat typique. </p>
+          <p class="text-white-50 mb-4">Nous tenons à vous faire part d'une petite présentation.
+            PurBeurre est une jeune startup uqe nous avons décidés de fonder, nous, Remy et Colette Tatou.
+              Nous sommes deux restaurateurs de renom. Notre restaurant, situé à Montmartre (Paris),
+                compte une cinquantaine de couverts. Notre spécialité, la ratatouille.
+                  Il faut dire que cette dernière est attirante en vue des délices de ce plat typique. </p>
           <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Pour plus d'informations, clic ici !</a>
         </div>
       </div>
