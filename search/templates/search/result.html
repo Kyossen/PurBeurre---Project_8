@@ -10,32 +10,35 @@
                 <hr class="divider my-4">
             </div>
             <div class="col-lg-8 align-self-baseline">
-
-                <form class="form-inline col-lg-10 col-xs-10 align-self-baseline" action="{% url 'result' %}"
+                <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find" action="{% url 'result' %}"
                       method="POST">
                     {% csrf_token %}
+                    {% if not error_result %}
                     <div class="form-inline pull-right mid_find">
-
-
-                        <div class="container form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
-                            <img class="img_res" src="{{ img_result }}">
-                            <div class="place_find_style">
-                                <label for="{{ form.userFood.id_for_label }}">
-                                    {{ form_food.food }}
-                                    <p class="product_result_res">{{ name_result }}</p>
-
-                                    <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
+                        {% elif error_result %}
+                        <div class="form-inline pull-right mid_find error_result">
+                            {% endif %}
+                            <div class="container form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
+                                {% if not error_result %}
+                                <img class="img_res" src="{{ img_result }}">
+                                {% endif %}
+                                <div class="place_find_style">
+                                    <label for="{{ form.userFood.id_for_label }}">
+                                        {{ form_food.food }}
+                                        <p class="product_result_res">{{ name_result }}</p>
+                                        <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
+                                </div>
                             </div>
-                        </div>
                 </form>
             </div>
 
-            <div>
+            <div id="error_result">
                 {% if error_result %}
                 <p>{{ error_result }}</p>
                 {% endif %}
             </div>
 
+            {% if not error_result %}
             <div class="pagination">
                 <span class="step-links">
                     {% if nb_page.has_previous %}
@@ -53,13 +56,17 @@
                     {% endif %}
                 </span>
             </div>
+            {% endif %}
         </div>
     </div>
 </header>
 
+{% if not error_result %}
+<center><h3 id="res_h3">Vous pouvez remplacer cet aliment par:</h3></center>
+
 <div class="container row container_result wrap" id="products_result">
     {% for product in product_result %}
-    <div class="result col-md-3">
+    <div class="result col-md-4">
         <div class="product_result">{{ product.product_name }}</div>
 
         <div class="img_container">
@@ -67,10 +74,23 @@
             <a href="/search/description.html?product={{ product.product_name }}"><img
                     src="{{ product.image_url }}"
                     class="img_result"></a>
+            {% if save_food != product.product_name %}
+            <div class="button_save">
+                <button class="favorite styled button_save_style"
+                        type="button" id="check_saveFood" value="{{ product.product_name }}"><br/>
+                </button><div class="style_save_c">Enregistrer</div>
+            </div>
+            {% endif %}
+            {% if save_food == product.product_name %}
+            <div>
+                <p><i class="fa fa-floppy-o style_floppy" aria-hidden="true"
+                      style="font-size:24px;color:orange"></i>Enregistré</p>
+            </div>
+            {% endif %}
         </div>
-        <a href="/search/favorites.html?product={{ product.product_name }}">Ajouter au favoris</a>
     </div>
     {% endfor %}
 </div>
+{% endif %}
 
 {% endblock %}
