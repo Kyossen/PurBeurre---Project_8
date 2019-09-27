@@ -16,17 +16,15 @@ import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
-from django.core import serializers
 
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.template.response import TemplateResponse
-from setuptools.command.test import test
 
 # Import file
 from .forms import SignupForm, ConnectForm, FoodForm, ParagraphErrorList
-from .models import *
+from .models import Account, Substitution
 
 
 """
@@ -300,16 +298,20 @@ def result(request):
                                                 list_products.append(products_result)
                                         if 'nutrition_grades' not in products_result:
                                             products_result['nutrition_grades'] = ""
-                                        context['product_result'] = list_products
+                                        context['product_result'] = \
+                                            list_products
 
                                         """
-                                        Create a pagination for users. 
-                                            This allows to browse of the results an multiple pages
+                                        Create a pagination for users.
+                                        This allows to browse of the
+                                        results an multiple pages
                                         """
                                         list_for_page = []
                                         for page_nb in list_products:
-                                            if page_nb['product_name'] not in list_for_page:
-                                                list_for_page.append(page_nb['product_name'])
+                                            if page_nb['product_name'] \
+                                                    not in list_for_page:
+                                                list_for_page.append(
+                                                    page_nb['product_name'])
                                         """
                                         paginator = Paginator(list_for_page, 10)
                                         print(request.POST.get('page'))
@@ -319,8 +321,10 @@ def result(request):
                                         """
                                         nb_page = math.ceil(len(list_for_page) / 10)
                                         context['nb_page'] = nb_page
-                            # Stop the loop infinity and get user info for display of the results
-                            if i + 1 == len(result_response['categories_tags']):
+                            # Stop the loop infinity and
+                            # get user info for display of the results
+                            if i + 1 == \
+                                    len(result_response['categories_tags']):
                                 form = FoodForm()
                                 context['form_food'] = form
                                 if request.user.is_authenticated:
@@ -329,18 +333,26 @@ def result(request):
                                         user = request.session['member_id']
                                         if food_save.user_id == user:
                                             for product in list_products:
-                                                if food_save.product == product['product_name']:
-                                                    context['save_food'] = food_save.product
+                                                if food_save.product == \
+                                                        product['product_name']:
+
+                                                    context['save_food'] = \
+                                                        food_save.product
                                 else:
                                     context['not_save_food'] = True
-                                return render(request, 'search/result.html', context)
+                                return render(request,
+                                              'search/result.html', context)
                             i += 1
                     # Return a error
                     else:
                         form = FoodForm()
                         context = {'form_food': form,
-                                   'error_result': "Nous sommes désolé, le produit demandé est introuvable."
-                                                   " Il ce peux également que nous n'ayons pas de produit substituable "
+                                   'error_result': "Nous sommes désolé,"
+                                                   " le produit demandé "
+                                                   "est introuvable."
+                                                   " Il ce peux également que "
+                                                   "nous n'ayons pas de "
+                                                   "produit substituable "
                                                    "pour ce dernier...",
                                    'img_result': None}
                         return render(request, 'search/result.html', context)
@@ -348,7 +360,9 @@ def result(request):
             else:
                 form = FoodForm()
                 context['form_food'] = form
-                context['error_result'] = "Nous avons eu un problème, pouvez vous recommencer ? Merci."
+                context['error_result'] =\
+                    "Nous avons eu un problème, " \
+                    "pouvez vous recommencer ? Merci."
                 return render(request, 'search/result.html', context)
     else:
         # GET method. Create a new form to be used in the template.
@@ -370,13 +384,14 @@ def description(request):
         product_name = request.GET
         # If product is present execute a request to OpenFoodFact
         for product_result in product_name['product']:
-            result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-                                       product_name['product'] +
-                                       "&search_simple=1&json=1")
+            result_food = requests.get(
+                "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
+                product_name['product'] +
+                "&search_simple=1&json=1")
             response = result_food.json()
             context['product_name'] = product_name['product']
             """
-            Browse the answer and get the information 
+            Browse the answer and get the information
                 for display in page description.html
             """
             for product_descritpion in response['products']:
@@ -385,7 +400,8 @@ def description(request):
                          or product_descritpion['nutrition_grades'] == "b"
                          or product_descritpion['nutrition_grades'] == "c"
                          or product_descritpion['nutrition_grades'] == "d"):
-                    context['product_score'] = product_descritpion['nutrition_grades']
+                    context['product_score'] = \
+                        product_descritpion['nutrition_grades']
                 if 'nutrition_grades' not in product_descritpion:
                     product_descritpion['nutrition_grades'] = ""
                 if 'image_url' in product_descritpion:
@@ -393,7 +409,8 @@ def description(request):
                 if 'url' in product_descritpion:
                     context['product_url'] = product_descritpion['url']
                 if 'ingredients_text_fr' in product_descritpion:
-                    context['product_nutrition_data_per'] = product_descritpion['ingredients_text_fr']
+                    context['product_nutrition_data_per'] = \
+                        product_descritpion['ingredients_text_fr']
                 if 'ingredients_text_fr' not in product_descritpion:
                     product_descritpion['ingredients_text_fr'] = ""
 
@@ -406,14 +423,16 @@ def description(request):
     If not valid, return a error
     """
     if request.GET == '/search/description.html?product=':
-        context['error_description'] = "Nous avons eu un problème, pouvez vous recommencer ? Merci."
+        context['error_description'] = \
+            "Nous avons eu un problème, pouvez vous recommencer ? Merci."
         form = FoodForm()
         context['form_food'] = form
         return render(request, 'search/description.html', context)
     else:
         form = FoodForm()
         context['form_food'] = form
-        context['error_description'] = "Nous avons eu un problème, pouvez vous recommencer ? Merci."
+        context['error_description'] = \
+            "Nous avons eu un problème, pouvez vous recommencer ? Merci."
         return render(request, 'search/description.html', context)
 
 
@@ -431,15 +450,15 @@ def favorites(request):
         product_name = request.GET
         # If product is present execute a request to OpenFoodFact
         for product_result in product_name['product']:
-            result_food = requests.get("https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-                                       product_name['product'] +
-                                       "&search_simple=1&json=1")
+            result_food = requests.get(
+                "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
+                product_name['product'] +
+                "&search_simple=1&json=1")
             response = result_food.json()
             context['product_name'] = product_name['product']
-
-            """ 
+            """
             Browse the answer and get the need information
-                for add the favorite in database 
+            for add the favorite in database
             """
             for product_add_favorites in response['products']:
                 if 'nutrition_grades' in product_add_favorites and \
@@ -447,7 +466,8 @@ def favorites(request):
                          or product_add_favorites['nutrition_grades'] == "b"
                          or product_add_favorites['nutrition_grades'] == "c"
                          or product_add_favorites['nutrition_grades'] == "d"):
-                    context['product_score'] = product_add_favorites['nutrition_grades']
+                    context['product_score'] = \
+                        product_add_favorites['nutrition_grades']
                 if 'nutrition_grades' not in product_add_favorites:
                     product_add_favorites['nutrition_grades'] = ""
                 if 'image_url' in product_add_favorites:
@@ -467,16 +487,21 @@ def favorites(request):
                         if user_save.id == user:
                             if len(food_all) != 0:
                                 for food_save in food_all:
-                                    # Check if the user has already added a favorite
+                                    # Check if the user
+                                    # has already added a favorite
                                     if user == food_save.user_id:
                                         product_add = product_name['product']
                                         list_save.append(food_save.product)
-                                        # If the new product not in list product of the user
+                                        # If the new product
+                                        # not in list product of the user
                                         if product_add not in list_save:
                                             list_for_save.append(product_add)
-                                        # If the new product is in list product of the user
+                                        # If the new product is
+                                        # in list product of the user
                                         else:
-                                            data = {'error_food': 'Vous avez déjà enregistré cet aliment.'}
+                                            data = {'error_food':
+                                                    'Vous avez déjà '
+                                                    'enregistré cet aliment.'}
                                             return JsonResponse(data)
                                     else:
                                         product_add = product_name['product']
@@ -487,19 +512,24 @@ def favorites(request):
                                 if product_add not in list_save:
                                     list_for_save.append(product_add)
                             print(list_for_save[0])
-                            # Add the new product in the favorites products of user
-                            new_substitution_db = Substitution(user_id=user_save.id,
-                                                               product=list_for_save[0],
-                                                               nutrition_grade=product_add_favorites[
-                                                                   'nutrition_grades'],
-                                                               img_url=product_add_favorites['image_url'])
+                            # Add the new product
+                            # in the favorites products of user
+                            new_substitution_db = Substitution(
+                                user_id=user_save.id,
+                                product=list_for_save[0],
+                                nutrition_grade=product_add_favorites[
+                                   'nutrition_grades'],
+                                img_url=product_add_favorites['image_url'])
                             new_substitution_db.save()
                     data = {'success_save': 'Enregistrement effectué.'}
                     return JsonResponse(data)
-                # Si l'utilisateur n'est pas connecté mais essaie d'ajouter un favori,
-                # le système renvoie une erreur.
+                # Si l'utilisateur n'est pas
+                #   connecté mais essaie d'ajouter un favori,
+                #   le système renvoie une erreur.
                 else:
-                    data = {'error_food': 'Vous devez être connecté pour effectuer cette requête. Merci'}
+                    data = {'error_food':
+                            'Vous devez être connecté '
+                            'pour effectuer cette requête. Merci'}
                     return JsonResponse(data)
     # If user open favorites page and not add favorites
     else:
@@ -517,8 +547,9 @@ def favorites(request):
                     if food_display.user_id == user:
                         list_products.append(food_display.product)
                         # Create a dict for display the favorites
-                        dict_data['products_' + str(i)] = food_display.product, food_display.nutrition_grade, \
-                                                          food_display.img_url
+                        dict_data['products_' + str(i)] = food_display.product,\
+                                              food_display.nutrition_grade, \
+                                              food_display.img_url
                         i += 1
                         continue
                     # If user not have already added of the favorites
@@ -526,8 +557,10 @@ def favorites(request):
                     else:
                         form_food = FoodForm()
                         context['form_food'] = form_food
-                        context['not_food'] = "Vous n'avez pas encore enregistré d'aliment."
-                        return render(request, 'search/favorites.html', context)
+                        context['not_food'] = "Vous n'avez pas" \
+                                              "encore enregistré d'aliment."
+                        return render(request,
+                                      'search/favorites.html', context)
 
                 """
                 Stop the loop, return the results
@@ -549,7 +582,8 @@ def favorites(request):
             else:
                 form_food = FoodForm()
                 context['form_food'] = form_food
-                context['not_food'] = "Vous n'avez pas encore enregistré d'aliment."
+                context['not_food'] = "Vous n'avez pas" \
+                                      "encore enregistré d'aliment."
                 return render(request, 'search/favorites.html', context)
         # If user is not connect
         else:
@@ -575,11 +609,24 @@ def disconnect(request, template_name='search/index.html'):
         context['form'] = form
         form_food = FoodForm()
         context['form_food'] = form_food
-        # If user is not connect, user is redirect to login page
-        return render(request, 'search/connect.html', context)
+        # If user is not connect, user is redirect to index page
+        return render(request, 'search/index.html', context)
     else:
         # If user is connect, user is disconnect and redirect to index page
         auth_logout(request)
         form = FoodForm()
         context['form_food'] = form
         return TemplateResponse(request, template_name, context)
+
+
+"""
+copyright page is the function for
+    redirect a user to the copyright page
+"""
+
+
+def copyright_page(request):
+    context = {}
+    form_food = FoodForm()
+    context['form_food'] = form_food
+    return render(request, 'search/copyright.html', context)
