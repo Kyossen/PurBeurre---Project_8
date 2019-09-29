@@ -467,6 +467,9 @@ def description(request):
                         product_descritpion['nutrition_grades']
                 if 'nutrition_grades' not in product_descritpion:
                     product_descritpion['nutrition_grades'] = ""
+                    context['no_score'] = \
+                        "Désolé nous ne dispons pas " \
+                        "de l'indice nutritionnel de cet aliment"
                 if 'image_url' in product_descritpion:
                     context['product_img'] = product_descritpion['image_url']
                 if 'url' in product_descritpion:
@@ -476,6 +479,10 @@ def description(request):
                         product_descritpion['ingredients_text_fr']
                 if 'ingredients_text_fr' not in product_descritpion:
                     product_descritpion['ingredients_text_fr'] = ""
+                    context['no_data'] = \
+                        "Désolé nous ne dispons pas " \
+                        "de du repère nutritionnel " \
+                        "de cet aliment"
 
                 form = FoodForm()
                 context['form_food'] = form
@@ -694,26 +701,3 @@ def copyright_page(request):
     form_food = FoodForm()
     context['form_food'] = form_food
     return render(request, 'search/copyright.html', context)
-
-"""
-# A faire
-
-font-awesome page 2 esquisse
-
-PEP8 Python3 -> Finir views.py
-
-# Correction
-
-#Ajout manquant
-
-#Aide
-Finition page favoris -> Pagination
-Finition page result -> Pagination
-Finition page description -> Repère nutritionnel
-Finition page Dashboard -> mobile responsive
-Finition page inscription
-
-
-
-Responsive en fonction des esquisses -> attendre fin prochaine session
-"""
