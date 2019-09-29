@@ -1,5 +1,4 @@
 # PurBeurre
-
 PurBeurre est une plateforme web développée sous Django.  
 
 ## Fonctionnement:
@@ -9,11 +8,8 @@ Bien évidemment, tout utilisateurs inscrits ou non peux accéder à cette reche
 Cette dernière fonctionne à l'aide d'une API externe:
 #### OpenFoodFact
 
-
 ## A savoir :
-
-Les indices nutrionnel varie entre "a" et "d" dans un ordre alphabétique.
-
-Un utilisateur non inscrit ne pourra cependant pas accéder à un enregistrement de ces derniers.
-Quant à l'utilisateur inscrit, lui aura accès à une section (favoris) ou il pourra sauvegarder s'il le souhaite des aliments afin de changer son alimentaiton.
-La page description permet également d'accéder à la pge officiel de l'aliment OpenFoodFact via l'API, permettant d'avoir plus de détails en cas de nécessité.
+- Les indices nutrionnels varie entre "a" et "d" dans un ordre alphabétique.
+- Un utilisateur non inscrit ne pourra pas accéder à un enregistrement d'aliment en favoris.
+- Un utilisateur inscrit aura accès à l'enregistrement.
+- La page description permet également d'accéder à la page officiel de l'aliment OpenFoodFact via son API, permettant d'avoir plus de détails en cas de nécessité.
