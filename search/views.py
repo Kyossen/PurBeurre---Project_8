@@ -467,22 +467,26 @@ def description(request):
                         product_descritpion['nutrition_grades']
                 if 'nutrition_grades' not in product_descritpion:
                     product_descritpion['nutrition_grades'] = ""
-                    context['no_score'] = \
-                        "Désolé nous ne dispons pas " \
-                        "de l'indice nutritionnel de cet aliment"
+                    if product_descritpion['nutrition_grades'] == '':
+                        context['no_score'] = \
+                            "Désolé nous ne dispons pas " \
+                            "d'indice nutritionnel pour cet aliment."
                 if 'image_url' in product_descritpion:
                     context['product_img'] = product_descritpion['image_url']
                 if 'url' in product_descritpion:
                     context['product_url'] = product_descritpion['url']
                 if 'ingredients_text_fr' in product_descritpion:
-                    context['product_nutrition_data_per'] = \
-                        product_descritpion['ingredients_text_fr']
+                    if product_descritpion['ingredients_text_fr'] == '':
+                        context['no_data'] = \
+                            "Désolé nous ne dispons pas " \
+                            "de repère nutritionnel " \
+                            "pour cet aliment."
+                    else:
+                        context['product_nutrition_data_per'] = \
+                            product_descritpion['ingredients_text_fr']
                 if 'ingredients_text_fr' not in product_descritpion:
                     product_descritpion['ingredients_text_fr'] = ""
-                    context['no_data'] = \
-                        "Désolé nous ne dispons pas " \
-                        "de du repère nutritionnel " \
-                        "de cet aliment"
+
 
                 form = FoodForm()
                 context['form_food'] = form
@@ -701,3 +705,4 @@ def copyright_page(request):
     form_food = FoodForm()
     context['form_food'] = form_food
     return render(request, 'search/copyright.html', context)
+
