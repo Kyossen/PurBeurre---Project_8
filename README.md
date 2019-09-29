@@ -32,9 +32,9 @@ La plateforme PurBeurre fonctionne à l'aide de l'API externe suivante:
 
 ### Troisème étape:
 #### Sous Windows
-python3 manage.py runserver
+- python3 manage.py runserver
 #### Sous Linux
-./manage.py runserver ou python3 manage.py runserver
+- ./manage.py runserver ou python3 manage.py runserver
 
 ### Dernière étape:
-Connecter vous à l'adresse local affichée.
+- Connecter vous à l'adresse local affichée.
