@@ -35,6 +35,10 @@
             mix-blend-mode: overlay;
           }
 
+          .button_signup {
+            padding-top:10px;
+          }
+
           .password {
             margin-right: 20px;
           }
@@ -47,14 +51,21 @@
             width: 50px;
           }
 
+          .color_find_base {
+            background-color: #D3D3D3;
+          }
+
           .img_index {
-            width: auto;
             height: 150px;
             position: relative;
           }
 
           .img_remy {
-            width: 61.6%;
+            width: 266.5px;
+          }
+
+          .img_colette {
+            width: auto;
           }
 
           .name_img_index {
@@ -182,12 +193,16 @@
           .data_des {
             item-align: right;
             position: relative;
-            top: 7px;
           }
 
           .img_des {
             width: 200px;
             height: 400px;
+          }
+
+          .img_des_data {
+            width: 200px;
+            height: 300px;
           }
 
           .nutrition_grades_description {
@@ -204,7 +219,7 @@
 
           .nutrition_data_description {
             font-size: smaller;
-            position: absolute;
+            position: relative;
           }
 
           .text_blue_des {
@@ -282,6 +297,7 @@
             bottom: 85%;
           }
 
-          .error_or_not_food {
-            position: absolute;
+          .copyright_section {
+            padding-top: 20px;
+            position: relative;
           }
