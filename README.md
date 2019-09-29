@@ -13,3 +13,25 @@ Cette dernière fonctionne à l'aide d'une API externe:
 - Un utilisateur non inscrit ne pourra pas accéder à un enregistrement d'aliment en favoris.
 - Un utilisateur inscrit aura accès à l'enregistrement.
 - La page description permet également d'accéder à la page officiel de l'aliment OpenFoodFact via son API, permettant d'avoir plus de détails en cas de nécessité.
+
+## Pré-requis:
+- Python 3.x
+- Django
+- PostgreSQL
+- HTML5
+- CSS3 & BootStrap
+- JavaScript & JQuery
+
+## Utilisation:
+
+### Première étape:
+- Installer les pré-requis
+
+### Seconde étape:
+- Installer le fichier "requirements.txt" -> pip install -r requirements.txt
+
+### Troisème étape:
+#### Sous Windows
+python3 manage.py runserver
+#### Sous Linux
+./manage.py runserver ou python3 manage.py runserver
