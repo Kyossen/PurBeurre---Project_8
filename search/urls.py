@@ -1,3 +1,7 @@
+"""
+This import is obligatory for the good of the system
+"""
+
 from django.conf.urls import url
 
 from . import views
@@ -13,6 +17,5 @@ urlpatterns = [
     url(r'^result.html', views.result, name="result"),
     url(r'^disconnect.html', views.disconnect, name="disconnect"),
     url(r'^description.html', views.description, name="description"),
+    url(r'^copyright.html', views.copyright_page, name="copyright")
 ]
-
-
