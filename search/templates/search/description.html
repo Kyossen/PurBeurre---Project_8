@@ -1,48 +1,63 @@
 {% extends 'search/base.html' %}
 
 {% block content %}
+<title>PurBeurre - Description de produit</title>
 
-  <header class="masthead">
+<header class="masthead">
     <div class="container h-100">
-      <div class="row h-100 align-items-center justify-content-center text-center">
-           <h2 class="text-uppercase text-white font-weight-bold">
-               Descritption du produit:
-           </h2>
-        <div class="col-lg-10 align-self-end center form-inline">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <h2 class="text-uppercase text-white font-weight-bold">
+                Descritption du produit:
+            </h2>
+            <div class="col-lg-10 align-self-end center form-inline">
 
-            <div class="info_des">
-                {% if error_description %}
+                <div class="info_des">
+                    {% if error_description %}
                     <p>{{ error_description }}</p>
+                    {% endif %}
+                </div>
+                {% if not error_description %}
+                <div class="container container_result_des wrap_des">
+                    <div class="mid_find_des">
+                        {% if not no_data %}
+                        <img class="img_des_data" src="{{ product_img }}">
+                        {% elif no_data %}
+                        <img class="img_des" src="{{ product_img }}">
+                        {% endif %}
+                        <p class="product_result_description text_blue_des">{{ product_name }}</p>
+                    </div>
+
+                    <div class="row_des">
+                        <div class="score_des">
+                            <div class="text_orange">Nutrition score:</div>
+                            {% if not no_score %}
+                            <p class="nutrition_grades_description text_white">{{ product_score }}</p>
+                            {% elif no_score %}
+                            <p class="nutrition_grades_description text_white">{{ no_score }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="data_des">
+                            <div class="text_orange">Repère nutritionnels pour 100g:</div>
+                            {% if not no_data %}
+                            <p class="nutrition_data_description text_white">{{ product_nutrition_data_per }}<br/></p>
+
+                            {% elif no_data %}
+                            <p class="nutrition_data_description text_white">{{ no_data }}<br/></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="info_des">
+                    <p class="info_des text_orange">Pour plus d'informtations : <br/></p>
+                    <a href="{{ product_url }}">Clic ici !</a>
+                </div>
                 {% endif %}
-            </div>
 
-
-            <div class="container container_result_des wrap_des">
-                <div class="mid_find_des">
-                   <img class="img_des" src="{{ product_img }}">
-                    <p class="product_result_description text_blue_des">{{ product_name }}</p>
-                </div>
-
-                <div class="row_des">
-                     <div class="score_des">
-                        <div class="text_orange">Nutrition score:</div>
-                        <p class="nutrition_grades_description text_white">{{ product_score }}</p>
-                     </div>
-
-                     <div class="data_des">
-                         <div class="text_orange">Repère nutritionnels pour 100g:</div>
-                        <p class="nutrition_data_description text_white">{{ product_nutrition_data_per }}<br /></p>
-                     </div>
-                </div>
-            </div>
-            <div class="info_des">
-                <p class="info_des text_orange">Pour plus d'informtations : <br /></p>
-                <a href="{{ product_url }}">Clic ici !</a>
             </div>
         </div>
-      </div>
     </div>
-  </header>
+</header>
 
 
 {% endblock %}
