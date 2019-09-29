@@ -1,16 +1,14 @@
 # PurBeurre
 
-PurBeurre est une plateforme web développée sous ## Django.
+PurBeurre est une plateforme web développée sous Django.  
 Le but principal de cette dernière est de permettre à un utilisateur de changer son alimentation.
 En effet, la plateforme PurBeurre permet à un utilisateur d'entrée (dans un champs de recherche) un aliment (exepmle: Nutella),  et par la suite elle retournera à l'utilisateur une liste d'aliments avec un indice nutritionnel.
 Bien évidemment, tout utilisateurs inscrits ou non peux accéder à cette recherche, ainsi qu'à une page déscription pour chaque aliment.
-
+Cette dernière fonctionne à l'aide d'une API externe:
+### OpenFoodFact
 
 
 ## A savoir :
-
-Cette dernière fonctionne à l'aide d'une API externe:
-### OpenFoodFact
 
 Les indices nutrionnel varie entre "a" et "d" dans un ordre alphabétique.
 
