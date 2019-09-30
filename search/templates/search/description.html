@@ -24,33 +24,8 @@
                         {% elif no_data %}
                         <img class="img_des" src="{{ product_img }}">
                         {% endif %}
-                        <p class="product_result_description text_blue_des">{{ product_name }}</p>
+                        <p class="product_result_description text_white">{{ product_name }}</p>
                     </div>
-
-                    <div class="row_des">
-                        <div class="score_des">
-                            <div class="text_orange">Nutrition score:</div>
-                            {% if not no_score %}
-                            <p class="nutrition_grades_description text_white">{{ product_score }}</p>
-                            {% elif no_score %}
-                            <p class="nutrition_grades_description text_white">{{ no_score }}</p>
-                            {% endif %}
-                        </div>
-
-                        <div class="data_des">
-                            <div class="text_orange">Repère nutritionnels pour 100g:</div>
-                            {% if not no_data %}
-                            <p class="nutrition_data_description text_white">{{ product_nutrition_data_per }}<br/></p>
-
-                            {% elif no_data %}
-                            <p class="nutrition_data_description text_white">{{ no_data }}<br/></p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="info_des">
-                    <p class="info_des text_orange">Pour plus d'informtations : <br/></p>
-                    <a href="{{ product_url }}">Clic ici !</a>
                 </div>
                 {% endif %}
 
@@ -59,5 +34,25 @@
     </div>
 </header>
 
+<div class="row_des row">
+    <div class="score_des col-md-6">
+        <center><p class="text_orange large_size">Nutrition score:</p>
+        <p class="nutrition_grades_description">{{ product_score }}</p></center>
+    </div>
+
+    <div class="data_des col-md-6">
+        <center><p class="text_orange large_size">Repère nutritionnels pour 100g:</p></center>
+        {% if not no_data %}
+        <center><p class="nutrition_data_description">{{ product_nutrition_data_per }}<br/></p></center>
+        {% elif no_data %}
+        <p class="nutrition_data_description">{{ no_data }}<br/></p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="info_des">
+     <center><p class="info_des text_orange">Pour plus d'informtations : <br/></p>
+    <a href="{{ product_url }}">Clic ici !</a></center>
+</div>
 
 {% endblock %}
