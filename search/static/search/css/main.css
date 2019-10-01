@@ -7,6 +7,18 @@
             width: 100%;
           }
 
+          .page_container_fav {
+            padding-top: 20px;
+          }
+
+          .page_fav {
+            margin: auto;
+          }
+
+          .pad_top {
+            padding-top: 10px;
+          }
+
            .text_turquoise {
             color: turquoise;
           }
@@ -27,6 +39,18 @@
             font-weight: bold;
           }
 
+           .resize-page {
+            height: fit-content !important;
+           }
+
+           .email {
+            padding-right: 10px;
+           }
+
+           .password {
+            padding-right: 17px;
+           }
+
           .signUP_style {
             flex-direction: column;
           }
@@ -36,15 +60,8 @@
           }
 
           .button_signup {
-            padding-top:10px;
-          }
-
-          .password {
-            margin-right: 20px;
-          }
-
-          .email {
-            margin-right: 10px;
+            margin-top:15px;
+            margin-bottom:15px;
           }
 
           .custom_nav_img {
@@ -53,6 +70,10 @@
 
           .color_find_base {
             background-color: #D3D3D3;
+          }
+
+          .large_size {
+            font-size: large;
           }
 
           .img_index {
@@ -87,6 +108,7 @@
 
           #spinner {
             display: none;
+            margin-top: 15px;
           }
 
           .mid_find {
@@ -104,6 +126,8 @@
           .product_result {
             text-align: center;
             font-weight : bold;
+            padding-top: 15px;
+            margin-bottom: 5px;
           }
 
           #style_floppy {
@@ -186,31 +210,35 @@
           }
 
           .score_des {
-            item-align: left;
+            padding-top: 15px;
             position: relative;
           }
 
           .data_des {
-            item-align: right;
+            padding-top: 15px;
             position: relative;
           }
 
           .img_des {
-            width: 200px;
-            height: 400px;
+            width: 350px;
+            height: 500px;
+            margin-bottom: 15px;
+            opacity: 0.75;
           }
 
           .img_des_data {
-            width: 200px;
-            height: 300px;
+            width: 300px;
+            height: 500px;
+            margin-bottom: 15px;
+            opacity: 0.75;
           }
 
           .nutrition_grades_description {
-            font-size: smaller;
+            font-size: large;
           }
 
           .product_result_description {
-            font-size: larger;
+            font-size: x-large !important;
             font-weight: bold;
             position: absolute;
             top: 50%;
@@ -218,8 +246,9 @@
           }
 
           .nutrition_data_description {
-            font-size: smaller;
+            width: 90%;
             position: relative;
+            font-size: large;
           }
 
           .text_blue_des {
@@ -229,11 +258,14 @@
 
           .info_des {
             margin: 0 auto;
+            padding-top: 15px;
+            font-size: large;
           }
 
           .row_des {
             display: flex;
             justify-content: space-between;
+            padding-top: 15px;
           }
 
           .mid_find_des {
@@ -252,11 +284,10 @@
             position: relative;
           }
 
-
-
           .img_dash {
             width: 70%;
             height: 200px;
+            opacity: 0.75;
           }
 
           .name_dash {
@@ -295,6 +326,11 @@
             width: 100%;
             font-weight: bold;
             bottom: 85%;
+          }
+
+          .favorites_container {
+            padding-bottom: 65px;
+            margin-bottom: 10px;
           }
 
           .copyright_section {
