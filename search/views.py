@@ -395,11 +395,118 @@ def result(request):
                 return render(request, 'search/result.html', context)
     else:
         # GET method. Create a new form to be used in the template.
-        form = FoodForm()
-    context['form_food'] = form
-    print(list_products)
-    return render(request, 'search/result.html', context)
+        print(request)
+        if 'page' in request.GET:
+            food = request.GET['search']
+            page_nb = request.GET['page']
+            result_food = requests.get(
+                "https://world.openfoodfacts.org/cgi/search.pl?search_terms="
+                + food.lower() +
+                "&search_simple=1&json=1"
+            )
+            response = result_food.json()
+            # Check if the answer is exploitable or not
+            if len(response['products']) != 0:
+                # Read the answer from OpenFoodFact
+                for result_response in response['products']:
+                    if 'product_name' in result_response:
+                        context['name_result'] = \
+                            result_response['product_name']
 
+                    if 'image_front_url' in result_response:
+                        context['img_result'] = \
+                            result_response['image_front_url']
+
+                    if 'product_name' not in result_response or \
+                            'image_front_url' not in result_response:
+                        context['error_result'] = "Nous sommes désolé, " \
+                                                  "le produit demandé est " \
+                                                  "introuvable."
+
+                    if len(result_response['categories_tags']) != 0:
+                        i = 0
+                        """
+                        Create an infinite loop to browse different
+                            categories to retrieve answers for users
+                        """
+                        while True:
+                            search_categories = \
+                                "https://fr.openfoodfacts.org/categorie"
+                            search_substitution = requests.get(
+                                search_categories + "/" +
+                                result_response['categories_tags'][i] +
+                                ".json"
+                            )
+                            result_substitution = search_substitution.json()
+
+                            # Read the answer from OpenFoodFact
+                            if len(result_substitution['products']) != 0:
+                                for p_res in \
+                                        result_substitution['products']:
+                                    if 'nutrition_grades' in p_res and (
+                                            p_res['nutrition_grades'] == "a"
+                                            or p_res['nutrition_grades'] == "b"
+                                            or p_res['nutrition_grades'] == "c"
+                                            or p_res['nutrition_grades'] == "d"
+                                    ):
+                                        if p_res not in list_products:
+                                            # Add a result in the list
+                                            # for the display
+                                            # with result.html
+                                            list_products.append(p_res['nutrition_grades'])
+                                    context['product_result'] = \
+                                        list_products
+                                    print(list_products)
+                                    a = 6 * int(page_nb) - 6
+                                    r = 6 * int(page_nb)
+                                    dispaly = list_products[a:r]
+                                    """
+                                    Create a pagination for users.
+                                    This allows to browse of the
+                                    results an multiple pages
+                                    """
+                                    paginator = Paginator(list_products, 6)
+                                    page = request.GET.get('page', page_nb)
+                                    nb_page = paginator.get_page(page)
+                                    context['nb_page'] = nb_page
+                            # Stop the loop infinity and
+                            # get user info for display of the results
+                            if i + 1 == \
+                                    len(result_response['categories_tags']):
+                                form = FoodForm()
+                                context['form_food'] = form
+                                if request.user.is_authenticated:
+                                    food_all = Substitution.objects.filter(
+                                        user=request.session['member_id']
+                                    )
+                                    for food_save in food_all:
+                                        for product in list_products:
+                                            if food_save.product == \
+                                                    product['product_name']:
+                                                context['save_food'] = \
+                                                    food_save.product
+                                context['search'] = food
+                                return render(request,
+                                              'search/result.html', context)
+                            i += 1
+                    # Return a error
+                    else:
+                        form = FoodForm()
+                        context = {'form_food': form,
+                                   'error_result': "Nous sommes désolé,"
+                                                   " le produit demandé "
+                                                   "est introuvable.",
+                                   'img_result': None
+                                   }
+                        return render(request, 'search/result.html', context)
+            # Return a error
+            else:
+                form = FoodForm()
+                context['form_food'] = form
+                context['error_result'] =\
+                    "Nous avons eu un problème, " \
+                    "pouvez vous recommencer ? Merci."
+                return render(request, 'search/result.html', context)
 
 """
 Description is the function for description page
@@ -413,56 +520,55 @@ def description(request):
     if 'product' in request.GET:
         product_name = request.GET
         # If product is present execute a request to OpenFoodFact
-        for product_result in product_name['product']:
-            result_food = requests.get(
-                "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-                product_name['product'] +
-                "&search_simple=1&json=1")
-            response = result_food.json()
-            context['product_name'] = product_name['product']
-            """
-            Browse the answer and get the information
-                for display in page description.html
-            """
-            for product_descritpion in response['products']:
-                if 'nutrition_grades' in product_descritpion and \
-                        (product_descritpion['nutrition_grades'] == "a"
-                         or product_descritpion['nutrition_grades'] == "b"
-                         or product_descritpion['nutrition_grades'] == "c"
-                         or product_descritpion['nutrition_grades'] == "d"):
-                    context['product_score'] = \
-                        product_descritpion['nutrition_grades']
-                if 'nutrition_grades' not in product_descritpion:
-                    product_descritpion['nutrition_grades'] = \
-                        "Désolé nous ne dispons pas " \
-                        "d'indice nutritionnel pour cet aliment."
-                    context['product_score'] = \
-                        product_descritpion['nutrition_grades']
+        result_food = requests.get(
+            "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
+            product_name['product'] +
+            "&search_simple=1&json=1")
+        response = result_food.json()
+        context['product_name'] = product_name['product']
+        """
+        Browse the answer and get the information
+            for display in page description.html
+        """
+        for product_descritpion in response['products']:
+            if 'nutrition_grades' in product_descritpion and \
+                    (product_descritpion['nutrition_grades'] == "a"
+                     or product_descritpion['nutrition_grades'] == "b"
+                     or product_descritpion['nutrition_grades'] == "c"
+                     or product_descritpion['nutrition_grades'] == "d"):
+                context['product_score'] = \
+                    product_descritpion['nutrition_grades']
+            if 'nutrition_grades' not in product_descritpion:
+                product_descritpion['nutrition_grades'] = \
+                    "Désolé nous ne dispons pas " \
+                    "d'indice nutritionnel pour cet aliment."
+                context['product_score'] = \
+                    product_descritpion['nutrition_grades']
 
-                if 'image_url' in product_descritpion:
-                    context['product_img'] = product_descritpion['image_url']
-                if 'url' in product_descritpion:
-                    context['product_url'] = product_descritpion['url']
+            if 'image_url' in product_descritpion:
+                context['product_img'] = product_descritpion['image_url']
+            if 'url' in product_descritpion:
+                context['product_url'] = product_descritpion['url']
 
-                if 'ingredients_text_fr' in product_descritpion:
-                    if product_descritpion['ingredients_text_fr'] == '':
-                        context['no_data'] = \
-                            "Désolé nous ne dispons pas " \
-                            "de repère nutritionnel " \
-                            "pour cet aliment."
-                    else:
-                        context['product_nutrition_data_per'] = \
-                            product_descritpion['ingredients_text_fr']
-                if 'ingredients_text_fr' not in product_descritpion:
-                    product_descritpion['ingredients_text_fr'] = \
-                        context['no_data'] = \
+            if 'ingredients_text_fr' in product_descritpion:
+                if product_descritpion['ingredients_text_fr'] == '':
+                    context['no_data'] = \
                         "Désolé nous ne dispons pas " \
                         "de repère nutritionnel " \
                         "pour cet aliment."
+                else:
+                    context['product_nutrition_data_per'] = \
+                        product_descritpion['ingredients_text_fr']
+            if 'ingredients_text_fr' not in product_descritpion:
+                product_descritpion['ingredients_text_fr'] = \
+                    context['no_data'] = \
+                    "Désolé nous ne dispons pas " \
+                    "de repère nutritionnel " \
+                    "pour cet aliment."
 
-                form = FoodForm()
-                context['form_food'] = form
-                return render(request, 'search/description.html', context)
+            form = FoodForm()
+            context['form_food'] = form
+            return render(request, 'search/description.html', context)
     """
     Check url of the description is valid or not
     If not valid, return a error
