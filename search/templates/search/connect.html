@@ -15,14 +15,14 @@
                     {% csrf_token %}
                     <div class="container pull-right center">
                         <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %} mid_find
-                    row col-md-6 champs_signUP">
+                            row col-md-6 champs_signUP">
                             <p class="email">Adresse email:<br/></p>
                             <label for="{{ form.userEmail.id_for_label }}">
                                 <p>{{ form.email }}<br/></p>
                         </div>
 
                         <div class="form-group {% if form.userWP.errors %}has-warning has-feedback{% endif %} mid_find
-                    row col-md-6 champs_signUP">
+                            row col-md-6 champs_signUP">
                             <p class="password">Mot de passe:<br/></p>
                             <label for="{{ form.userWP.id_for_label }}">
                                 <p>{{ form.wordpass }}<br/></p>
@@ -49,10 +49,8 @@
                 <div>
                     {% if error_login %}
                     {{ error_login }}
-
                     {% endif %}
                 </div>
-
                 <hr class="divider my-4">
             </div>
             <div class="col-lg-8 align-self-baseline">
@@ -61,6 +59,4 @@
             </div>
         </div>
 </header>
-
-
 {% endblock %}
