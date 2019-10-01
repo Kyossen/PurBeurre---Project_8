@@ -15,30 +15,29 @@
                 {% endif %}
             </div>
 
-            <div class="col-lg-10 align-self-end">
+            <div class="col-lg-10 align-self-end favorites_container">
                 <div class="container row container_result wrap" id="products_result">
-                    {% for key, product in product_result.items %}
+                    {% for product in product_result %}
                     <div class="result col-md-4">
-                        <div class="product_result">{{ product.0 }}</div>
+                        <p class="product_result">{{ product.product }}</p>
                         <div class="img_container">
-                            <div class="nutrition_grades">{{ product.1 }}</div>
-                            <a href="/search/description.html?product={{ product.0 }}"><img
-                                    src="{{ product.2 }}"
+                            <p class="nutrition_grades">{{ product.nutrition_grade }}</p>
+                            <a href="/search/description.html?product={{ product.product }}"><img
+                                    src="{{ product.img_url }}"
                                     class="img_result"></a>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-
             </div>
         </div>
     </div>
 </header>
 
-<div class="pagination">
-    <span class="step-links">
+<div class="pagination page_container_fav">
+    <span class="step-links page_fav">
         {% if nb_page.has_previous %}
-            <a href="?page=1">&laquo; Première page</a>
+            <a href="?page=1">&laquo; Première page</a> -
             <a href="?page={{ nb_page.previous_page_number }}">Page précédente</a>
         {% endif %}
 
@@ -52,4 +51,5 @@
         {% endif %}
     </span>
 </div>
+
 {% endblock %}
