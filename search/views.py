@@ -394,11 +394,13 @@ def result(request):
                     "pouvez vous recommencer ? Merci."
                 return render(request, 'search/result.html', context)
     else:
-        # GET method. Create a new form to be used in the template.
-        print(request)
+        # Get the data if user change the page on results
+        # Check if user use a correct url
         if 'page' in request.GET:
+            # Get search food and the page number
             food = request.GET['search']
             page_nb = request.GET['page']
+            # Again do a request to API for get informations on food
             result_food = requests.get(
                 "https://world.openfoodfacts.org/cgi/search.pl?search_terms="
                 + food.lower() +
@@ -453,13 +455,16 @@ def result(request):
                                             # Add a result in the list
                                             # for the display
                                             # with result.html
-                                            list_products.append(p_res['nutrition_grades'])
-                                    context['product_result'] = \
-                                        list_products
-                                    print(list_products)
+                                            list_products.append(p_res)
+                                    """
+                                    This time, do a little math for 
+                                    be sure that the results display 
+                                    be the good results
+                                    """
                                     a = 6 * int(page_nb) - 6
                                     r = 6 * int(page_nb)
-                                    dispaly = list_products[a:r]
+                                    context['product_result'] = \
+                                        list_products[a:r]
                                     """
                                     Create a pagination for users.
                                     This allows to browse of the
@@ -489,24 +494,7 @@ def result(request):
                                 return render(request,
                                               'search/result.html', context)
                             i += 1
-                    # Return a error
-                    else:
-                        form = FoodForm()
-                        context = {'form_food': form,
-                                   'error_result': "Nous sommes désolé,"
-                                                   " le produit demandé "
-                                                   "est introuvable.",
-                                   'img_result': None
-                                   }
-                        return render(request, 'search/result.html', context)
-            # Return a error
-            else:
-                form = FoodForm()
-                context['form_food'] = form
-                context['error_result'] =\
-                    "Nous avons eu un problème, " \
-                    "pouvez vous recommencer ? Merci."
-                return render(request, 'search/result.html', context)
+
 
 """
 Description is the function for description page
@@ -760,23 +748,3 @@ def copyright_page(request):
     form_food = FoodForm()
     context['form_food'] = form_food
     return render(request, 'search/copyright.html', context)
-
-
-"""
-# A faire
-Finition page result -> Pagination -> requete GET & mise en page
-
-PEP8 Python3 -> Finir views.py
-
-Fichier ProcFile
-Fichier requirements.txt
-Deploiement Heroku
-
-Rédiger document
-
-# Correction
-
-#Ajout manquant
-
-#Aide
-"""
