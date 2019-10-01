@@ -19,12 +19,18 @@
                 {% if not error_description %}
                 <div class="container container_result_des wrap_des">
                     <div class="mid_find_des">
+                        {% if product_img %}
                         {% if not no_data %}
                         <img class="img_des_data" src="{{ product_img }}">
                         {% elif no_data %}
                         <img class="img_des" src="{{ product_img }}">
                         {% endif %}
                         <p class="product_result_description text_white">{{ product_name }}</p>
+                        {% else %}
+                        <p class="no_img_des">Nous sommes désolé.
+                            Nous ne n'avons pas de photos à vous proposer.</p>
+                        <p class="product_result_description text_white">{{ product_name }}</p>
+                        {% endif %}
                     </div>
                 </div>
                 {% endif %}
