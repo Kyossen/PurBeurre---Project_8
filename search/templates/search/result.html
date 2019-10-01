@@ -54,9 +54,14 @@
 
         <div class="img_container">
             <div class="nutrition_grades">{{ product.nutrition_grades }}</div>
+            {% if product.image_url %}
             <a href="/search/description.html?product={{ product.product_name }}"><img
                     src="{{ product.image_url }}"
                     class="img_result"></a>
+            {% else %}
+            <a href="/search/description.html?product={{ product.product_name }}">Nous sommes désolé.
+                Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
+            {% endif %}
             {% if save_food != product.product_name %}
             <div class="button_save">
                 <button class="favorite styled button_save_style"
