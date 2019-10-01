@@ -40,25 +40,6 @@
                 {% endif %}
             </div>
 
-            {% if not error_result %}
-            <div class="pagination">
-                <span class="step-links">
-                    {% if nb_page.has_previous %}
-                        <a href="?page=1">&laquo; first</a>
-                        <a href="?page={{ nb_page.previous_page_number }}">previous</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Page {{ nb_page.number }} of {{ nb_page.paginator.num_pages }}.
-                    </span>
-
-                    {% if nb_page.has_next %}
-                        <a href="?page={{ nb_page.next_page_number }}">next</a>
-                        <a href="?page={{ nb_page.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-            {% endif %}
         </div>
     </div>
 </header>
@@ -92,6 +73,26 @@
         </div>
     </div>
     {% endfor %}
+</div>
+{% endif %}
+
+{% if not error_result %}
+<div class="pagination page_container_fav">
+    <span class="step-links page_fav">
+        {% if nb_page.has_previous %}
+            <a href="?search={{ search }}&page=1">&laquo; Première page</a> -
+            <a href="?search={{ search }}&page={{ nb_page.previous_page_number }}">Page précédente</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ nb_page.number }} / {{ nb_page.paginator.num_pages }}
+        </span>
+
+        {% if nb_page.has_next %}
+            <a href="?search={{ search }}&page={{ nb_page.next_page_number }}">Page suivante</a> -
+            <a href="?search={{ search }}&page={{ nb_page.paginator.num_pages }}">Dernière page &raquo;</a>
+        {% endif %}
+    </span>
 </div>
 {% endif %}
 
