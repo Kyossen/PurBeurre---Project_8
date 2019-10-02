@@ -457,8 +457,8 @@ def result(request):
                                             # with result.html
                                             list_products.append(p_res)
                                     """
-                                    This time, do a little math for 
-                                    be sure that the results display 
+                                    This time, do a little math for
+                                    be sure that the results display
                                     be the good results
                                     """
                                     a = 6 * int(page_nb) - 6
