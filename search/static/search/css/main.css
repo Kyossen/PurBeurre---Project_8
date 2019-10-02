@@ -1,4 +1,4 @@
-          .container {
+  .container {
             min-width: 100%;
             max-width: 100%;
           }
@@ -246,9 +246,15 @@
           }
 
           .nutrition_data_description {
-            width: 90%;
+            margin-right: 10px;
             position: relative;
             font-size: large;
+          }
+
+          .no_img_des {
+            position: relative;
+            margin-bottom: 300px;
+            color: red;
           }
 
           .text_blue_des {
