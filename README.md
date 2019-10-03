@@ -31,7 +31,7 @@ La plateforme PurBeurre fonctionne à l'aide de l'API externe suivante:
 - Installer "requirements.txt" -> pip install -r requirements.txt
 
 ### Troisième étape:
-- Configurer les variables d'environnement:
+- Configurer les variables d'environnement:   
   set ou export STRIPE_API_KEY = Votre clé Google Map
   set ou export EMAIL = Votre adresse email
   PS: Set -> Windows & Export -> Linux
