@@ -43,6 +43,10 @@
     background: orange;
 }
 
+.text_align_center {
+    text-align: center;
+}
+
 .resize-page {
     height: fit-content !important;
 }
