@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>PurBeurre - Inscription</title>
+    <meta charset="utf-8">
+</head>
+
 {% extends 'search/base.html' %}
 
 {% block content %}
-<title>PurBeurre - Inscription</title>
 
 <header class="masthead resize-page">
     <div class="container h-100">
@@ -71,10 +77,11 @@
                 {% if error %}
                 <div>
                     <p>{{ error }}<br/></p>
-                    {%endif %}
                 </div>
+                {%endif %}
+
             </div>
         </div>
 </header>
-
+</html>
 {% endblock %}
