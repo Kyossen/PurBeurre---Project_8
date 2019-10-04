@@ -1,14 +1,14 @@
-"""
-This import is obligatory for the good of the system
-"""
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""This import is obligatory for the good of the system
+This below, the all urls of the platform"""
 
 from django.conf.urls import url
 
 from . import views
 
-"""
-This below, the all urls of the platform
-"""
+
 urlpatterns = [
     url(r'^connect.html', views.connect, name="connect"),
     url(r'^sign_up.html', views.sign_up, name="sign_up"),
