@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-This import is obligatory for the good of the system
-This below, the all models of the platform
-"""
+"""This import is obligatory for the good of the system
+This below, the all models of the platform"""
 
 from django.db import models
 from django.contrib.auth.models import User
