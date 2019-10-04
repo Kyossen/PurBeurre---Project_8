@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>PurBeurre - Description de produit</title>
+    <meta charset="utf-8">
+</head>
+
 {% extends 'search/base.html' %}
 
 {% block content %}
-<title>PurBeurre - Description de produit</title>
 
 <header class="masthead">
     <div class="container h-100">
@@ -9,21 +15,20 @@
             <h2 class="text-uppercase text-white font-weight-bold">
                 Descritption du produit:
             </h2>
+            {% if error_description %}
+            <div class="info_des">
+                <p class="result_error">{{ error_description }}</p>
+            </div>
+            {% endif %}
             <div class="col-lg-10 align-self-end center form-inline">
-
-                <div class="info_des">
-                    {% if error_description %}
-                    <p>{{ error_description }}</p>
-                    {% endif %}
-                </div>
                 {% if not error_description %}
                 <div class="container container_result_des wrap_des">
                     <div class="mid_find_des">
                         {% if product_img %}
                         {% if not no_data %}
-                        <img class="img_des_data" src="{{ product_img }}">
+                        <img class="img_des_data" src="{{ product_img }}" alt="">
                         {% elif no_data %}
-                        <img class="img_des" src="{{ product_img }}">
+                        <img class="img_des" src="{{ product_img }}" alt="">
                         {% endif %}
                         <p class="product_result_description text_white">{{ product_name }}</p>
                         {% else %}
@@ -42,23 +47,24 @@
 
 <div class="row_des row">
     <div class="score_des col-md-6">
-        <center><p class="text_orange large_size">Nutrition score:</p>
-        <p class="nutrition_grades_description">{{ product_score }}</p></center>
+        <p class="text_orange large_size text_align_center">Nutrition score:</p>
+        <p class="nutrition_grades_description text_align_center">{{ product_score }}</p>
     </div>
 
     <div class="data_des col-md-6">
-        <center><p class="text_orange large_size">Repère nutritionnels pour 100g:</p></center>
+        <p class="text_orange large_size text_align_center">Repère nutritionnels pour 100g:</p>
         {% if not no_data %}
-        <center><p class="nutrition_data_description">{{ product_nutrition_data_per }}<br/></p></center>
+        <p class="nutrition_data_description text_align_center">{{ product_nutrition_data_per }}<br/></p>
         {% elif no_data %}
         <p class="nutrition_data_description">{{ no_data }}<br/></p>
         {% endif %}
     </div>
 </div>
 
-<div class="info_des">
-     <center><p class="info_des text_orange">Pour plus d'informtations : <br/></p>
-    <a href="{{ product_url }}">Clic ici !</a></center>
+<div class="info_des text_align_center">
+    <p class="info_des text_orange">Pour plus d'informtations : <br/></p>
+    <a href="{{ product_url }}">Clic ici !</a>
 </div>
 
 {% endblock %}
+</html>
