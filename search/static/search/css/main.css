@@ -1,345 +1,357 @@
-  .container {
-            min-width: 100%;
-            max-width: 100%;
-          }
-
-          .box {
-            width: 100%;
-          }
-
-          .page_container_fav {
-            padding-top: 20px;
-          }
-
-          .page_fav {
-            margin: auto;
-          }
-
-          .pad_top {
-            padding-top: 10px;
-          }
-
-           .text_turquoise {
-            color: turquoise;
-          }
-
-          .text_orange {
-            color: orange;
-          }
-
-          .text_white {
-            color: white;
-          }
-
-          .larger_size {
-            font-size: larger;
-          }
-
-          .bold {
-            font-weight: bold;
-          }
-
-           .resize-page {
-            height: fit-content !important;
-           }
-
-           .email {
-            padding-right: 10px;
-           }
-
-           .password {
-            padding-right: 17px;
-           }
-
-          .signUP_style {
-            flex-direction: column;
-          }
-
-          .champs_signUP {
-            mix-blend-mode: overlay;
-          }
-
-          .button_signup {
-            margin-top:15px;
-            margin-bottom:15px;
-          }
-
-          .custom_nav_img {
-            width: 50px;
-          }
-
-          .color_find_base {
-            background-color: #D3D3D3;
-          }
-
-          .large_size {
-            font-size: large;
-          }
-
-          .img_index {
-            height: 150px;
-            position: relative;
-          }
-
-          .img_remy {
-            width: 266.5px;
-          }
-
-          .img_colette {
-            width: auto;
-          }
-
-          .name_img_index {
-            position: relative;
-            text-align: center;
-          }
-
-          .container_result_idx {
-            display: flex;
-            justify-content: space-around;
-            flex-shrink: 0;
-            overflow: hidden;
-            item-align: center;
-          }
-
-          .error_result {
-            padding-top: 100px;
-          }
-
-          #spinner {
-            display: none;
-            margin-top: 15px;
-          }
-
-          .mid_find {
-            margin: auto;
-          }
-
-          .container_result {
-            display: flex;
-            justify-content: space-between;
-            flex-shrink: 0;
-            overflow: hidden;
-            item-align: center;
-          }
-
-          .product_result {
-            text-align: center;
-            font-weight : bold;
-            padding-top: 15px;
-            margin-bottom: 5px;
-          }
-
-          #style_floppy {
-            font-size: 24px;
-            color: orange;
-          }
-
-          .wrap {
-            -webkit-flex-wrap: wrap;
-            flex-wrap: wrap;
-          }
-
-          .img_result {
-            width: 150px;
-            height: 150px;
-          }
-
-          .result {
-            padding-top: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-          }
-
-          .container_result_des {
-            display: flex;
-            justify-content: space-between;
-            overflow: hidden;
-            items-align: center;
-            flex-direction: column;
-          }
-
-          .button_save {
-            font-size: 10px;
-          }
-
-          .button_save_style {
-            border-width: 2px;
-            border-style: solid;
-            border-color: black;
-          }
-
-          .style_save_c {
-            font-size: 15px;
-            position: relative;
-            bottom: 20px;
-            left: 20px;
-          }
-
-          #res_h3 {
-            padding-top: 20px;
-            margin-bottom: 15px;
-            position: relative;
-          }
-
-          .error_description {
-            padding-bottom: 100px;
-            font-size: larger;
-          }
-
-          .wrap_des {
-            flex-wrap:wrap;
-          }
-
-          .block_des {
-            background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-            width: 100%;
-            border:1px dotted #CCCCCC;
-            padding:0.5em;
-          }
-
-          .name_des {
-            background-image:url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-            width: 100%;
-            border:1px dotted #CCCCCC;
-            padding:0.5em;
-            position: relative;
-            bottom: 200px;
-          }
-
-          .score_des {
-            padding-top: 15px;
-            position: relative;
-          }
-
-          .data_des {
-            padding-top: 15px;
-            position: relative;
-          }
-
-          .img_des {
-            width: 350px;
-            height: 500px;
-            margin-bottom: 15px;
-            opacity: 0.75;
-          }
-
-          .img_des_data {
-            width: 300px;
-            height: 500px;
-            margin-bottom: 15px;
-            opacity: 0.75;
-          }
-
-          .nutrition_grades_description {
-            font-size: large;
-          }
-
-          .product_result_description {
-            font-size: x-large !important;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            width: 100%;
-          }
-
-          .nutrition_data_description {
-            margin-right: 10px;
-            position: relative;
-            font-size: large;
-          }
-
-          .no_img_des {
-            position: relative;
-            margin-bottom: 300px;
-            color: red;
-          }
-
-          .text_blue_des {
-            color:blue;
-            font-size: x-large;
-          }
-
-          .info_des {
-            margin: 0 auto;
-            padding-top: 15px;
-            font-size: large;
-          }
-
-          .row_des {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 15px;
-          }
-
-          .mid_find_des {
-            margin: auto;
-            position: relative;
-          }
-
-          .nutrition_grades {
-            position: absolute;
-            top: 0;
-            background-color: orange;
-            right: 0;
-          }
-
-          .img_container {
-            position: relative;
-          }
-
-          .img_dash {
-            width: 70%;
-            height: 200px;
-            opacity: 0.75;
-          }
-
-          .name_dash {
-            position: relative;
-            bottom: 180px;
-          }
-
-          .another_info_dash {
-            position: relative;
-            bottom: 150px;
-            display: flex;
-            position: relative;
-            display: inline-flex;
-          }
-
-          .text_sup {
-            position: relative;
-          }
-
-          .img_res {
-            width: 70%;
-            height: 200px;
-            margin: auto;
-          }
-
-          .place_find_style {
-            position: relative;
-            margin: auto;
-            bottom: 110px;
-          }
-
-          .product_result_res {
-            font-size: larger;
-            color: black;
-            position: absolute;
-            width: 100%;
-            font-weight: bold;
-            bottom: 85%;
-          }
-
-          .favorites_container {
-            padding-bottom: 65px;
-            margin-bottom: 10px;
-          }
-
-          .copyright_section {
-            padding-top: 20px;
-            position: relative;
-          }
+.container {
+    min-width: 100%;
+    max-width: 100%;
+}
+
+.box {
+    width: 100%;
+}
+
+.page_container_fav {
+    padding-top: 20px;
+}
+
+.page_fav {
+    margin: auto;
+}
+
+.pad_top {
+    padding-top: 10px;
+}
+
+.text_turquoise {
+    color: turquoise;
+}
+
+.text_orange {
+    color: orange;
+}
+
+.text_white {
+    color: white;
+}
+
+.larger_size {
+    font-size: larger;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.orange_back {
+    background: orange;
+}
+
+.resize-page {
+    height: fit-content !important;
+}
+
+.email {
+    padding-right: 10px;
+}
+
+.password {
+    padding-right: 17px;
+}
+
+.signUP_style {
+    flex-direction: column;
+}
+
+.champs_signUP {
+    mix-blend-mode: overlay;
+}
+
+.button_signup {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.custom_nav_img {
+    width: 50px;
+}
+
+.color_find_base {
+    background-color: #D3D3D3;
+}
+
+.large_size {
+    font-size: large;
+}
+
+.img_index {
+    height: 150px;
+    position: relative;
+}
+
+.img_remy {
+    width: 266.5px;
+}
+
+.img_colette {
+    width: auto;
+}
+
+.name_img_index {
+    position: relative;
+    text-align: center;
+}
+
+.container_result_idx {
+    display: flex;
+    justify-content: space-around;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.error_result {
+    padding-top: 100px;
+}
+
+#spinner {
+    display: none;
+    margin-top: 15px;
+}
+
+.mid_find {
+    margin: auto;
+}
+
+.container_result {
+    display: flex;
+    justify-content: space-between;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.product_result {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 15px;
+    margin-bottom: 5px;
+}
+
+#style_floppy {
+    font-size: 24px;
+    color: orange;
+}
+
+.wrap {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.img_result {
+    width: 150px;
+    height: 150px;
+}
+
+.result {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container_result_des {
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.button_save {
+    font-size: 10px;
+}
+
+.button_save_style {
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+}
+
+.style_save_c {
+    font-size: 15px;
+    position: relative;
+    bottom: 20px;
+    left: 20px;
+}
+
+#res_h3 {
+    padding-top: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.error_description {
+    padding-bottom: 100px;
+    font-size: larger;
+}
+
+.wrap_des {
+    flex-wrap: wrap;
+}
+
+.block_des {
+    background-image: url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+    width: 100%;
+    border: 1px dotted #CCCCCC;
+    padding: 0.5em;
+}
+
+.name_des {
+    background-image: url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
+    width: 100%;
+    border: 1px dotted #CCCCCC;
+    padding: 0.5em;
+    position: relative;
+    bottom: 200px;
+}
+
+.score_des {
+    padding-top: 15px;
+    position: relative;
+}
+
+.data_des {
+    padding-top: 15px;
+    position: relative;
+}
+
+.img_des {
+    width: 350px;
+    height: 500px;
+    margin-bottom: 15px;
+    opacity: 0.75;
+}
+
+.img_des_data {
+    width: 300px;
+    height: 500px;
+    margin-bottom: 15px;
+    opacity: 0.75;
+}
+
+.nutrition_grades_description {
+    font-size: large;
+}
+
+.product_result_description {
+    font-size: x-large !important;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+}
+
+.nutrition_data_description {
+    margin-right: 10px;
+    position: relative;
+    font-size: large;
+}
+
+.no_img_des {
+    position: relative;
+    margin-bottom: 300px;
+    color: red;
+}
+
+.text_blue_des {
+    color: blue;
+    font-size: x-large;
+}
+
+.info_des {
+    margin: 0 auto;
+    padding-top: 15px;
+    font-size: large;
+}
+
+.row_des {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+}
+
+.mid_find_des {
+    margin: auto;
+    position: relative;
+}
+
+.nutrition_grades {
+    position: absolute;
+    top: 0;
+    background-color: orange;
+    right: 0;
+}
+
+.img_container {
+    position: relative;
+}
+
+.img_dash {
+    width: 70%;
+    height: 200px;
+    opacity: 0.75;
+}
+
+.name_dash {
+    position: relative;
+    bottom: 180px;
+}
+
+.another_info_dash {
+    position: relative;
+    bottom: 150px;
+    display: flex;
+    position: relative;
+    display: inline-flex;
+}
+
+.text_sup {
+    position: relative;
+}
+
+.img_res {
+    opacity: 0.7;
+    width: 70%;
+    height: 200px;
+    margin: auto;
+}
+
+.place_find_style {
+    position: relative;
+    margin: auto;
+    bottom: 110px;
+}
+
+.product_result_res {
+    font-size: larger;
+    color: white;
+    position: absolute;
+    width: 100%;
+    font-weight: bold;
+    bottom: 85%;
+}
+
+.result_error {
+    font-size: large;
+    color: red;
+}
+
+.result_success {
+    font-size: large;
+    color: green;
+}
+
+.favorites_container {
+    padding-bottom: 65px;
+    margin-bottom: 10px;
+}
+
+.copyright_section {
+    padding-top: 20px;
+    position: relative;
+}
