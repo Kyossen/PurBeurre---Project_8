@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-This import is obligatory for the good of the system
+"""This import is obligatory for the good of the system
 Lib imports, they are important to help Django a have all tools for a good use
 Imports of files, they are important for
 this view file because it gives access to forms and templates
-Imports of Django lib, is a base for well functioning
-"""
+Imports of Django lib, is a base for well functioning"""
 
 
 # Import lib
