@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>PurBeurre - Recherche</title>
+    <meta charset="utf-8">
+</head>
+
 {% extends 'search/base.html' %}
 
 {% block content %}
-<title>PurBeurre - Recherche</title>
 
 <!-- Masthead -->
 <header class="masthead">
@@ -22,7 +28,7 @@
                             {% endif %}
                             <div class="container form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
                                 {% if not error_result %}
-                                <img class="img_res" src="{{ img_result }}">
+                                <img class="img_res" src="{{ img_result }}" alt="">
                                 {% endif %}
                                 <div class="place_find_style">
                                     <label for="{{ form.userFood.id_for_label }}">
@@ -36,7 +42,7 @@
 
             <div id="error_result">
                 {% if error_result %}
-                <p>{{ error_result }}</p>
+                <p class="result_error">{{ error_result }}</p>
                 {% endif %}
             </div>
 
@@ -62,7 +68,7 @@
             <a href="/search/description.html?product={{ product.product_name }}">Nous sommes désolé.
                 Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
             {% endif %}
-            {% if save_food != product.product_name %}
+            {% if product.product_name not in save_food %}
             <div class="button_save">
                 <button class="favorite styled button_save_style"
                         type="button" id="check_saveFood" value="{{ product.product_name }}"><br/>
@@ -70,7 +76,7 @@
                 <div class="style_save_c">Enregistrer</div>
             </div>
             {% endif %}
-            {% if save_food == product.product_name %}
+            {% if product.product_name in save_food %}
             <div>
                 <p><i class="fa fa-floppy-o" id="style_floppy" aria-hidden="true"></i>Enregistré</p>
             </div>
@@ -102,3 +108,4 @@
 {% endif %}
 
 {% endblock %}
+</html>
