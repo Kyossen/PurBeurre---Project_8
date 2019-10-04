@@ -1,23 +1,20 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 This import is obligatory for the good of the system
-"""
-
-from django import forms
-from django.forms.utils import ErrorList
-
-"""
 Here, all forms used by the platform
 These forms allow communication between a user and the system
 They use the text fields of the form type for this
 """
 
-"""
-The first one is a response error form
-I use this form for certain answers
-"""
+from django import forms
+from django.forms.utils import ErrorList
 
 
 class ParagraphErrorList(ErrorList):
+    """The first one is a response error form
+    I use this form for certain answers"""
     def __str__(self):
         return self.as_divs()
 
@@ -27,15 +24,9 @@ class ParagraphErrorList(ErrorList):
                ''.join(['<p class="small error">%s</p>' % e for e in self])
 
 
-"""
-Signup form is the form for sign up on the platform
-This form manage l'input of the user when this sign up
-This  use the tables user and account for don't have error,
-    like two users have a same email
-"""
-
-
 class SignupForm(forms.Form):
+    """Signup form is the form for sign up on the platform
+    This form manage l'input of the user when this sign up"""
     wordpass = forms.CharField(
         label='userWP',
         max_length=12,
@@ -84,15 +75,9 @@ class SignupForm(forms.Form):
         required=True)
 
 
-"""
-Connect form is the form for connect on the platform
-This form manage l'input of the user when this connect
-This  use the tables user and account for don't have error
-    like a fake email or empty input
-"""
-
-
 class ConnectForm(forms.Form):
+    """Connect form is the form for connect on the platform
+    This form manage l'input of the user when this connect"""
     wordpass = forms.CharField(
         label='userWP',
         max_length=12,
@@ -106,16 +91,10 @@ class ConnectForm(forms.Form):
         required=True)
 
 
-"""
-FoodForm form is the form for find food with
-    the API OpenFoodFact via the platform
-This form manage l'input of the user when this execute an find
-This use the API, input user and views file,
-    for don't have error like a fake food, empty input or a food don't exist
-"""
-
-
 class FoodForm(forms.Form):
+    """FoodForm form is the form for find food with
+    the API OpenFoodFact via the platform
+    This form manage l'input of the user when this execute an find"""
     food = forms.CharField(
         label='userFood',
         max_length=25,
