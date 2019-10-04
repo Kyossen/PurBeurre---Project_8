@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-This import is obligatory for the good of the system
+"""This import is obligatory for the good of the system
 Here, all forms used by the platform
 These forms allow communication between a user and the system
-They use the text fields of the form type for this
-"""
+They use the text fields of the form type for this"""
 
 from django import forms
 from django.forms.utils import ErrorList
