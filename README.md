@@ -13,6 +13,7 @@ La plateforme PurBeurre fonctionne à l'aide de l'API externe suivante:
 - Les indices nutrionnels varie entre "a" et "d" dans un ordre alphabétique.
 - Un utilisateur non inscrit ne pourra pas accéder à un enregistrement d'aliment en favoris.
 - La page description permet également d'accéder à la page officiel de l'aliment OpenFoodFact via son API, permettant d'avoir plus de détails en cas de nécessité.
+- Ce repos est pré-alablement configuré pour une mise en développement.
 
 ## Pré-requis:
 - Python 3.x
@@ -31,6 +32,11 @@ La plateforme PurBeurre fonctionne à l'aide de l'API externe suivante:
 - Installer "requirements.txt" -> pip install -r requirements.txt
 
 ### Troisième étape:
+#### Configurer les variables d'environnement
+- Ouvrer le fichier "settings.py" afin d'accéder à ces variables (exemple: os.environ.get('DB_PORT'))  
+PS: Set -> Windows & Export -> Linux
+
+### Quatrième étape:
 #### Sous Windows
 - python3 manage.py runserver
 #### Sous Linux
