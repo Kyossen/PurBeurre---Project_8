@@ -395,15 +395,18 @@ def check_food_save_result(request, list_products, context):
         # Get the food that user have saved
         food_all = Substitution.objects.filter(
             user=request.session['member_id'])
-        for food_save in food_all:
-            for product in list_products:
-                if 'product_name' in product:
-                    # Check if the saved food is a same that display
-                    if food_save.product == product['product_name']:
-                        list_food_save.append(food_save.product)
-                        context['save_food'] = list_food_save
-                    else:
-                        context['save_food'] = list_food_save
+        if len(food_all) == 0:
+            context['save_food'] = list_food_save
+        else:
+            for food_save in food_all:
+                for product in list_products:
+                    if 'product_name' in product:
+                        # Check if the saved food is a same that display
+                        if food_save.product == product['product_name']:
+                            list_food_save.append(food_save.product)
+                            context['save_food'] = list_food_save
+                        else:
+                            context['save_food'] = list_food_save
     if not request.user.is_authenticated:
         context['save_food'] = list_food_save
     if 'page' in request.GET:
