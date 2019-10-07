@@ -442,15 +442,15 @@ def description(request):
     official page via a link to the OpenFoodFacts API"""
     context = {}
     # Check if product is present in the url
-    if 'product' in request.GET:
-        product_name = request.GET
+    product_name = request.GET.get('product')
+    if product_name is not None and product_name != "":
         result_food = requests.get(
             "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-            product_name['product'] +
+            product_name +
             "&search_simple=1&json=1")
         response = result_food.json()
         if len(response['products']) != 0:
-            context['product_name'] = product_name['product']
+            context['product_name'] = product_name
             return description_result(request, response, context)
         else:
             context['error_description'] = "Nous n'avons pas d'informations " \
@@ -502,7 +502,8 @@ def description_result(request, r_description, context):
 def error_load_page(request, context):
     """Check if url of the description is valid or not
     If he is not valid, this method return a error"""
-    if request.GET == '/search/description.html?product=':
+    product_name = request.GET.get('product')
+    if product_name is None or product_name == "":
         context['error_description'] = \
             "Nous avons eu un problème, pouvez vous recommencer ? Merci."
         context['form_food'] = FoodForm()
@@ -632,7 +633,7 @@ def save_favorites(request, new_favorites, product):
     # If the user is not logged in
     else:
         data = {'error_food':
-                'Vous devez être connecté pour effectuer cette requête. Merci'}
+                'Vous devez être connecté pour effectuer cette enregistrement. Merci'}
         return JsonResponse(data)
 
 
