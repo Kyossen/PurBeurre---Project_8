@@ -318,28 +318,35 @@ def result_search_categories(request, r_result, list_products, context):
             # Read the answer from OpenFoodFact
             if len(r_substitution['products']) != 0:
                 for product_r in r_substitution['products']:
-                    if 'nutrition_grades' in product_r and\
-                            (product_r['nutrition_grades'] == "a"
-                             or product_r['nutrition_grades'] == "b"
-                             or product_r['nutrition_grades'] == "c"
-                             or product_r['nutrition_grades'] == "d"):
+                    if 'id' in product_r:
+                        id_s = requests.get(
+                            "https://world.openfoodfacts.org/api/v0/product/" +
+                            product_r['id'] + ".json")
+                        id_r = id_s.json()
+                        id_result = id_r['product']
+                        if 'nutrition_grades' in id_result and\
+                                (id_result['nutrition_grades'] == "a"
+                                 or id_result['nutrition_grades'] == "b"
+                                 or id_result['nutrition_grades'] == "c"
+                                 or id_result['nutrition_grades'] == "d"):
 
-                        if product_r not in list_products:
-                            list_products.append(product_r)
-                    context['product_result'] = list_products
+                            if id_result not in list_products:
+                                list_products.append(id_result)
+                        context['product_result'] = list_products
 
-                    # Create a pagination for users.
-                    paginator = Paginator(list_products, 6)
-                    page = request.GET.get('page', 1)
-                    nb_page = paginator.get_page(page)
-                    context['nb_page'] = nb_page
-                    context['product_result'] = paginator.page(page)
-            if i + 1 == len(r_result['categories_tags']):
-                form = FoodForm()
-                context['form_food'] = form
-                # Get user info for display of the results
-                return check_food_save_result(request, list_products, context)
-            i += 1
+                        # Create a pagination for users.
+                        paginator = Paginator(list_products, 6)
+                        page = request.GET.get('page', 1)
+                        nb_page = paginator.get_page(page)
+                        context['nb_page'] = nb_page
+                        context['product_result'] = paginator.page(page)
+                if i + 1 == len(r_result['categories_tags']):
+                    form = FoodForm()
+                    context['form_food'] = form
+                    # Get user info for display of the results
+                    return check_food_save_result(request,
+                                                  list_products, context)
+                i += 1
     else:
         return error_result(request, 'not_found')
 
@@ -360,14 +367,21 @@ def other_results_page(request, r_result, list_products, context):
             # Read the answer from OpenFoodFact
             if len(r_substitution['products']) != 0:
                 for product_r in r_substitution['products']:
-                    if 'nutrition_grades' in product_r and \
-                            (product_r['nutrition_grades'] == "a"
-                             or product_r['nutrition_grades'] == "b"
-                             or product_r['nutrition_grades'] == "c"
-                             or product_r['nutrition_grades'] == "d"):
+                    if 'id' in product_r:
+                        id_s = requests.get(
+                            "https://world.openfoodfacts.org/api/v0/product/" +
+                            product_r['id'] + ".json")
+                        id_r = id_s.json()
+                        id_result = id_r['product']
+                        if 'nutrition_grades' in id_result and \
+                                (id_result['nutrition_grades'] == "a"
+                                 or id_result['nutrition_grades'] == "b"
+                                 or id_result['nutrition_grades'] == "c"
+                                 or id_result['nutrition_grades'] == "d"):
 
-                        if product_r not in list_products:
-                            list_products.append(product_r)
+                            if id_result not in list_products:
+                                list_products.append(id_result)
+
                     context['product_result'] = list_products
                     a = 6 * int(page_nb) - 6
                     r = 6 * int(page_nb)
@@ -400,9 +414,10 @@ def check_food_save_result(request, list_products, context):
         else:
             for food_save in food_all:
                 for product in list_products:
-                    if 'product_name' in product:
+                    if 'product' in product:
+                        g_product = product['product']['product_name']
                         # Check if the saved food is a same that display
-                        if food_save.product == product['product_name']:
+                        if food_save.product == g_product:
                             list_food_save.append(food_save.product)
                             context['save_food'] = list_food_save
                         else:
@@ -442,15 +457,13 @@ def description(request):
     official page via a link to the OpenFoodFacts API"""
     context = {}
     # Check if product is present in the url
-    product_name = request.GET.get('product')
-    if product_name is not None and product_name != "":
-        result_food = requests.get(
-            "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-            product_name +
-            "&search_simple=1&json=1")
-        response = result_food.json()
-        if len(response['products']) != 0:
-            context['product_name'] = product_name
+    product_id = request.GET.get('product')
+    if product_id is not None and product_id != "":
+        p_id = requests.get("https://world.openfoodfacts.org/api/v0/product/" +
+                            product_id + ".json")
+        response = p_id.json()
+        if len(response['product']) != 0:
+            context['product_name'] = response['product']['product_name']
             return description_result(request, response, context)
         else:
             context['error_description'] = "Nous n'avons pas d'informations " \
@@ -464,39 +477,37 @@ def description(request):
 def description_result(request, r_description, context):
     """Browse the answer and get the information
             for display in page description.html"""
-    for result_des in r_description['products']:
-        if 'nutrition_grades' in result_des and \
-                (result_des['nutrition_grades'] == "a"
-                 or result_des['nutrition_grades'] == "b"
-                 or result_des['nutrition_grades'] == "c"
-                 or result_des['nutrition_grades'] == "d"):
-            context['product_score'] = result_des['nutrition_grades']
+    if 'nutrition_grades' in r_description['product'] and \
+            (r_description['product']['nutrition_grades'] == "a"
+             or r_description['product']['nutrition_grades'] == "b"
+             or r_description['product']['nutrition_grades'] == "c"
+             or r_description['product']['nutrition_grades'] == "d"):
+        context['product_score'] = r_description['product']['nutrition_grades']
 
-        if 'nutrition_grades' not in result_des:
-            result_des['nutrition_grades'] = "Désolé nous ne dispons" \
-                                                " pas d'indice nutritionnel" \
-                                                " pour cet aliment."
-            context['product_score'] = result_des['nutrition_grades']
-        if 'image_url' in result_des:
-            context['product_img'] = result_des['image_url']
-        if 'url' in result_des:
-            context['product_url'] = result_des['url']
+    if 'nutrition_grades' not in r_description['product']:
+        r_description['product']['nutrition_grades'] = \
+            "Nous ne dispons pas d'indice nutritionnel pour cet aliment."
+        context['product_score'] = r_description['product']['nutrition_grades']
+    if 'image_url' in r_description['product']:
+        context['product_img'] = r_description['product']['image_url']
+    if 'url' in r_description['product']:
+        context['product_url'] = r_description['product']['url']
 
-        if 'ingredients_text_fr' in result_des:
-            if result_des['ingredients_text_fr'] == '':
-                context['no_data'] = "Désolé nous ne dispons pas " \
-                                     "de repère nutritionnel pour cet aliment."
-            else:
-                context['product_nutrition_data_per'] = \
-                    result_des['ingredients_text_fr']
+    if 'ingredients_text_fr' in r_description['product']:
+        if r_description['product']['ingredients_text_fr'] == '':
+            context['no_data'] = "Désolé nous ne dispons pas " \
+                                 "de repère nutritionnel pour cet aliment."
+        else:
+            context['product_nutrition_data_per'] = \
+                r_description['product']['ingredients_text_fr']
 
-        if 'ingredients_text_fr' not in result_des:
-            result_des['ingredients_text_fr'] = context['no_data'] = \
-                "Désolé nous ne dispons pas de repère nutritionnel " \
-                "pour cet aliment."
+    if 'ingredients_text_fr' not in r_description['product']:
+        r_description['product']['ingredients_text_fr'] = \
+            context['no_data'] = "Désolé nous ne dispons pas de " \
+                                 "repère nutritionnel pour cet aliment."
 
-        context['form_food'] = FoodForm()
-        return render(request, 'search/description.html', context)
+    context['form_food'] = FoodForm()
+    return render(request, 'search/description.html', context)
 
 
 def error_load_page(request, context):
@@ -520,14 +531,13 @@ def favorites(request):
     She is also the method for run the view for display
     the favorites of the users"""
     context = {}
-    if 'product' in request.GET:
-        product_name = request.GET
-        result_food = requests.get(
-            "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
-            product_name['product'] +
-            "&search_simple=1&json=1")
-        response = result_food.json()
-        context['product_name'] = product_name['product']
+    product_id = request.GET.get('product')
+    if product_id is not None and product_id != "":
+        p_id = requests.get("https://world.openfoodfacts.org/api/v0/product/" +
+                            product_id + ".json")
+        response = p_id.json()
+        product_name = response['product']['product_name']
+        context['product_name'] = product_name
         return favorites_result(request, response, product_name, context)
 
     # If user open favorites page and not add favorites
@@ -556,13 +566,6 @@ def display_my_favorites(request, food):
     """Display my favorite is the method
     for display the favorites of the user"""
     context = {}
-    list_data = []
-    for food_display in food:
-        # Create a list for display the favorites
-        list_data.append({
-            'product': food_display.product,
-            'score': food_display.nutrition_grade,
-            'img': food_display.img_url})
     paginator = Paginator(food, 6)
     page = request.GET.get('page', 1)
     nb_page = paginator.get_page(page)
@@ -575,20 +578,23 @@ def display_my_favorites(request, food):
 def favorites_result(request, r_favorites, product, context):
     """Browse the answer and get the need information
     for add the favorite in database"""
-    if len(r_favorites['products']) != 0:
-        for new_favorites in r_favorites['products']:
-            if 'nutrition_grades' in new_favorites and \
-                    (new_favorites['nutrition_grades'] == "a"
-                     or new_favorites['nutrition_grades'] == "b"
-                     or new_favorites['nutrition_grades'] == "c"
-                     or new_favorites['nutrition_grades'] == "d"):
-                context['product_score'] = new_favorites['nutrition_grades']
-            if 'nutrition_grades' not in new_favorites:
-                new_favorites['nutrition_grades'] = ""
-            if 'image_url' in new_favorites:
-                context['product_img'] = new_favorites['image_url']
-            if 'image_url' not in new_favorites:
-                new_favorites['image_url'] = ""
+    if len(r_favorites['product']) != 0:
+        for add_favorites in r_favorites['product']:
+            if 'nutrition_grades' in r_favorites['product'] and \
+                    (r_favorites['product']['nutrition_grades'] == "a"
+                     or r_favorites['product']['nutrition_grades'] == "b"
+                     or r_favorites['product']['nutrition_grades'] == "c"
+                     or r_favorites['product']['nutrition_grades'] == "d"):
+                context['product_score'] =\
+                    r_favorites['product']['nutrition_grades']
+
+            if 'nutrition_grades' not in r_favorites['product']:
+                r_favorites['product']['nutrition_grades'] = ""
+            if 'image_url' in r_favorites['product']:
+                context['product_img'] = r_favorites['product']['image_url']
+            if 'image_url' not in r_favorites['product']:
+                r_favorites['product']['image_url'] = ""
+            new_favorites = r_favorites['product']
             return save_favorites(request, new_favorites, product)
     else:
         data = {'error_food': 'Suite à un incident technique nous ne '
@@ -609,7 +615,7 @@ def save_favorites(request, new_favorites, product):
         if len(food_all) != 0:
             for food_save in food_all:
                 # Create a list of his already added products
-                product_add = product['product']
+                product_add = product
                 list_save.append(food_save.product)
                 if product_add not in list_save:
                     list_for_save.append(product_add)
@@ -618,7 +624,7 @@ def save_favorites(request, new_favorites, product):
                             'Vous avez déjà enregistré cet aliment.'}
                     return JsonResponse(data)
         else:
-            product_add = product['product']
+            product_add = product
             if product_add not in list_save:
                 list_for_save.append(product_add)
         # Add the new product in the favorites products of user
@@ -626,14 +632,16 @@ def save_favorites(request, new_favorites, product):
             user_id=request.session['member_id'],
             product=list_for_save[0],
             nutrition_grade=new_favorites['nutrition_grades'],
-            img_url=new_favorites['image_url'])
+            img_url=new_favorites['image_url'],
+            code=new_favorites['code'])
         new_substitution_db.save()
         data = {'success_save': 'Enregistrement effectué.'}
         return JsonResponse(data)
     # If the user is not logged in
     else:
         data = {'error_food':
-                'Vous devez être connecté pour effectuer cette enregistrement. Merci'}
+                'Vous devez être connecté pour effectuer cette enregistrement.'
+                ' Merci'}
         return JsonResponse(data)
 
 
