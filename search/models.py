@@ -49,6 +49,9 @@ class Substitution(models.Model):
     img_url = models.CharField(max_length=255,
                                default=None,
                                null=False)
+    code = models.CharField(max_length=255,
+                            default=None,
+                            null=False)
 
     class Meta:
         managed = True
