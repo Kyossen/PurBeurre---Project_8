@@ -29,11 +29,11 @@
                         <div class="img_container">
                             <p class="nutrition_grades">{{ product.nutrition_grade }}</p>
                             {% if product.img_url %}
-                            <a href="/search/description.html?product={{ product.product }}"><img
+                            <a href="/search/description.html?product={{ product.code }}"><img
                                     src="{{ product.img_url }}"
                                     class="img_result" alt=""></a>
                             {% else %}
-                            <a href="/search/description.html?product={{ product.product_name }}">Nous sommes désolé.
+                            <a href="/search/description.html?product={{ product.code }}">Nous sommes désolé.
                                 Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
                             {% endif %}
                         </div>
