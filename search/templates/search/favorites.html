@@ -20,7 +20,7 @@
                 <p>{{ not_food }}</p>
                 {% endif %}
             </div>
-
+            {% if not not_food %}
             <div class="col-lg-10 align-self-end favorites_container">
                 <div class="container row container_result wrap" id="products_result">
                     {% for product in product_result %}
@@ -41,6 +41,7 @@
                     {% endfor %}
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </header>
