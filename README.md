@@ -38,10 +38,10 @@ PS: Set -> Windows & Export -> Linux
 
 ### Quatrième étape:
 #### Sous Windows
-- python3 init_db.py
+- python3 manage.py init_db.py
 - python3 manage.py runserver
 #### Sous Linux
-- ./init_db.py ou python3 init_db.py runserver
+- ./manage.py init_db.py ou python3 manage.py init_db.py runserver
 - ./manage.py runserver ou python3 manage.py runserver
 
 ### Dernière étape:
