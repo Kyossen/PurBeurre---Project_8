@@ -50,6 +50,10 @@ class Command(BaseCommand):
                             save['id'] + ".json")
                         id_r = id_s.json()
 
+                        url = "https://fr.openfoodfacts.org/" \
+                              "product/" + save['id'] + "/" +\
+                              save['product_name']
+
                         if 'product' in id_r:
                             save = id_r['product']
                             if 'product_name' in save:
@@ -71,10 +75,6 @@ class Command(BaseCommand):
                                 save['ingredients_text_fr'] = ''
 
                             if save['id'] not in all_Categories:
-                                url = "https://world.openfoodfacts.org/" \
-                                      "api/v0/product/" + save['id'] +\
-                                      save['product_name']
-
                                 Categories_id = \
                                     Categories.objects.get(pk=save_products.pk)
                                 a += 1
