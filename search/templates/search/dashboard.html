@@ -17,7 +17,8 @@
                     Tableau de bord</h2>
                 <div class="container">
                     <div class="mid_find_des">
-                        <img class="img_dash" src="../static/search/img/kawin-harasai-k60JspcBwKE-unsplash.jpg" alt="">
+                        {% load static %}
+                        <img class="img_dash" src="{% static 'search/img/P1.jpg' %}" alt="">
                         <div class="name_dash">
                             <p class="text_orange larger_size bold">Nom de famille:</p>
                             <p class="text_white larger_size">{{ lastname }}</p>
