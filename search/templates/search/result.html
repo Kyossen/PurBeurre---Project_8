@@ -56,27 +56,27 @@
 <div class="container row container_result wrap" id="products_result">
     {% for product in product_result %}
     <div class="result col-md-4">
-        <div class="product_result">{{ product.product.product_name }}</div>
+        <div class="product_result">{{ product.name }}</div>
 
         <div class="img_container">
-            <div class="nutrition_grades">{{ product.product.nutrition_grades }}</div>
-            {% if product.product.image_url %}
-            <a href="/search/description.html?product={{ product.product.code }}"><img
-                    src="{{ product.product.image_url }}"
+            <div class="nutrition_grades">{{ product.nutrition_grade }}</div>
+            {% if product.image_url != '' %}
+            <a href="/search/description.html?product={{ product.code }}"><img
+                    src="{{ product.image_url }}"
                     class="img_result"></a>
             {% else %}
-            <a href="/search/description.html?product={{ product.product.code }}">Nous sommes désolé.
+            <a href="/search/description.html?product={{ product.code }}">Nous sommes désolé.
                 Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
             {% endif %}
-            {% if product.product.product_name not in save_food %}
+            {% if product.name not in save_food %}
             <div class="button_save">
                 <button class="favorite styled button_save_style"
-                        type="button" id="check_saveFood" value="{{ product.product.code }}"><br/>
+                        type="button" id="check_saveFood" value="{{ product.code }}"><br/>
                 </button>
                 <div class="style_save_c">Enregistrer</div>
             </div>
             {% endif %}
-            {% if product.product.product_name in save_food %}
+            {% if product.name in save_food %}
             <div>
                 <p><i class="fa fa-floppy-o" id="style_floppy" aria-hidden="true"></i>Enregistré</p>
             </div>
