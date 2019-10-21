@@ -14,6 +14,7 @@ La plateforme PurBeurre fonctionne à l'aide de l'API externe suivante:
 - Un utilisateur non inscrit ne pourra pas accéder à un enregistrement d'aliment en favoris.
 - La page description permet également d'accéder à la page officiel de l'aliment OpenFoodFact via son API, permettant d'avoir plus de détails en cas de nécessité.
 - Ce repos est pré-alablement configuré pour une mise en développement.
+- Ce repos est pré-alablement configuré à l'utilisation de test avec "TestCase" et "Selenium". Il dispose également de "Coverage"
 
 ## Pré-requis:
 - Python 3.x
