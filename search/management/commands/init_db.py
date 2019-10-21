@@ -9,6 +9,8 @@ Imports of Django lib, is a base for well functioning"""
 
 
 # Import lib
+from json import JSONDecodeError
+
 import requests
 
 # Import file
@@ -42,7 +44,10 @@ class Command(BaseCommand):
             all_Categories = Categories.objects.all()
             for save_products in all_Categories:
                 result_products = requests.get(save_products.url + ".json")
-                response_products = result_products.json()
+                try:
+                    response_products = result_products.json()
+                except JSONDecodeError:
+                    continue
                 for save in response_products['products']:
                     if 'id' in save:
                         id_s = requests.get(
