@@ -17,7 +17,7 @@
                     Vos aliments sauvegardés:
                 </h2>
                 {% if not_food %}
-                <p>{{ not_food }}</p>
+                <p id="not_found">{{ not_food }}</p>
                 {% endif %}
             </div>
             {% if not not_food %}
@@ -31,7 +31,7 @@
                             {% if product.img_url %}
                             <a href="/search/description.html?product={{ product.code }}"><img
                                     src="{{ product.img_url }}"
-                                    class="img_result" alt=""></a>
+                                    class="img_result" id="img_favorites" alt=""></a>
                             {% else %}
                             <a href="/search/description.html?product={{ product.code }}">Nous sommes désolé.
                                 Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
