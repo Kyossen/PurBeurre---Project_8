@@ -23,6 +23,7 @@ La plateforme PurBeurre fonctionne à l'aide de l'API externe suivante:
 - HTML5
 - CSS3 & BootStrap
 - JavaScript & JQuery
+- GeckoDriver (Pour Selenium sous Windows)
 
 ## Utilisation:
 
