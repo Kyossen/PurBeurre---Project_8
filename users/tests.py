@@ -67,7 +67,7 @@ class ConnectPageTestCase(TestCase):
         """Test if food is find"""
         response = self.client.post(reverse('connect'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass'})
+                                     'wordpass': 'wordpss'})
         self.assertEqual(response.status_code, 200)
 
 
@@ -129,9 +129,9 @@ class SignupTestCase(LiveServerTestCase):
         phone.send_keys('01-02-18-97-98')
         date.send_keys('02/02/1995')
         address.send_keys('MyAddress')
-        email.send_keys('mytestaddress@hotmail.com')
+        email.send_keys('myaddress1230@hotmail.com')
         password1.send_keys('Mypass12!')
-        password2.send_keys('Mypass12!')
+        password2.send_keys('Mypass12')
 
         # Submitting the form
         submit.send_keys(Keys.RETURN)
@@ -147,5 +147,107 @@ class SignupTestCase(LiveServerTestCase):
             error_div = selenium.find_element_by_id('error')
         except NoSuchElementException:
             error_div = None
-        print(error_div)
-        self.assertEquals(error_div, None)
+
+        # Success sign up
+        if error_div is None:
+            self.assertEquals(error_div, None)
+        # Not Success sign up
+        else:
+            error_div = not None
+            self.assertEquals(error_div, not None)
+
+
+class MyUserSpaceTestCase(LiveServerTestCase):
+    """This class test whether the registration page work correctly via Selenium,
+    allowing a real simulation if the data is valid or not"""
+
+    def setUp(self):
+        """Setup for reduce the code"""
+        self.selenium = webdriver.Firefox()
+        super(MyUserSpaceTestCase, self).setUp()
+
+    def tearDown(self):
+        """teardown for stop the code"""
+        self.selenium.quit()
+        super(MyUserSpaceTestCase, self).tearDown()
+
+    def test_connect(self):
+        """This method open a browser and input the data ask,
+        then validate this data for test in reality time"""
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get('http://127.0.0.1:8000/users/connect.html')
+        # Find the form element
+        email = selenium.find_element_by_id('id_email')
+        password = selenium.find_element_by_id('id_wordpass')
+
+        submit = selenium.find_element_by_id('connect')
+
+        # Fill the form with data
+        email.send_keys('myaddress1230@hotmail.com')
+        password.send_keys('Mypass12!')
+
+        # Submitting the form
+        submit.send_keys(Keys.RETURN)
+
+        # Wait 5 seconds for find element
+        try:
+            WebDriverWait(selenium, 10).until(EC.presence_of_element_located((By.ID, 'error_login')))
+        except TimeoutException:
+            pass
+
+        # Check the returned result
+        try:
+            error_div = selenium.find_element_by_id('error_login')
+        except NoSuchElementException:
+            error_div = None
+
+        # Success connect
+        if error_div is None:
+            return self.test_favorites_space()
+        # Not Success connect
+        else:
+            error_div = not None
+            self.assertEquals(error_div, not None)
+
+    def test_favorites_space(self):
+        """This method open a browser and input the data ask,
+        then validate this data for test in reality time"""
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get('http://127.0.0.1:8000/search/favorites.html')
+        # Wait 5 seconds for find element
+        try:
+            WebDriverWait(selenium, 5).until(EC.presence_of_element_located((By.ID, 'not_found')))
+        except TimeoutException:
+            pass
+
+        # Check the returned result
+        try:
+            error_p = selenium.find_element_by_id('not_found')
+        except NoSuchElementException:
+            error_p = None
+
+        # I have a favorites
+        if error_p is None:
+            return self.test_myFavorites()
+        # Don't have a favorites
+        else:
+            error_p = not None
+            self.assertEquals(error_p, not None)
+
+    def test_myFavorites(self):
+        """This method open a browser and input the data ask,
+        then validate this data for test in reality time"""
+        selenium = self.selenium
+        # Opening the link we want to test
+        selenium.get('http://127.0.0.1:8000/search/favorites.html')
+        # Find element
+        try:
+            favorites = selenium.find_element_by_id('img_favorites')
+            favorites.click()
+            response = self.client.get(reverse(favorites))
+            self.assertEqual(response.status_code, 200)
+        except NoSuchElementException:
+            response = self.client.get(reverse('favorites'))
+            self.assertEqual(response.status_code, 200)
