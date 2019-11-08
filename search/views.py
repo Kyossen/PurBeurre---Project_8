@@ -138,7 +138,7 @@ def error_result(request, error):
         context['form_food'] = FoodForm()
         context['error_result'] = "Nous avons eu un problème, " \
                                   "pouvez vous recommencer ? Merci."
-        return render(request, 'search/result.html', context)
+        return render(request, 'search/result.html', context, status=401)
 
 
 def description(request):
