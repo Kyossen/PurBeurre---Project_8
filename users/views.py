@@ -62,11 +62,11 @@ def sign_up(request):
                 context['error'] = 'Cette adresse email est déjà utilisée.'
         else:
             context['errors'] = form.errors.items()
+            return render(request, 'search/sign_up.html', context, status=401)
     else:
         # GET method. Create a new form to be used in the template.
         form = SignupForm()
-    form_food = FoodForm()
-    context['form_food'] = form_food
+    context['form_food'] = FoodForm()
     context['form'] = form
     return render(request, 'search/sign_up.html', context)
 
@@ -76,29 +76,25 @@ def validate_signup(request, data):
     if data['password'] == data['password_2']:
         # Check if the special character in the password is present
         exclude = set(string.punctuation)
-        for ch in exclude:
-            if ch in data['password']:
-                # Check if length of the datas is good
-                if 12 >= len(data['password']) >= 6:
-                    nb_list = ['1', '2', '3', '4', '5',
-                               '6', '7', '8', '9', '0']
-                    for nb in data['password']:
-                        if nb in nb_list:
-                            if 17 >= len(data['phone']) >= 10:
-                                if 25 >= len(data['address']) >= 1:
-                                    return save_user(request, data)
-                                else:
-                                    return errors_signup(request, 'lng_a')
-                            else:
-                                return errors_signup(request, 'nb_p')
-                    else:
-                        return errors_signup(request, 'nb')
-                else:
-                    return errors_signup(request, 'lng')
-        else:
+        if exclude not in data['password']:
             return errors_signup(request, 'ch')
+            # Check if length of the datas is good
+        if 12 < len(data['password']) < 6:
+            return errors_signup(request, 'lng')
+        if not hasNumbers(data['password']):
+            return errors_signup(request, 'nb')
+        if 17 < len(data['phone']) < 10:
+            return errors_signup(request, 'nb_p')
+        if 25 < len(data['address']) < 1:
+            return errors_signup(request, 'lng_a')
+        return save_user(request, data)
     else:
         return errors_signup(request, 'p_e')
+
+
+def hasNumbers(inputString):
+    """This method searches whether a string contains a number or not"""
+    return any(char.isdigit() for char in inputString)
 
 
 def errors_signup(request, error):
@@ -122,7 +118,7 @@ def errors_signup(request, error):
         context['error'] = 'Veuillez entrer une adresse valide.'
     context['form_food'] = FoodForm()
     context['form'] = SignupForm()
-    return render(request, 'search/sign_up.html', context)
+    return render(request, 'search/sign_up.html', context, status=401)
 
 
 def save_user(request, data):
@@ -193,7 +189,7 @@ def check_connect(request, data):
         context['form'] = ConnectForm()
         context['form_food'] = FoodForm()
         context['error_login'] = "Adresse email et/ou mot de passe incorrect"
-        return render(request, 'search/connect.html', context)
+        return render(request, 'search/connect.html', context, status=401)
 
 
 def dashboard(request):
