@@ -27,9 +27,9 @@ class SignupPageTestCase(TestCase):
     def test_signup_page_success_returns_200(self):
         """Test if good info"""
         response = self.client.post(reverse('sign_up'),
-                                    {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass',
-                                     'wordpass_2': 'wordpass',
+                                    {'email': 'test5@hotmail.fr',
+                                     'wordpass': 'wordpass2!',
+                                     'wordpass_2': 'wordpass2!',
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
@@ -37,18 +37,83 @@ class SignupPageTestCase(TestCase):
                                      'address': 'address'})
         self.assertEqual(response.status_code, 200)
 
-    def test_signup_page_notSuccess_returns_200(self):
+    def test_wordpass_returns_401(self):
         """Test if not good info"""
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass',
+                                     'wordpass': 'wordpass2',
                                      'wordpass_2': 'wordpass2',
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_b': '19/02/1995',
                                      'address': 'address'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
+
+    def test_wordpass2_returns_401(self):
+        """Test if not good info"""
+        response = self.client.post(reverse('sign_up'),
+                                    {'email': 'test@hotmail.fr',
+                                     'wordpass': 'wordpass!',
+                                     'wordpass_2': 'wordpass!',
+                                     'name': 'name',
+                                     'surname': 'surname',
+                                     'phone': '02-01-02-01-02',
+                                     'date_b': '19/02/1995',
+                                     'address': 'address'})
+        self.assertEqual(response.status_code, 401)
+
+    def test_wordpass3_returns_401(self):
+        """Test if not good info"""
+        response = self.client.post(reverse('sign_up'),
+                                    {'email': 'test@hotmail.fr',
+                                     'wordpass': 'wordxcxcxcpass2!',
+                                     'wordpass_2': 'wordxcxcxcpass2!',
+                                     'name': 'name',
+                                     'surname': 'surname',
+                                     'phone': '02-01-02-01-02',
+                                     'date_b': '19/02/1995',
+                                     'address': 'address'})
+        self.assertEqual(response.status_code, 401)
+
+    def test_phoneFalse_returns_401(self):
+        """Test if not good info"""
+        response = self.client.post(reverse('sign_up'),
+                                    {'email': 'testhotmail.fr',
+                                     'wordpass': 'wordpass2!',
+                                     'wordpass_2': 'wordpass2!',
+                                     'name': 'name',
+                                     'surname': 'surname',
+                                     'phone': '02-01-02-01-02-05-18',
+                                     'date_b': '19/02/1995',
+                                     'address': 'address'})
+        self.assertEqual(response.status_code, 401)
+
+    def test_dateFalse_returns_401(self):
+        """Test if not good info"""
+        response = self.client.post(reverse('sign_up'),
+                                    {'email': 'testhotmail.fr',
+                                     'wordpass': 'wordpass2!',
+                                     'wordpass_2': 'wordpass2!',
+                                     'name': 'name',
+                                     'surname': 'surname',
+                                     'phone': '02-01-02-01-02',
+                                     'date_b': '19-02-1995',
+                                     'address': 'address'})
+        self.assertEqual(response.status_code, 401)
+
+    def test_addressFalse_returns_401(self):
+        """Test if not good info"""
+        response = self.client.post(reverse('sign_up'),
+                                    {'email': 'testhotmail.fr',
+                                     'wordpass': 'wordpass2!',
+                                     'wordpass_2': 'wordpass2!',
+                                     'name': 'name',
+                                     'surname': 'surname',
+                                     'phone': '02-01-02-01-02',
+                                     'date_b': '19/02/1995',
+                                     'address': 'addresstjfjftjtjyjhbjrtyrgr'})
+        self.assertEqual(response.status_code, 401)
 
 
 class ConnectPageTestCase(TestCase):
@@ -60,15 +125,15 @@ class ConnectPageTestCase(TestCase):
         """Test if good info"""
         response = self.client.post(reverse('connect'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass'})
+                                     'wordpass': 'wordpass2*'})
         self.assertEqual(response.status_code, 200)
 
-    def test_login_page_notSuccess_returns_200(self):
-        """Test if food is find"""
+    def test_wordpassFalse_returns_401(self):
+        """Test if not good info"""
         response = self.client.post(reverse('connect'),
                                     {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordpss'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
 
 
 class DashboardPageTestCase(TestCase):
@@ -77,6 +142,7 @@ class DashboardPageTestCase(TestCase):
     the view choose where is redirect the user"""
 
     def test_dashboard_page_returns_200(self):
+        """test if user is redirected well to page"""
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 200)
 
@@ -87,6 +153,7 @@ class FavoritesUserPageTestCase(TestCase):
     the view choose where is redirect the user"""
 
     def test_favoritesUser_page_return_200(self):
+        """test if user is redirected well to page"""
         response = self.client.get(reverse('favorites'))
         self.assertEqual(response.status_code, 200)
 
@@ -138,7 +205,8 @@ class SignupTestCase(LiveServerTestCase):
 
         # Wait 5 seconds for find element
         try:
-            WebDriverWait(selenium, 5).until(EC.presence_of_element_located((By.ID, 'error')))
+            WebDriverWait(selenium, 5).until(
+                EC.presence_of_element_located((By.ID, 'error')))
         except TimeoutException:
             pass
 
@@ -192,7 +260,8 @@ class MyUserSpaceTestCase(LiveServerTestCase):
 
         # Wait 5 seconds for find element
         try:
-            WebDriverWait(selenium, 10).until(EC.presence_of_element_located((By.ID, 'error_login')))
+            WebDriverWait(selenium, 10).until(
+                EC.presence_of_element_located((By.ID, 'error_login')))
         except TimeoutException:
             pass
 
@@ -218,7 +287,8 @@ class MyUserSpaceTestCase(LiveServerTestCase):
         selenium.get('http://127.0.0.1:8000/search/favorites.html')
         # Wait 5 seconds for find element
         try:
-            WebDriverWait(selenium, 5).until(EC.presence_of_element_located((By.ID, 'not_found')))
+            WebDriverWait(selenium, 5).until(
+                EC.presence_of_element_located((By.ID, 'not_found')))
         except TimeoutException:
             pass
 
