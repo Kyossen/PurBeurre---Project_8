@@ -49,7 +49,7 @@ class ResultPageTestCase(TestCase):
     def test_result_page_returns_notExist(self):
         """Test if food not is find or not exist"""
         response = self.client.post(reverse('result'), {'food': 'NotExist'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
 
 
 class DescriptionPageTestCase(TestCase):
@@ -104,3 +104,6 @@ class FavoritesPageTestCase(TestCase):
         response = self.client.get(reverse('favorites'),
                                    {'product': 'BadCode'})
         self.assertEqual(response.status_code, 200)
+
+
+
