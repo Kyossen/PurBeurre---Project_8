@@ -5,9 +5,9 @@
 This below, the somes test of the platform for users app"""
 
 # Import Django
-
+from django.contrib.auth.models import User
 from django.urls import reverse
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.test import LiveServerTestCase
 
 # Import Selenium
@@ -18,27 +18,63 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
+# Import files
+from users.models import Account
+from users.views import dashboard
+
 
 class SignupPageTestCase(TestCase):
     """This class tests whether the registration page
     returns a 200 status code if the information
     on the user is good or not"""
 
+    def test_get_signUP_page(self):
+        """This a little test for get the signup page"""
+        print('Test for get a signup page.')
+        response = self.client.get(reverse('sign_up'))
+        self.assertEqual(response.status_code, 200)
+
     def test_signup_page_success_returns_200(self):
         """Test if good info"""
+        print("The Test for sign up to the plateforme.")
         response = self.client.post(reverse('sign_up'),
-                                    {'email': 'test5@hotmail.fr',
+                                    {'email': 'test50@hotmail.fr',
                                      'wordpass': 'wordpass2!',
                                      'wordpass_2': 'wordpass2!',
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
-                                     'date_b': '19/02/1995',
-                                     'address': 'address'})
+                                     'date_of_birth': '19/02/1995',
+                                     'postal_address': 'address'})
         self.assertEqual(response.status_code, 200)
 
-    def test_wordpass_returns_401(self):
-        """Test if not good info"""
+    def test_signup_page_emailFalse_returns_401(self):
+        """Test if not good email"""
+        print("Test for a fake email.")
+        response = self.client.post(reverse('sign_up'),
+                                    {'email': 'test500@hotmail.fr',
+                                     'wordpass': 'wordpass2!',
+                                     'wordpass_2': 'wordpass2!',
+                                     'name': 'name',
+                                     'surname': 'surname',
+                                     'phone': '02-01-02-01-02',
+                                     'date_of_birth': '19/02/1995',
+                                     'postal_address': 'address'})
+
+        response_2 = self.client.post(reverse('sign_up'),
+                                      {'email': 'test500@hotmail.fr',
+                                       'wordpass': 'wordpass2!',
+                                       'wordpass_2': 'wordpass2!',
+                                       'name': 'name',
+                                       'surname': 'surname',
+                                       'phone': '02-01-02-01-02',
+                                       'date_of_birth': '19/02/1995',
+                                       'postal_address': 'address'})
+        self.assertEqual(response_2.status_code, 401)
+
+    def test_password_returns_401(self):
+        """Test if not good password"""
+        print("First test for a fake password. First test.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordpass2',
@@ -46,12 +82,13 @@ class SignupPageTestCase(TestCase):
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
-                                     'date_b': '19/02/1995',
-                                     'address': 'address'})
+                                     'date_of_birth': '19/02/1995',
+                                     'postal_address': 'address'})
         self.assertEqual(response.status_code, 401)
 
-    def test_wordpass2_returns_401(self):
-        """Test if not good info"""
+    def test_password2_returns_401(self):
+        """Test if not good password"""
+        print("First test for a fake password. Second test.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordpass!',
@@ -59,12 +96,13 @@ class SignupPageTestCase(TestCase):
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
-                                     'date_b': '19/02/1995',
-                                     'address': 'address'})
+                                     'date_of_birth': '19/02/1995',
+                                     'postal_address': 'address'})
         self.assertEqual(response.status_code, 401)
 
-    def test_wordpass3_returns_401(self):
-        """Test if not good info"""
+    def test_password3_returns_401(self):
+        """Test if not good password"""
+        print("First test for a fake password. Third test.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordxcxcxcpass2!',
@@ -72,46 +110,49 @@ class SignupPageTestCase(TestCase):
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
-                                     'date_b': '19/02/1995',
-                                     'address': 'address'})
+                                     'date_of_birth': '19/02/1995',
+                                     'postal_address': 'address'})
         self.assertEqual(response.status_code, 401)
 
     def test_phoneFalse_returns_401(self):
-        """Test if not good info"""
+        """Test if not good number phone"""
+        print("Test for a fake a number phone")
         response = self.client.post(reverse('sign_up'),
-                                    {'email': 'testhotmail.fr',
+                                    {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordpass2!',
                                      'wordpass_2': 'wordpass2!',
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02-05-18',
-                                     'date_b': '19/02/1995',
-                                     'address': 'address'})
+                                     'date_of_birth': '19/02/1995',
+                                     'postal_address': 'address'})
         self.assertEqual(response.status_code, 401)
 
     def test_dateFalse_returns_401(self):
-        """Test if not good info"""
+        """Test if not good birth data"""
+        print("Test if not good birth data")
         response = self.client.post(reverse('sign_up'),
-                                    {'email': 'testhotmail.fr',
+                                    {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordpass2!',
                                      'wordpass_2': 'wordpass2!',
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
-                                     'date_b': '19-02-1995',
-                                     'address': 'address'})
+                                     'date_of_birth': '19-02-1995',
+                                     'postal_address': 'address'})
         self.assertEqual(response.status_code, 401)
 
     def test_addressFalse_returns_401(self):
-        """Test if not good info"""
+        """Test if not good address"""
+        print("Test if not good address")
         response = self.client.post(reverse('sign_up'),
-                                    {'email': 'testhotmail.fr',
+                                    {'email': 'test@hotmail.fr',
                                      'wordpass': 'wordpass2!',
                                      'wordpass_2': 'wordpass2!',
                                      'name': 'name',
                                      'surname': 'surname',
                                      'phone': '02-01-02-01-02',
-                                     'date_b': '19/02/1995',
+                                     'date_of_birth': '19/02/1995',
                                      'address': 'addresstjfjftjtjyjhbjrtyrgr'})
         self.assertEqual(response.status_code, 401)
 
@@ -121,29 +162,100 @@ class ConnectPageTestCase(TestCase):
     returns a 200 status code if the information
     on the user is good or not"""
 
-    def test_login_page_success_returns_200(self):
+    def test_login_page_success_returns_302(self):
         """Test if good info"""
+        print("Test for the connect")
+        self.client.post(reverse('sign_up'),
+                         {'email': 'test51@hotmail.fr',
+                          'wordpass': 'wordpass2!',
+                          'wordpass_2': 'wordpass2!',
+                          'name': 'name',
+                          'surname': 'surname',
+                          'phone': '02-01-02-01-02',
+                          'date_of_birth': '19/02/1995',
+                          'postal_address': 'address'})
+
         response = self.client.post(reverse('connect'),
-                                    {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass2*'})
-        self.assertEqual(response.status_code, 200)
+                                    {'email': 'test51@hotmail.fr',
+                                     'wordpass': 'wordpass2!'})
+        self.assertEqual(response.status_code, 302)
 
     def test_wordpassFalse_returns_401(self):
-        """Test if not good info"""
+        """Test for a connect not valid -> A bad password"""
+        print("Test for a connect not valid -> A bad password")
         response = self.client.post(reverse('connect'),
                                     {'email': 'test@hotmail.fr',
+                                     'wordpass': 'wordpss'})
+        self.assertEqual(response.status_code, 401)
+
+    def test_emailFalse_returns_401(self):
+        """Test for a connect not valid -> A bad email"""
+        print("Test for a connect not valid -> A bad email")
+        response = self.client.post(reverse('connect'),
+                                    {'email': 'testhotmail.fr',
                                      'wordpass': 'wordpss'})
         self.assertEqual(response.status_code, 401)
 
 
 class DashboardPageTestCase(TestCase):
     """This class tests whether the dashboard page
-    returns a 200 status code if user is connect or not,
-    the view choose where is redirect the user"""
+    returns a 200 status code if user is connect
+    or not with The setup method"""
+
+    def setUp(self):
+        """This method is the setup for add a user in
+        the test and a request factory"""
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(first_name='toto',
+                                             last_name='titi',
+                                             username='Toto@hotmail.fr',
+                                             email='Toto@hotmail.fr',
+                                             password='toto123')
+        Account.objects.create(user=self.user,
+                               phone='01-01-01-01-02',
+                               date_of_birth='1995-12-03',
+                               postal_address='Totoland')
 
     def test_dashboard_page_returns_200(self):
-        """test if user is redirected well to page"""
-        response = self.client.get(reverse('dashboard'))
+        """ Test if the user is redirected to the page and
+        the database retrieves the data using the above method"""
+        print("Test dashboard with a user connected")
+        request = self.factory.get(reverse('dashboard'))
+        request.user = self.user
+        response = dashboard(request)
+        self.assertEqual(response.status_code, 200)
+
+
+class DisconnectPageTestCase(TestCase):
+    """This class tests whether the user is redirected
+    to the index (home page) after asking for the disconnect."""
+
+    def setUp(self):
+        """This method is the setup for add a user in
+        the test and a request factory"""
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(first_name='toto',
+                                             last_name='titi',
+                                             username='Toto1@hotmail.fr',
+                                             email='Toto1@hotmail.fr',
+                                             password='toto123')
+        Account.objects.create(user=self.user,
+                               phone='01-01-01-01-02',
+                               date_of_birth='1995-12-03',
+                               postal_address='Totoland')
+
+    def test_disconnectUser_page_returns_200(self):
+        """Test if user is redirected to the home page"""
+        print("Test disconnect a user -> return 200")
+        request = self.factory.get(reverse('disconnect'))
+        request.user = self.user
+        response = dashboard(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_disconnect_page_returns_200(self):
+        """Test if user is redirected well to page"""
+        print("Test disconnect -> return 200")
+        response = self.client.get(reverse('disconnect'))
         self.assertEqual(response.status_code, 200)
 
 
@@ -154,6 +266,7 @@ class FavoritesUserPageTestCase(TestCase):
 
     def test_favoritesUser_page_return_200(self):
         """test if user is redirected well to page"""
+        print("Test the favorites page")
         response = self.client.get(reverse('favorites'))
         self.assertEqual(response.status_code, 200)
 
