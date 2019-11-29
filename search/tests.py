@@ -104,6 +104,3 @@ class FavoritesPageTestCase(TestCase):
         response = self.client.get(reverse('favorites'),
                                    {'product': 'BadCode'})
         self.assertEqual(response.status_code, 200)
-
-
-
