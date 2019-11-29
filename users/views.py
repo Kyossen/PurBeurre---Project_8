@@ -60,6 +60,7 @@ def sign_up(request):
                 return validate_signup(request, data)
             else:
                 context['error'] = 'Cette adresse email est déjà utilisée.'
+                return render(request, 'search/sign_up.html', context, status=401)
         else:
             context['errors'] = form.errors.items()
             return render(request, 'search/sign_up.html', context, status=401)
@@ -75,10 +76,10 @@ def validate_signup(request, data):
     """Valid sign up is the function for check data input the user"""
     if data['password'] == data['password_2']:
         # Check if the special character in the password is present
-        exclude = set(string.punctuation)
-        if exclude not in data['password']:
+        exclude = list(string.punctuation)
+        if not any(punc in data['password'] for punc in exclude):
             return errors_signup(request, 'ch')
-            # Check if length of the datas is good
+        # Check if length of the data is good
         if 12 < len(data['password']) < 6:
             return errors_signup(request, 'lng')
         if not hasNumbers(data['password']):
@@ -130,6 +131,7 @@ def save_user(request, data):
     new_user_db = User.objects.create_user(first_name=data['name'],
                                            last_name=data['surname'],
                                            username=data['email'],
+                                           email=data['email'],
                                            password=data['password'])
     new_account_db = Account(user=new_user_db,
                              phone=data['phone'],
@@ -139,7 +141,7 @@ def save_user(request, data):
     new_account_db.save()
     context['form_food'] = FoodForm()
     context['form'] = ConnectForm()
-    return render(request, 'search/connect.html', context)
+    return render(request, 'search/connect.html', context, status=200)
 
 
 def connect(request):
@@ -159,6 +161,7 @@ def connect(request):
                 return check_connect(request, data)
             else:
                 context['errors'] = form.errors.items()
+                return render(request, 'search/connect.html', context, status=401)
         else:
             form = ConnectForm()
         context['form'] = form
@@ -200,23 +203,17 @@ def dashboard(request):
         return render(request, 'search/connect.html', context)
     else:
         # Find the user in all users
-        user_all = User.objects.all()
-        user_currently = request.session['member_id']
-        for info in user_all:
-            if user_currently == info.pk:
-                context['username'] = info.username
-                context['firstname'] = info.first_name
-                context['lastname'] = info.last_name
-                all_account = Account.objects.all()
-                # Get all information the user
-                for info_next in all_account:
-                    if user_currently == info_next.user_id:
-                        context['phone'] = info_next.phone
-                        context['date_of_birth'] = info_next.date_of_birth
-                        context['postal_address'] = info_next.postal_address
-                        context['form_food'] = FoodForm()
-                        return render(request, 'search/dashboard.html',
-                                      context)
+        user = request.user
+        context['username'] = user.username
+        context['firstname'] = user.first_name
+        context['lastname'] = user.last_name
+        # Get all information the user
+        context['phone'] = user.account.phone
+        context['date_of_birth'] = user.account.date_of_birth
+        context['postal_address'] = user.account.postal_address
+        context['form_food'] = FoodForm()
+        return render(request, 'search/dashboard.html',
+                      context)
 
 
 def disconnect(request, template_name='search/index.html'):
@@ -241,7 +238,7 @@ def favorites_user(request):
     display of the favorites"""
     context = {}
     food_all = Substitution.objects.filter(
-        user__id=request.session['member_id'])
+        user__id=request.user.id)
     # Check if user have already added of the favorites
     if len(food_all) != 0:
         return display_my_favorites(request, food_all)
