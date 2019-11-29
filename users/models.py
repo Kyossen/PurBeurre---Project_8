@@ -13,10 +13,10 @@ class Account(models.Model):
     She create a foreign key on the User table
     This key is used to add objects (such as a phone number)
     to the user in the User table."""
-    user = models.ForeignKey(User, on_delete=models.CASCADE,
-                             related_name="User",
-                             default=None,
-                             null=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,
+                                related_name="account",
+                                default=None,
+                                null=False)
     phone = models.CharField(max_length=17,
                              default=None,
                              null=False)
@@ -37,7 +37,7 @@ class Substitution(models.Model):
     It also create a foreign key on the User table
     This key is used to add a substitution"""
     user = models.ForeignKey(User, on_delete=models.CASCADE,
-                             related_name="Account",
+                             related_name="substitutions",
                              default=None,
                              null=False)
     product = models.CharField(max_length=255,
