@@ -9,45 +9,45 @@
 
 {% block content %}
 
-<header class="masthead">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center justify-content-center text-center">
-            <div class="col-lg-10 align-self-end">
-                <h2 class="text-uppercase text-white font-weight-bold">
-                    Tableau de bord</h2>
-                <div class="container">
-                    <div class="mid_find_des">
-                        {% load static %}
-                        <img class="img_dash" src="{% static 'search/img/P1.jpg' %}" alt="">
-                        <div class="name_dash">
-                            <p class="text_orange larger_size bold">Nom de famille:</p>
-                            <p class="text_white larger_size">{{ lastname }}</p>
-                            <p class="text_orange larger_size bold">Prénom:</p>
-                            <p class="text_white larger_size">{{ firstname }}</p>
+    <header class="masthead">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 align-self-end">
+                    <h2 class="text-uppercase text-white font-weight-bold">
+                        Tableau de bord</h2>
+                    <div class="container">
+                        <div class="mid_find_des">
+                            {% load static %}
+                            <img class="img_dash" src="{% static 'search/img/P1.jpg' %}" alt="">
+                            <div class="name_dash">
+                                <p class="text_orange larger_size bold">Nom de famille:</p>
+                                <p class="text_white larger_size">{{ lastname }}</p>
+                                <p class="text_orange larger_size bold">Prénom:</p>
+                                <p class="text_white larger_size">{{ firstname }}</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="another_info_dash row">
-                        <div class="col-md-6 col-sm-6">
-                            <p class="text_sup text_orange larger_size bold">Adresse email:</p>
-                            <p class="text_below larger_size text_white">{{ username }}</p>
+                        <div class="another_info_dash row">
+                            <div class="col-md-6 col-sm-6">
+                                <p class="text_sup text_orange larger_size bold">Adresse email:</p>
+                                <p class="text_below larger_size text_white">{{ email }}</p>
 
-                            <p class="text_sup text_orange larger_size bold">Numéro de téléphone: </p>
-                            <p class="text_below larger_size text_white">{{ phone }}</p>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
+                                <p class="text_sup text_orange larger_size bold">Numéro de téléphone: </p>
+                                <p class="text_below larger_size text_white">{{ phone }}</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
 
-                            <p class="text_sup text_orange larger_size bold">Date de naissance: </p>
-                            <p class="text_below larger_size text_white">{{ date_of_birth }}</p>
+                                <p class="text_sup text_orange larger_size bold">Date de naissance: </p>
+                                <p class="text_below larger_size text_white">{{ date_of_birth }}</p>
 
-                            <p class="text_sup text_orange larger_size bold">Adresse postal: </p>
-                            <p class="text_below larger_size text_white">{{ postal_address }}</p>
+                                <p class="text_sup text_orange larger_size bold">Adresse postal: </p>
+                                <p class="text_below larger_size text_white">{{ postal_address }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 {% endblock %}
 </html>
