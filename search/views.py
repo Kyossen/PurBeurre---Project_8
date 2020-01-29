@@ -65,7 +65,7 @@ def result_search(request, food, list_products):
     """This function is used for get information
     on the food in the database with a filter"""
     context = {}
-    food = Product.objects.filter(name=food)
+    food = Product.objects.filter(name__icontains=food)
     for food_result in food:
         context['name_result'] = food_result.name
         context['img_result'] = food_result.image_url
@@ -108,7 +108,7 @@ def check_food_save_result(request, list_products, context):
     if request.user.is_authenticated:
         # Get the food that user have saved
         food_all = Substitution.objects.filter(
-            user=request.session['member_id'])
+            user=request.user)
         if len(food_all) == 0:
             context['save_food'] = list_food_save
         else:
