@@ -7,7 +7,6 @@ Imports of files, they are important for
 this view file because it gives access to forms and templates
 Imports of Django lib, is a base for well functioning"""
 
-
 # Import lib
 from json import JSONDecodeError
 
@@ -22,7 +21,7 @@ class Command(BaseCommand):
     """This class use a one method only for the imports in the database.
     This imports are the imports of the products and categories
     such category name or product name"""
-    help = "Carries out my custom admin function"
+    help = "Command to initialize the database"
 
     def handle(self, *args, **options):
         list_total_products = []
@@ -57,16 +56,10 @@ class Command(BaseCommand):
 
                         if 'product' in id_r:
                             save = id_r['product']
-                            if 'product_name' in save:
-                                pass
                             if 'product_name' not in save:
                                 save['product_name'] = ''
-                            if 'nutrition_grades' in save:
-                                pass
                             if 'nutrition_grades' not in save:
                                 save['nutrition_grades'] = ''
-                            if 'image_url' in save:
-                                pass
                             if 'image_url' not in save:
                                 save['image_url'] = ''
                             if 'ingredients_text_fr' in save:
