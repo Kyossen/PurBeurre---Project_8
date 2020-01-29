@@ -9,79 +9,41 @@
 
 {% block content %}
 
-<header class="masthead resize-page">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center justify-content-center text-center">
-            <div class="col-lg-10 container">
-                <h2 class="text-white-75 font-weight-light mb-5">
-                    Inscription:
-                </h2>
-                <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find container row signUP_style"
-                      action="{% url 'sign_up' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="pull-right mid_find col-md-3">
-                        <div class="form-group {% if form.userEmail.errors %}has-warning has-feedback{% endif %} champs_signUP">
-                            <p class="email">Adresse email:</p>
-                            <label for="{{ form.userEmail.id_for_label }}">
-                                {{ form.email }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Mot de passe:</p>
-                            <label for="{{ form.userWP.id_for_label }}">
-                                {{ form.wordpass }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Mot de passe vérification:</p>
-                            <label for="{{ form.userWP.id_for_label }}">
-                                {{ form.wordpass_2 }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Nom de famille:</p>
-                            <label for="{{ form.userName.id_for_label }}">
-                                {{ form.surname }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Prénom:</p>
-                            <label for="{{ form.userSurname.id_for_label }}">
-                                {{ form.name }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Numéro de téléphone:</p>
-                            <label for="{{ form.userPhone.id_for_label }}">
-                                {{ form.phone }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Date de naissance:</p>
-                            <label for="{{ form.userDate_of_birth.id_for_label }}">
-                                {{ form.date_of_birth }}
-                        </div>
-                        <div class="form-group champs_signUP">
-                            <p class="pad_top">Adresse postal:</p>
-                            <label for="{{ form.userPostal_address.id_for_label }}">
-                                {{ form.postal_address }}
-                        </div>
-                        <button class="btn btn-primary btn-xs js-scroll-trigger button_signup" id="register">S'inscrire !</button>
-                    </div>
-                </form>
+    <header class="masthead resize-page">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 container">
+                    <h2 class="text-white-75 font-weight-light mb-5">
+                        Inscription:
+                    </h2>
+                    <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find container row signUP_style"
+                          action="{% url 'sign_up' %}" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-primary btn-xs js-scroll-trigger button_signup" id="register">S'inscrire
+                            !
+                        </button>
 
-                {% if errors %}
-                <div>
-                    {% for key, error in errors %}
-                    {% autoescape off %}
-                    {{ error }}
-                    {% endautoescape %}
-                    {% endfor %}
+                    </form>
+
+                    {% if errors %}
+                        <div>
+                            {% for key, error in errors %}
+                                {% autoescape off %}
+                                    {{ error }}
+                                {% endautoescape %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% if error %}
+                        <div id="error">
+                            <p>{{ error }}<br/></p>
+                        </div>
+                    {% endif %}
+
                 </div>
-                {% endif %}
-
-                {% if error %}
-                <div id="error">
-                    <p>{{ error }}<br/></p>
-                </div>
-                {%endif %}
-
             </div>
-        </div>
-</header>
+    </header>
 {% endblock %}
 </html>
