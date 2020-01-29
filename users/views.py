@@ -9,139 +9,52 @@ Imports of Django lib, is a base for well functioning"""
 
 
 # Import lib
-import string
 import time
 
 # Import Django
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.core.paginator import Paginator
 
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 
 # Import file
 from search.forms import FoodForm
-from .models import Substitution, Account
-from .forms import SignupForm, ConnectForm, ParagraphErrorList
+from .models import Substitution
+from .forms import ConnectForm, ParagraphErrorList, UserCreationForm
 
 
 def sign_up(request):
     """Sing_up function is the function for allow a user on sign up"""
     context = {}
     if request.method == 'POST':
-        form = SignupForm(request.POST, error_class=ParagraphErrorList)
+        form = UserCreationForm(request.POST, error_class=ParagraphErrorList)
         # Check input if she valid or not
         if form.is_valid():
-            email = form.cleaned_data['email']
-            # Check if email exist or not
-            create_email = User.objects.filter(username=email)
-            wordpass = form.cleaned_data['wordpass']
-            wordpass_2 = form.cleaned_data['wordpass_2']
-            name = form.cleaned_data['name']
-            surname = form.cleaned_data['surname']
-            phone = form.cleaned_data['phone']
-            date_b = form.cleaned_data['date_of_birth']
-            address = form.cleaned_data['postal_address']
-
-            if not create_email:
-                data = {
-                    'email': email,
-                    'password': wordpass,
-                    'password_2': wordpass_2,
-                    'name': name,
-                    'surname': surname,
-                    'phone': phone,
-                    'date_b': date_b,
-                    'address': address
-                }
-                return validate_signup(request, data)
-            else:
-                context['error'] = 'Cette adresse email est déjà utilisée.'
-                return render(request, 'search/sign_up.html', context, status=401)
+            user = form.save()
+            email = user.email
+            password = form.cleaned_data.get('password')
+            authenticate(email=email, password=password)
+            login(request, user)
+            request.session['member_id'] = user.id
+            return redirect('dashboard')
         else:
-            context['errors'] = form.errors.items()
+            context['form'] = form
+            context['form_food'] = FoodForm()
             return render(request, 'search/sign_up.html', context, status=401)
     else:
         # GET method. Create a new form to be used in the template.
-        form = SignupForm()
+        form = UserCreationForm()
     context['form_food'] = FoodForm()
     context['form'] = form
     return render(request, 'search/sign_up.html', context)
 
 
-def validate_signup(request, data):
-    """Valid sign up is the function for check data input the user"""
-    if data['password'] == data['password_2']:
-        # Check if the special character in the password is present
-        exclude = list(string.punctuation)
-        if not any(punc in data['password'] for punc in exclude):
-            return errors_signup(request, 'ch')
-        # Check if length of the data is good
-        if 12 < len(data['password']) < 6:
-            return errors_signup(request, 'lng')
-        if not hasNumbers(data['password']):
-            return errors_signup(request, 'nb')
-        if 17 < len(data['phone']) < 10:
-            return errors_signup(request, 'nb_p')
-        if 25 < len(data['address']) < 1:
-            return errors_signup(request, 'lng_a')
-        return save_user(request, data)
-    else:
-        return errors_signup(request, 'p_e')
-
-
 def hasNumbers(inputString):
     """This method searches whether a string contains a number or not"""
     return any(char.isdigit() for char in inputString)
-
-
-def errors_signup(request, error):
-    """Error sign up is the function for
-    get a error and return this the user"""
-    context = {}
-    if 'p_e' in error:
-        context['error'] = 'Les mots de passes ne sont pas identiques.'
-    if 'ch' in error:
-        context['error'] = 'Veuillez ajouter un' \
-                           ' caractère spécial à votre mot de passe.'
-    if 'lng' in error:
-        context['error'] = 'La longueur du mot de ' \
-                           'passe doit être de 6 à 12 caractères.'
-    if 'nb' in error:
-        context['error'] = 'Veuillez ajouter un chiffre à votre mot de passe.'
-    if 'nb_p' in error:
-        context['error'] = 'Veuillez entrer un numéro ' \
-                           'de téléphone valide (exemple: 01-02-33-06-09).'
-    if 'lng_a' in error:
-        context['error'] = 'Veuillez entrer une adresse valide.'
-    context['form_food'] = FoodForm()
-    context['form'] = SignupForm()
-    return render(request, 'search/sign_up.html', context, status=401)
-
-
-def save_user(request, data):
-    """Save user allow the database have save
-     a new user in User table and Account table
-    Account table have a foreign key on
-     User table for find the user correctly"""
-    context = {}
-    new_user_db = User.objects.create_user(first_name=data['name'],
-                                           last_name=data['surname'],
-                                           username=data['email'],
-                                           email=data['email'],
-                                           password=data['password'])
-    new_account_db = Account(user=new_user_db,
-                             phone=data['phone'],
-                             date_of_birth=data['date_b'],
-                             postal_address=data['address'])
-    new_user_db.save()
-    new_account_db.save()
-    context['form_food'] = FoodForm()
-    context['form'] = ConnectForm()
-    return render(request, 'search/connect.html', context, status=200)
 
 
 def connect(request):
@@ -161,7 +74,8 @@ def connect(request):
                 return check_connect(request, data)
             else:
                 context['errors'] = form.errors.items()
-                return render(request, 'search/connect.html', context, status=401)
+                return render(request, 'search/connect.html', context,
+                              status=401)
         else:
             form = ConnectForm()
         context['form'] = form
@@ -204,13 +118,13 @@ def dashboard(request):
     else:
         # Find the user in all users
         user = request.user
-        context['username'] = user.username
+        context['email'] = user.email
         context['firstname'] = user.first_name
         context['lastname'] = user.last_name
         # Get all information the user
-        context['phone'] = user.account.phone
-        context['date_of_birth'] = user.account.date_of_birth
-        context['postal_address'] = user.account.postal_address
+        context['phone'] = user.phone
+        context['date_of_birth'] = user.date_of_birth
+        context['postal_address'] = user.postal_address
         context['form_food'] = FoodForm()
         return render(request, 'search/dashboard.html',
                       context)
@@ -221,15 +135,13 @@ def disconnect(request, template_name='search/index.html'):
     context = {}
     # Check if user is connect
     if not request.user.is_authenticated:
-        form = ConnectForm(request.POST, error_class=ParagraphErrorList)
-        context['form'] = form
         context['form_food'] = FoodForm()
         return render(request, 'search/index.html', context)
     else:
         # If user is connect, user is disconnect and redirect to index page
         auth_logout(request)
         context['form_food'] = FoodForm()
-        return TemplateResponse(request, template_name, context)
+        return TemplateResponse(request, template_name, context, status=302)
 
 
 def favorites_user(request):
