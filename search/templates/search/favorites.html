@@ -9,44 +9,46 @@
 
 {% block content %}
 
-<header class="masthead resize-page">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center justify-content-center text-center">
-            <div>
-                <h2 class="text-uppercase text-white font-weight-bold">
-                    Vos aliments sauvegardés:
-                </h2>
-                {% if not_food %}
-                <p id="not_found">{{ not_food }}</p>
-                {% endif %}
-            </div>
-            {% if not not_food %}
-            <div class="col-lg-10 align-self-end favorites_container">
-                <div class="container row container_result wrap" id="products_result">
-                    {% for product in product_result %}
-                    <div class="result col-md-4">
-                        <p class="product_result">{{ product.product }}</p>
-                        <div class="img_container">
-                            <p class="nutrition_grades">{{ product.nutrition_grade }}</p>
-                            {% if product.img_url %}
-                            <a href="/search/description.html?product={{ product.code }}"><img
-                                    src="{{ product.img_url }}"
-                                    class="img_result" id="img_favorites" alt=""></a>
-                            {% else %}
-                            <a href="/search/description.html?product={{ product.code }}">Nous sommes désolé.
-                                Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
-                            {% endif %}
+    <header class="masthead resize-page">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div>
+                    <h2 class="text-uppercase text-white font-weight-bold">
+                        Vos aliments sauvegardés:
+                    </h2>
+                    {% if not_food %}
+                        <p id="not_found">{{ not_food }}</p>
+                    {% endif %}
+                </div>
+                {% if not not_food %}
+                    <div class="col-lg-10 align-self-end favorites_container">
+                        <div class="container row container_result wrap" id="products_result">
+                            {% for product in product_result %}
+                                <div class="result col-md-4">
+                                    <p class="product_result">{{ product.product }}</p>
+                                    <div class="img_container">
+                                        <p class="nutrition_grades">{{ product.nutrition_grade }}</p>
+                                        {% if product.img_url %}
+                                            <a href="/search/description.html?product={{ product.code }}"><img
+                                                    src="{{ product.img_url }}"
+                                                    class="img_result" id="img_favorites" alt=""></a>
+                                        {% else %}
+                                            <a href="/search/description.html?product={{ product.code }}">Nous sommes
+                                                désolé.
+                                                Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations,
+                                                clic.</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    {% endfor %}
-                </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
-    </div>
-</header>
+    </header>
 
-<div class="pagination page_container_fav">
+    <div class="pagination page_container_fav">
     <span class="step-links page_fav">
         {% if nb_page.has_previous %}
             <a href="?page=1">&laquo; Première page</a> -
@@ -62,7 +64,7 @@
             <a href="?page={{ nb_page.paginator.num_pages }}">Dernière page &raquo;</a>
         {% endif %}
     </span>
-</div>
+    </div>
 
 {% endblock %}
 </html>
