@@ -9,86 +9,87 @@
 
 {% block content %}
 
-<!-- Masthead -->
-<header class="masthead">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center justify-content-center text-center">
-            <div class="col-lg-10 align-self-end">
-                <h1 class="text-uppercase text-white font-weight-bold">Du gras oui, mais de qualité !</h1>
-                <hr class="divider my-4">
-            </div>
-            <div class="col-lg-8 align-self-baseline">
-                <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find" action="{% url 'result' %}"
-                      method="POST">
-                    {% csrf_token %}
-                    {% if not error_result %}
-                    <div class="form-inline pull-right mid_find">
+    <!-- Masthead -->
+    <header class="masthead">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 align-self-end">
+                    <h1 class="text-uppercase text-white font-weight-bold">Du gras oui, mais de qualité !</h1>
+                    <hr class="divider my-4">
+                </div>
+                <div class="col-lg-8 align-self-baseline">
+                    <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find"
+                          action="{% url 'result' %}"
+                          method="POST">
+                        {% csrf_token %}
+                        {% if not error_result %}
+                            <div class="form-inline pull-right mid_find">
                         {% elif error_result %}
-                        <div class="form-inline pull-right mid_find error_result">
-                            {% endif %}
-                            <div class="container form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
-                                {% if not error_result %}
+                            <div class="form-inline pull-right mid_find error_result">
+                        {% endif %}
+                        <div class="container form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
+                            {% if not error_result %}
                                 <img class="img_res" src="{{ img_result }}" alt="">
-                                {% endif %}
-                                <div class="place_find_style">
-                                    <label for="{{ form.userFood.id_for_label }}">
-                                        {{ form_food.food }}
-                                        <p class="product_result_res">{{ name_result }}</p>
-                                        <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
-                                </div>
+                            {% endif %}
+                            <div class="place_find_style">
+                                <label for="{{ form.userFood.id_for_label }}">
+                                    {{ form_food.food }}
+                                    <p class="product_result_res">{{ name_result }}</p>
+                                    <button class="btn btn-primary btn-xs js-scroll-trigger">Recherche</button>
                             </div>
-                </form>
-            </div>
+                        </div>
+                    </form>
+                </div>
 
-            <div id="error_result">
-                {% if error_result %}
-                <p class="result_error">{{ error_result }}</p>
-                {% endif %}
-            </div>
+                <div id="error_result">
+                    {% if error_result %}
+                        <p class="result_error">{{ error_result }}</p>
+                    {% endif %}
+                </div>
 
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
-{% if not error_result %}
-<center><h3 id="res_h3">Vous pouvez remplacer cet aliment par:</h3></center>
+    {% if not error_result %}
+        <center><h3 id="res_h3">Vous pouvez remplacer cet aliment par:</h3></center>
 
-<div class="container row container_result wrap" id="products_result">
-    {% for product in product_result %}
-    <div class="result col-md-4">
-        <div class="product_result">{{ product.name }}</div>
+        <div class="container row container_result wrap" id="products_result">
+            {% for product in product_result %}
+                <div class="result col-md-4">
+                    <div class="product_result">{{ product.name }}</div>
 
-        <div class="img_container">
-            <div class="nutrition_grades">{{ product.nutrition_grade }}</div>
-            {% if product.image_url != '' %}
-            <a href="/search/description.html?product={{ product.code }}"><img
-                    src="{{ product.image_url }}"
-                    class="img_result"></a>
-            {% else %}
-            <a href="/search/description.html?product={{ product.code }}">Nous sommes désolé.
-                Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
-            {% endif %}
-            {% if product.name not in save_food %}
-            <div class="button_save">
-                <button class="favorite styled button_save_style"
-                        type="button" id="check_saveFood" value="{{ product.code }}"><br/>
-                </button>
-                <div class="style_save_c">Enregistrer</div>
-            </div>
-            {% endif %}
-            {% if product.name in save_food %}
-            <div>
-                <p><i class="fa fa-floppy-o" id="style_floppy" aria-hidden="true"></i>Enregistré</p>
-            </div>
-            {% endif %}
+                    <div class="img_container">
+                        <div class="nutrition_grades">{{ product.nutrition_grade }}</div>
+                        {% if product.image_url != '' %}
+                            <a href="/search/description.html?product={{ product.code }}"><img
+                                    src="{{ product.image_url }}"
+                                    class="img_result"></a>
+                        {% else %}
+                            <a href="/search/description.html?product={{ product.code }}">Nous sommes désolé.
+                                Nous ne n'avons pas de photo à vous proposer. Pour plus d'informations, clic.</a>
+                        {% endif %}
+                        {% if product.name not in save_food %}
+                            <div class="button_save">
+                                <button class="favorite styled button_save_style"
+                                        type="button" id="check_saveFood" value="{{ product.code }}"><br/>
+                                </button>
+                                <div class="style_save_c">Enregistrer</div>
+                            </div>
+                        {% endif %}
+                        {% if product.name in save_food %}
+                            <div>
+                                <p><i class="fa fa-floppy-o" id="style_floppy" aria-hidden="true"></i>Enregistré</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
+    {% endif %}
 
-{% if not error_result %}
-<div class="pagination page_container_fav">
+    {% if not error_result %}
+        <div class="pagination page_container_fav">
     <span class="step-links page_fav">
         {% if nb_page.has_previous %}
             <a href="?search={{ search }}&page=1">&laquo; Première page</a> -
@@ -104,8 +105,8 @@
             <a href="?search={{ search }}&page={{ nb_page.paginator.num_pages }}">Dernière page &raquo;</a>
         {% endif %}
     </span>
-</div>
-{% endif %}
+        </div>
+    {% endif %}
 
 {% endblock %}
 </html>
