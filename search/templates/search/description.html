@@ -9,62 +9,62 @@
 
 {% block content %}
 
-<header class="masthead">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center justify-content-center text-center">
-            <h2 class="text-uppercase text-white font-weight-bold">
-                Descritption du produit:
-            </h2>
-            {% if error_description %}
-            <div class="info_des">
-                <p class="result_error">{{ error_description }}</p>
-            </div>
-            {% endif %}
-            <div class="col-lg-10 align-self-end center form-inline">
-                {% if not error_description %}
-                <div class="container container_result_des wrap_des">
-                    <div class="mid_find_des">
-                        {% if product_img %}
-                        {% if not no_data %}
-                        <img class="img_des_data" src="{{ product_img }}" alt="">
-                        {% elif no_data %}
-                        <img class="img_des" src="{{ product_img }}" alt="">
-                        {% endif %}
-                        <p class="product_result_description text_white">{{ product_name }}</p>
-                        {% else %}
-                        <p class="no_img_des">Nous sommes désolé.
-                            Nous ne n'avons pas de photos à vous proposer.</p>
-                        <p class="product_result_description text_white">{{ product_name }}</p>
-                        {% endif %}
+    <header class="masthead">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <h2 class="text-uppercase text-white font-weight-bold">
+                    Descritption du produit:
+                </h2>
+                {% if error_description %}
+                    <div class="info_des">
+                        <p class="result_error">{{ error_description }}</p>
                     </div>
-                </div>
                 {% endif %}
+                <div class="col-lg-10 align-self-end center form-inline">
+                    {% if not error_description %}
+                        <div class="container container_result_des wrap_des">
+                            <div class="mid_find_des">
+                                {% if product_img %}
+                                    {% if not no_data %}
+                                        <img class="img_des_data" src="{{ product_img }}" alt="">
+                                    {% elif no_data %}
+                                        <img class="img_des" src="{{ product_img }}" alt="">
+                                    {% endif %}
+                                    <p class="product_result_description text_white">{{ product_name }}</p>
+                                {% else %}
+                                    <p class="no_img_des">Nous sommes désolé.
+                                        Nous ne n'avons pas de photos à vous proposer.</p>
+                                    <p class="product_result_description text_white">{{ product_name }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
 
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<div class="row_des row">
-    <div class="score_des col-md-6">
-        <p class="text_orange large_size text_align_center">Nutrition score:</p>
-        <p class="nutrition_grades_description text_align_center">{{ product_score }}</p>
+    <div class="row_des row">
+        <div class="score_des col-md-6">
+            <p class="text_orange large_size text_align_center">Nutrition score:</p>
+            <p class="nutrition_grades_description text_align_center">{{ product_score }}</p>
+        </div>
+
+        <div class="data_des col-md-6">
+            <p class="text_orange large_size text_align_center">Repère nutritionnels pour 100g:</p>
+            {% if not no_data %}
+                <p class="nutrition_data_description text_align_center">{{ product_nutrition_data_per }}<br/></p>
+            {% elif no_data %}
+                <p class="nutrition_data_description">{{ no_data }}<br/></p>
+            {% endif %}
+        </div>
     </div>
 
-    <div class="data_des col-md-6">
-        <p class="text_orange large_size text_align_center">Repère nutritionnels pour 100g:</p>
-        {% if not no_data %}
-        <p class="nutrition_data_description text_align_center">{{ product_nutrition_data_per }}<br/></p>
-        {% elif no_data %}
-        <p class="nutrition_data_description">{{ no_data }}<br/></p>
-        {% endif %}
+    <div class="info_des text_align_center">
+        <p class="info_des text_orange">Pour plus d'informtations : <br/></p>
+        <a href="{{ product_url }}">Clic ici !</a>
     </div>
-</div>
-
-<div class="info_des text_align_center">
-    <p class="info_des text_orange">Pour plus d'informtations : <br/></p>
-    <a href="{{ product_url }}">Clic ici !</a>
-</div>
 
 {% endblock %}
 </html>
