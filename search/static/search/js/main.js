@@ -3,13 +3,17 @@ function connect() {
     $('#spinner').show(600);
 }
 
+/* This condition is used to adjust the readability of the errors in the registration form */
+if (document.getElementsByClassName('error')) {
+    console.log('True');
+    $(".error").toggleClass("result_error");
+}
 
 /* These code line use js for change the input on page top */
 document.getElementById('id_food');
 {
     $('#id_food').toggleClass("color_find_base");
 }
-
 
 /* The function below record a click of the user
 She records the click that selects a non-registered
@@ -18,7 +22,6 @@ $(document).on("click", "#check_saveFood", function () {
     var product = $(this).val();
     $(this).toggleClass('orange_back');
     console.log(product);
-    console.log('True');
 
     $.ajax({
         url: '/search/favorites.html',
