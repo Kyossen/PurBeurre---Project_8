@@ -5,8 +5,12 @@ function connect() {
 
 /* This condition is used to adjust the readability of the errors in the registration form */
 if (document.getElementsByClassName('error')) {
-    console.log('True');
     $(".error").toggleClass("result_error");
+}
+
+/* This condition is used to adjust the readability of the errors in the login form */
+if (document.getElementById('error_login')) {
+    $("#error_login").toggleClass("result_error");
 }
 
 /* These code line use js for change the input on page top */
