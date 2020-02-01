@@ -7,15 +7,17 @@ These forms allow communication between a user and the system
 They use the text fields of the form type for this"""
 
 # Import Django
-import string
-
 from django import forms
 from django.contrib.auth import password_validation
+from django.contrib.auth.hashers import make_password
 from django.forms import ModelForm
 from django.forms.utils import ErrorList
 
 # Import file
 from users.models import User
+
+# Import lib
+import string
 
 
 class ParagraphErrorList(ErrorList):
@@ -33,16 +35,16 @@ class ParagraphErrorList(ErrorList):
 class ConnectForm(forms.Form):
     """Connect form is the form for connect on the platform
     This form manage l'input of the user when this connect"""
-    wordpass = forms.CharField(
-        label='userWP',
-        max_length=12,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        required=True)
-
     email = forms.EmailField(
         label='userEmail',
         max_length=25,
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        required=True)
+
+    wordpass = forms.CharField(
+        label='userWP',
+        max_length=12,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=True)
 
 
@@ -126,7 +128,9 @@ class UserCreationForm(ModelForm):
         """Here, we confirm a backup in the database so that a user
         can obtain a hash of his password during the backup"""
         user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data.get('passsword'))
+        passwordNoHash = self.cleaned_data.get('passsword')
+        go_hash_pw = make_password(passwordNoHash)
+        user.set_password(go_hash_pw)
         if commit:
             user.save()
         return user
