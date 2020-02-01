@@ -7,7 +7,6 @@ Imports of files, they are important for
 this view file because it gives access to forms and templates
 Imports of Django lib, is a base for well functioning"""
 
-
 # Import lib
 import time
 
@@ -15,10 +14,8 @@ import time
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.core.paginator import Paginator
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.template.response import TemplateResponse
 
 # Import file
 from search.forms import FoodForm
@@ -67,11 +64,9 @@ def connect(request):
             form = ConnectForm(request.POST, error_class=ParagraphErrorList)
             # Check if input is good
             if form.is_valid():
-                data = {
-                    'email': request.POST['email'],
-                    'password': request.POST['wordpass']
-                }
-                return check_connect(request, data)
+                email = form.cleaned_data.get('email')
+                password = form.cleaned_data.get('wordpass')
+                return check_connect(request, email, password)
             else:
                 context['errors'] = form.errors.items()
                 return render(request, 'search/connect.html', context,
@@ -87,14 +82,13 @@ def connect(request):
         return HttpResponseRedirect('dashboard.html')
 
 
-def check_connect(request, data):
+def check_connect(request, email, password):
     """Here, the system check if information
      the user is good or not
     If they are good, the system create
      a session for the user"""
     context = {}
-    user_connected = authenticate(request, username=data['email'],
-                                  password=data['password'])
+    user_connected = authenticate(request, email=email, password=password)
     # Check if input is good or not
     if user_connected is not None:
         # create a session for user
@@ -130,7 +124,7 @@ def dashboard(request):
                       context)
 
 
-def disconnect(request, template_name='search/index.html'):
+def disconnect(request):
     """Disconnect is the method for disconnect a user"""
     context = {}
     # Check if user is connect
@@ -138,10 +132,10 @@ def disconnect(request, template_name='search/index.html'):
         context['form_food'] = FoodForm()
         return render(request, 'search/index.html', context)
     else:
-        # If user is connect, user is disconnect and redirect to index page
+        # If user is connect, user is disconnect and redirect to home page
         auth_logout(request)
         context['form_food'] = FoodForm()
-        return TemplateResponse(request, template_name, context, status=302)
+        return redirect('index')
 
 
 def favorites_user(request):
