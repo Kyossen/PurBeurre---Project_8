@@ -31,10 +31,8 @@ def sign_up(request):
         # Check input if she valid or not
         if form.is_valid():
             user = form.save()
-            email = user.email
-            password = form.cleaned_data.get('password')
-            authenticate(email=email, password=password)
-            login(request, user)
+            login(request, user,
+                  backend='django.contrib.auth.backends.ModelBackend')
             request.session['member_id'] = user.id
             return redirect('dashboard')
         else:
@@ -67,6 +65,7 @@ def connect(request):
                 email = form.cleaned_data.get('email')
                 password = form.cleaned_data.get('wordpass')
                 return check_connect(request, email, password)
+
             else:
                 context['errors'] = form.errors.items()
                 return render(request, 'search/connect.html', context,
