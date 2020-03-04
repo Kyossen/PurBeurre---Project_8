@@ -9,7 +9,6 @@ They use the text fields of the form type for this"""
 # Import Django
 from django import forms
 from django.contrib.auth import password_validation
-from django.contrib.auth.hashers import make_password
 from django.forms import ModelForm
 from django.forms.utils import ErrorList
 
@@ -43,7 +42,7 @@ class ConnectForm(forms.Form):
 
     wordpass = forms.CharField(
         label='userWP',
-        max_length=12,
+        max_length=255,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=True)
 
@@ -125,12 +124,9 @@ class UserCreationForm(ModelForm):
         return phone
 
     def save(self, commit=True):
-        """Here, we confirm a backup in the database so that a user
-        can obtain a hash of his password during the backup"""
+        """This method ise using for save the password in the database"""
         user = super(UserCreationForm, self).save(commit=False)
-        passwordNoHash = self.cleaned_data.get('passsword')
-        go_hash_pw = make_password(passwordNoHash)
-        user.set_password(go_hash_pw)
+        user.set_password(user.password)
         if commit:
             user.save()
         return user
