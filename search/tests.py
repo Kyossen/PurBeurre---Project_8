@@ -22,6 +22,12 @@ class IndexPageTestCase(TestCase):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
+    def test_index_page_search(self):
+        """Test the search on index"""
+        print("Test the search on index")
+        response = self.client.post(reverse('index'), {'food': 'NotExist'})
+        self.assertEqual(response.status_code, 200)
+
 
 class CopyrightPageTestCase(TestCase):
     """This class tests whether the copyright
@@ -82,11 +88,50 @@ class DescriptionPageTestCase(TestCase):
                                    {'product': product.code})
         self.assertEqual(response.status_code, 200)
 
+    def test_description_notInformation_page_returns_200(self):
+        """Test with a good code"""
+        print("Test with a good code but with no information")
+        categories = Categories.objects.create(name='TestCategories',
+                                               url='test')
+        categories_id = Categories.objects.get(pk=categories.pk)
+        product = Product.objects.create(name='',
+                                         image_url='image',
+                                         code='code',
+                                         nutrition_grade='test',
+                                         ingredients='test',
+                                         url='test', categories=categories_id)
+        response = self.client.get(reverse('description'),
+                                   {'product': product.code})
+        self.assertEqual(response.status_code, 200)
+
+    def test_description_no_nutritionGrade_returns_200(self):
+        """Test with a good code"""
+        print("Test with a good code but with no nutrition grade")
+        categories = Categories.objects.create(name='TestCategories',
+                                               url='test')
+        categories_id = Categories.objects.get(pk=categories.pk)
+        product = Product.objects.create(name='TestProduct',
+                                         image_url='image',
+                                         code='code',
+                                         nutrition_grade='',
+                                         ingredients='test',
+                                         url='test', categories=categories_id)
+        response = self.client.get(reverse('description'),
+                                   {'product': product.code})
+        self.assertEqual(response.status_code, 200)
+
     def test_description_page_returns_badCode(self):
         """Test with a bad code"""
         print("Test for description page with a bad code")
         response = self.client.get(reverse('description'),
                                    {'product': 'BadCode'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_description_page_returns_blankCode(self):
+        """Test with a blank code"""
+        print("Test for description page with a bad code")
+        response = self.client.get(reverse('description'),
+                                   {'product': ['']})
         self.assertEqual(response.status_code, 200)
 
 
