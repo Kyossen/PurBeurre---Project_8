@@ -19,7 +19,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
 # Import files
-from users.models import Account
+from users.models import User
 from users.views import dashboard
 
 
@@ -34,39 +34,39 @@ class SignupPageTestCase(TestCase):
         response = self.client.get(reverse('sign_up'))
         self.assertEqual(response.status_code, 200)
 
-    def test_signup_page_success_returns_200(self):
+    def test_signup_page_success_returns_302(self):
         """Test if good info"""
         print("The Test for sign up to the plateforme.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test50@hotmail.fr',
-                                     'wordpass': 'wordpass2!',
-                                     'wordpass_2': 'wordpass2!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass2!',
+                                     'confirmation_password': 'wordpass2!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19/02/1995',
                                      'postal_address': 'address'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_signup_page_emailFalse_returns_401(self):
         """Test if not good email"""
         print("Test for a fake email.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test500@hotmail.fr',
-                                     'wordpass': 'wordpass2!',
-                                     'wordpass_2': 'wordpass2!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass2!',
+                                     'confirmation_password': 'wordpass2!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19/02/1995',
                                      'postal_address': 'address'})
 
         response_2 = self.client.post(reverse('sign_up'),
                                       {'email': 'test500@hotmail.fr',
-                                       'wordpass': 'wordpass2!',
-                                       'wordpass_2': 'wordpass2!',
-                                       'name': 'name',
-                                       'surname': 'surname',
+                                       'password': 'wordpass2!',
+                                       'confirmation_password': 'wordpass2!',
+                                       'last_name': 'name',
+                                       'first_name': 'surname',
                                        'phone': '02-01-02-01-02',
                                        'date_of_birth': '19/02/1995',
                                        'postal_address': 'address'})
@@ -77,10 +77,10 @@ class SignupPageTestCase(TestCase):
         print("First test for a fake password. First test.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass2',
-                                     'wordpass_2': 'wordpass2',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass2',
+                                     'confirmation_password': 'wordpass2',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19/02/1995',
                                      'postal_address': 'address'})
@@ -91,10 +91,10 @@ class SignupPageTestCase(TestCase):
         print("First test for a fake password. Second test.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass!',
-                                     'wordpass_2': 'wordpass!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass!',
+                                     'confirmation_password': 'wordpass!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19/02/1995',
                                      'postal_address': 'address'})
@@ -105,10 +105,10 @@ class SignupPageTestCase(TestCase):
         print("First test for a fake password. Third test.")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordxcxcxcpass2!',
-                                     'wordpass_2': 'wordxcxcxcpass2!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'woss2!',
+                                     'confirmation_password': 'woss2!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19/02/1995',
                                      'postal_address': 'address'})
@@ -119,10 +119,10 @@ class SignupPageTestCase(TestCase):
         print("Test for a fake a number phone")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass2!',
-                                     'wordpass_2': 'wordpass2!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass2!',
+                                     'confirmation_password': 'wordpass2!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02-05-18',
                                      'date_of_birth': '19/02/1995',
                                      'postal_address': 'address'})
@@ -133,10 +133,10 @@ class SignupPageTestCase(TestCase):
         print("Test if not good birth data")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass2!',
-                                     'wordpass_2': 'wordpass2!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass2!',
+                                     'confirmation_password': 'wordpass2!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19-02-1995',
                                      'postal_address': 'address'})
@@ -147,10 +147,10 @@ class SignupPageTestCase(TestCase):
         print("Test if not good address")
         response = self.client.post(reverse('sign_up'),
                                     {'email': 'test@hotmail.fr',
-                                     'wordpass': 'wordpass2!',
-                                     'wordpass_2': 'wordpass2!',
-                                     'name': 'name',
-                                     'surname': 'surname',
+                                     'password': 'wordpass2!',
+                                     'confirmation_password': 'wordpass2!',
+                                     'last_name': 'name',
+                                     'first_name': 'surname',
                                      'phone': '02-01-02-01-02',
                                      'date_of_birth': '19/02/1995',
                                      'address': 'addresstjfjftjtjyjhbjrtyrgr'})
@@ -167,10 +167,10 @@ class ConnectPageTestCase(TestCase):
         print("Test for the connect")
         self.client.post(reverse('sign_up'),
                          {'email': 'test51@hotmail.fr',
-                          'wordpass': 'wordpass2!',
-                          'wordpass_2': 'wordpass2!',
-                          'name': 'name',
-                          'surname': 'surname',
+                          'password': 'wordpass2!',
+                          'confirmation_password': 'wordpass2!',
+                          'last_name': 'name',
+                          'first_name': 'surname',
                           'phone': '02-01-02-01-02',
                           'date_of_birth': '19/02/1995',
                           'postal_address': 'address'})
@@ -208,13 +208,12 @@ class DashboardPageTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(first_name='toto',
                                              last_name='titi',
-                                             username='Toto@hotmail.fr',
                                              email='Toto@hotmail.fr',
-                                             password='toto123')
-        Account.objects.create(user=self.user,
-                               phone='01-01-01-01-02',
-                               date_of_birth='1995-12-03',
-                               postal_address='Totoland')
+                                             date_joined='2020-01-01',
+                                             phone='01-01-01-01-02',
+                                             password='toto123',
+                                             date_of_birth='1995-12-03',
+                                             postal_address='Totoland')
 
     def test_dashboard_page_returns_200(self):
         """ Test if the user is redirected to the page and
@@ -236,13 +235,12 @@ class DisconnectPageTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(first_name='toto',
                                              last_name='titi',
-                                             username='Toto1@hotmail.fr',
                                              email='Toto1@hotmail.fr',
-                                             password='toto123')
-        Account.objects.create(user=self.user,
-                               phone='01-01-01-01-02',
-                               date_of_birth='1995-12-03',
-                               postal_address='Totoland')
+                                             date_joined='2020-01-01',
+                                             phone='01-01-01-01-02',
+                                             password='toto123',
+                                             date_of_birth='1995-12-03',
+                                             postal_address='Totoland')
 
     def test_disconnectUser_page_returns_200(self):
         """Test if user is redirected to the home page"""
@@ -292,14 +290,14 @@ class SignupTestCase(LiveServerTestCase):
         # Opening the link we want to test
         selenium.get('http://127.0.0.1:8000/users/sign_up.html')
         # Find the form element
-        first_name = selenium.find_element_by_id('id_surname')
-        last_name = selenium.find_element_by_id('id_name')
+        first_name = selenium.find_element_by_id('id_first_name')
+        last_name = selenium.find_element_by_id('id_last_name')
         phone = selenium.find_element_by_id('id_phone')
         date = selenium.find_element_by_id('id_date_of_birth')
         address = selenium.find_element_by_id('id_postal_address')
         email = selenium.find_element_by_id('id_email')
-        password1 = selenium.find_element_by_id('id_wordpass')
-        password2 = selenium.find_element_by_id('id_wordpass_2')
+        password1 = selenium.find_element_by_id('id_password')
+        password2 = selenium.find_element_by_id('id_confirmation_password')
 
         submit = selenium.find_element_by_id('register')
 
