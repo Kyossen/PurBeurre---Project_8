@@ -22,7 +22,7 @@ document.getElementById('id_food');
 /* This method is use for change the error message if email is use */
 if (document.getElementsByClassName('errorlist')) {
     const user = $('.error').text();
-    if (user.indexOf('User')) {
+    if (user.indexOf('User') === 9) {
         $('div div div div div div div p').first().replaceWith(
             '<p id="result_error" class="result_error">'
             + 'Cette adresse email est déjà utilisée.' + '</p>');
