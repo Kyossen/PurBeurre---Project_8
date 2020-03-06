@@ -22,6 +22,7 @@ import string
 class ParagraphErrorList(ErrorList):
     """The first one is a response error form
     I use this form for certain answers"""
+
     def __str__(self):
         return self.as_divs()
 
@@ -42,7 +43,7 @@ class ConnectForm(forms.Form):
 
     wordpass = forms.CharField(
         label='userWP',
-        max_length=255,
+        max_length=12,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=True)
 
@@ -53,17 +54,25 @@ class UserCreationForm(ModelForm):
     with our Override on the Users class."""
     password = forms.CharField(
         label='Mot de passe',
+        max_length=12,
         widget=forms.PasswordInput()
     )
     confirmation_password = forms.CharField(
         label='Confirmer votre mot de passe',
-        widget=forms.PasswordInput()
+        max_length=12,
+        widget=forms.PasswordInput(),
     )
 
     # Below we choose the order in which the form is displayed
     field_order = ["email", "password", 'confirmation_password',
                    "phone", "postal_address", "date_of_birth",
                    "last_name", "first_name"]
+
+    def clean_confirmation_email(self):
+        """Here we display the message if email is exist in database"""
+        error_email = 'Cette adresse email est déjà utilisée.'
+        self.add_error('email', error_email)
+        return error_email
 
     def clean_confirmation_password(self):
         """This method is a method for check that
@@ -133,8 +142,7 @@ class UserCreationForm(ModelForm):
 
     class Meta:
         # Here we a modif a form for form FR
-        labels = {'email': 'Adresse Email',
-                  'phone': 'Numéro de téléphone',
+        labels = {'phone': 'Numéro de téléphone',
                   'postal_address': 'Adresse postale',
                   'date_of_birth': 'Date de naissance'}
         model = User
