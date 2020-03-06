@@ -19,6 +19,17 @@ document.getElementById('id_food');
     $('#id_food').toggleClass("color_find_base");
 }
 
+/* This method is use for change the error message if email is use */
+if (document.getElementsByClassName('errorlist')) {
+    const user = $('.error').text();
+    if (user.indexOf('User')) {
+        $('div div div div div div div p').first().replaceWith(
+            '<p id="result_error" class="result_error">'
+            + 'Cette adresse email est déjà utilisée.' + '</p>');
+
+    }
+}
+
 /* The function below record a click of the user
 She records the click that selects a non-registered
     favorite food and will indicate it to the system to create the record */
