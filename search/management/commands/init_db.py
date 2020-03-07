@@ -9,10 +9,9 @@ Imports of Django lib, is a base for well functioning"""
 
 # Import lib
 from json import JSONDecodeError
-
 import requests
 
-# Import file
+# Import file & Django
 from search.models import Categories, Product
 from django.core.management.base import BaseCommand
 
