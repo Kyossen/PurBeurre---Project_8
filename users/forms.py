@@ -142,7 +142,8 @@ class UserCreationForm(ModelForm):
 
     class Meta:
         # Here we a modif a form for form FR
-        labels = {'phone': 'Numéro de téléphone',
+        labels = {'email': 'Adresse Email'
+                  'phone': 'Numéro de téléphone',
                   'postal_address': 'Adresse postale',
                   'date_of_birth': 'Date de naissance'}
         model = User
