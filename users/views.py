@@ -150,7 +150,7 @@ def favorites_user(request):
     else:
         context['form_food'] = FoodForm()
         context['not_food'] = "Vous n'avez pas " \
-                              "encore enregistré d'aliment."
+                              "encore enregistré d'aliment..."
         return render(request, 'search/favorites.html', context)
 
 
